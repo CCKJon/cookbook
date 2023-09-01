@@ -44,6 +44,9 @@ class Recipe(BaseModel):
     ingredients: List[RecipeIngredient]
     steps: List[RecipeStep]
     images: Optional[List[RecipeImage]]
+    serving_size: str
+    cooking_time: str
+    difficulty: str
 
     class Config:
         allow_population_by_field_name = True
