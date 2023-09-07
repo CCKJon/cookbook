@@ -31,8 +31,7 @@ class RecipeIngredient(BaseModel):
     amount: str
 
 class RecipeImage(BaseModel):
-    url: str
-    alt_text: str
+    photo_id: str
 
 
 class Recipe(BaseModel):
@@ -44,9 +43,9 @@ class Recipe(BaseModel):
     ingredients: List[RecipeIngredient]
     steps: List[RecipeStep]
     images: Optional[List[RecipeImage]]
-    serving_size: str
-    cooking_time: str
-    difficulty: str
+    serving_size: Optional[str]
+    cooking_time: Optional[str]
+    difficulty: Optional[str]
 
     class Config:
         allow_population_by_field_name = True

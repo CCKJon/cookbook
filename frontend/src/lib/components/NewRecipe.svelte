@@ -1,5 +1,7 @@
 <script>
+	//@ts-nocheck
 	import { goto } from '$app/navigation';
+	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
 
 	let title;
 	let description;
@@ -7,6 +9,7 @@
 	let ingredients = [];
 	let steps = [];
 	let images = [];
+	let fileInput;
 
 	function showAndHideModal() {
 		showModal = true; // Show the modal
@@ -32,24 +35,50 @@
 			images
 		};
 
-		// fetch('https://recipe-test-api-jelz.onrender.com/api/recipe/', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json'
-		// 	},
-		// 	body: JSON.stringify(newRecipe)
-		// })
-		// 	.then(() => {
-		// 		goto('/');
-		// 	})
-		// 	.catch(() => {
-		// 		return {
-		// 			status: 301,
-		// 			error: new Error('Could not create a new recipe')
-		// 		};
-		// 	});
+		fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newRecipe)
+		})
+			.then(() => {
+				goto('/');
+			})
+			.catch(() => {
+				return {
+					status: 301,
+					error: new Error('Could not create a new recipe')
+				};
+			});
 		console.log(newRecipe);
 	}
+
+	const handleFileUpload = async () => {
+		try {
+			const file = fileInput.files?.[0];
+			if (file) {
+				const formData = new FormData();
+				formData.append('photo', file);
+				const response = await fetch(`${PUBLIC_CLUSTER_IMAGES}/upload-photo`, {
+					method: 'POST',
+					body: formData
+				});
+
+				if (response.ok) {
+					const data = await response.json();
+					const photoId = data.file_id;
+					images.push({ photo_id: photoId });
+					console.log('image upload', images);
+					console.log('Image successfully updated!');
+				} else {
+					console.error('Failed to upload photo');
+				}
+			}
+		} catch (error) {
+			console.error('Error occurred during file upload:', error);
+		}
+	};
 
 	function addIngredient() {
 		ingredients.push({}); // Add an empty ingredient to the array
@@ -84,6 +113,7 @@
 
 		<div class="text-lg font-serif font-bold text-center text-gray-300 mb-2 mt-2">Ingredients</div>
 		<button
+			type="button"
 			class="border-2 bg-yellow-500 hover:opacity-80 mb-3 font-serif text-md border-gray-800 rounded-sm w-40 text-gray-300 text-center py-1 px-1 font-bold"
 			on:click={addIngredient}>+ingredient</button
 		>
@@ -107,6 +137,7 @@
 
 		<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-5">Instructions</div>
 		<button
+			type="button"
 			class="border-2 bg-yellow-500 hover:opacity-80 text-md mb-3 border-gray-800 rounded-sm font-serif text-gray-300 w-40 text-center py-1 px-1 font-bold"
 			on:click={addSteps}>+steps</button
 		>
@@ -130,6 +161,11 @@
 				/>
 			</div>
 		{/each}
+
+		<div class="text-gray-300">
+			Image upload test
+			<input type="file" on:change={handleFileUpload} bind:this={fileInput} />
+		</div>
 
 		<button
 			class="text-gray-300 bg-red-800 font-serif text-lg border-red-900 border-2 mt-10 rounded-sm py-1 px-1 font-bold hover:opacity-80 mx-auto text-center"

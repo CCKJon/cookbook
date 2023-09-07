@@ -5,3 +5,6 @@ List of ideas to add to the project:
 - serving size data
 - nutritional facts
 - how long it takes to cook
+
+9/7/2023 todo:
+add recipe list that gets all recipes in database
