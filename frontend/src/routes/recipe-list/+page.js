@@ -1,0 +1,15 @@
+import { PUBLIC_CLUSTER_PASSWORD } from '$env/static/public';
+
+async function getRecipes() {
+	const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe`);
+	const data = await response.json();
+	return data;
+}
+
+let recipes = getRecipes();
+
+export function load() {
+	return {
+		items: recipes
+	};
+}

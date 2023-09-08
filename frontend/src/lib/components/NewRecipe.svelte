@@ -94,7 +94,7 @@
 	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/recipe.jpg')] bg-no-repeat bg-cover overflow-auto"
 >
 	<form
-		class="mx-auto text-center grid place-items-center mb-10 text-black font-serif text-xl"
+		class="mx-auto text-center grid place-items-center py-36 text-black font-serif text-xl"
 		on:submit={handleSubmit}
 	>
 		<div class="text-lg font-bold text-center font-serif text-gray-300 mb-2 mt-2">Title:</div>

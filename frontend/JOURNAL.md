@@ -8,3 +8,5 @@ List of ideas to add to the project:
 
 9/7/2023 todo:
 add recipe list that gets all recipes in database
+
+Create buttons to remove steps or make it so that if an ingredient or step is empty, remove it/disregard it
