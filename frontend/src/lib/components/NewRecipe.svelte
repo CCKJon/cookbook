@@ -2,22 +2,24 @@
 	//@ts-nocheck
 	import { goto } from '$app/navigation';
 	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
+	import Modal from './Modal.svelte';
 
 	let title;
 	let description;
+	let serving_size;
+	let cooking_time;
+	let difficulty;
 	let category;
 	let ingredients = [];
 	let steps = [];
 	let images = [];
 	let fileInput;
+	let showModal = false;
 
 	function showAndHideModal() {
 		showModal = true; // Show the modal
 
-		setTimeout(() => {
-			showModal = false; // Hide the modal after the delay
-			goto('/'); // Redirect to the desired location
-		}, 3000); // Specify the delay in milliseconds (e.g., 3000ms = 3 seconds)
+		// goto('/'); // Redirect to the desired location
 	}
 
 	function handleSubmit(event) {
@@ -32,7 +34,10 @@
 			create_date: create_date,
 			ingredients,
 			steps,
-			images
+			images,
+			serving_size,
+			cooking_time,
+			difficulty
 		};
 
 		fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe`, {
@@ -84,8 +89,16 @@
 		ingredients.push({}); // Add an empty ingredient to the array
 		ingredients = ingredients;
 	}
+	function removeIngredient() {
+		ingredients.pop(); // Add an empty ingredient to the array
+		ingredients = ingredients;
+	}
 	function addSteps() {
 		steps.push({}); // Add an empty steps to the array
+		steps = steps;
+	}
+	function subtractStep() {
+		steps.pop(); // Add an empty steps to the array
 		steps = steps;
 	}
 </script>
@@ -110,6 +123,50 @@
 			class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black w-1/3 font-serif mb-5"
 			bind:value={description}
 		/>
+		<div class="flex flex-row justify between">
+			<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2 px-2">
+				Serving Size
+			</div>
+			<select
+				class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black font-serif mb-5"
+				bind:value={serving_size}
+			>
+				<option value="1 person">1 person</option>
+				<option value="2 people">2 people</option>
+				<option value="3 people">3 people</option>
+				<option value="4 people">4 people</option>
+				<option value="5 people">5 people</option>
+				<option value="6 people">6 people</option>
+				<option value="7 people">7 people</option>
+				<option value="8 people">8 people</option>
+				<option value="9 people">9 people</option>
+				<option value="10 people">10 people</option>
+				<option value="11 people">11 people</option>
+				<option value="12 people">12 people</option>
+				<option value="13 people">13 people</option>
+				<option value="14 people">14 people</option>
+				<option value="15 people">15 people</option>
+			</select>
+			<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2 px-2">
+				Cooking time
+			</div>
+			<input
+				class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black font-serif mb-5"
+				placeholder="e.g., 2 hours 30 minutes"
+				bind:value={cooking_time}
+			/>
+			<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2 px-2">
+				Difficulty
+			</div>
+			<select
+				class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black font-serif mb-5"
+				bind:value={difficulty}
+			>
+				<option value="easy">Easy</option>
+				<option value="medium">Medium</option>
+				<option value="hard">Hard</option>
+			</select>
+		</div>
 
 		<div class="text-lg font-serif font-bold text-center text-gray-300 mb-2 mt-2">Ingredients</div>
 		<button
@@ -132,6 +189,11 @@
 					placeholder="Amount"
 					bind:value={ingredients[index].amount}
 				/>
+				<button
+					type="button"
+					class="border-2 bg-yellow-500 hover:opacity-80 mb-3 font-serif text-md border-gray-800 rounded-sm w-40 text-gray-300 text-center py-1 px-1 font-bold"
+					on:click={removeIngredient}>-ingredient</button
+				>
 			</div>
 		{/each}
 
@@ -141,6 +203,7 @@
 			class="border-2 bg-yellow-500 hover:opacity-80 text-md mb-3 border-gray-800 rounded-sm font-serif text-gray-300 w-40 text-center py-1 px-1 font-bold"
 			on:click={addSteps}>+steps</button
 		>
+
 		{#each steps as step, index}
 			<div class="flex items-start justify-between gap-5 py-2">
 				<input
@@ -159,16 +222,20 @@
 					required
 					bind:value={steps[index].description}
 				/>
+				<button
+					type="button"
+					class="border-2 bg-yellow-500 hover:opacity-80 text-md mb-3 border-gray-800 rounded-sm font-serif text-gray-300 w-40 text-center py-1 px-1 font-bold"
+					on:click={subtractStep}>-step</button
+				>
 			</div>
 		{/each}
 
-		<div class="text-gray-300">
-			Image upload test
-			<input type="file" on:change={handleFileUpload} bind:this={fileInput} />
+		<div class="text-gray-300 w-full my-10">
+			<input class=" ml-40" type="file" on:change={handleFileUpload} bind:this={fileInput} />
 		</div>
 
 		<button
-			class="text-gray-300 bg-red-800 font-serif text-lg border-red-900 border-2 mt-10 rounded-sm py-1 px-1 font-bold hover:opacity-80 mx-auto text-center"
+			class="text-gray-300 bg-red-800 font-serif text-lg border-red-900 border-2 my-5 rounded-sm py-1 px-1 font-bold hover:opacity-80 mx-auto text-center"
 			on:click={() => {
 				showAndHideModal();
 			}}
@@ -176,3 +243,17 @@
 		>
 	</form>
 </div>
+
+<!-- svelte-ignore missing-declaration -->
+<Modal bind:showModal>
+	<h2 class="font-bold text-3xl text-center grid place-items-center mx-auto" slot="header">
+		New Recipe has successfully been created!
+	</h2>
+
+	<ol class="definition-list text-lg font-bold text-gray-800">
+		<li class="mb-2 mt-2">
+			Your new recipe been created! You will now be redirected back to the home page.
+		</li>
+		<li class="mb-5">Please click on the new to-do to edit or delete your new to-do.</li>
+	</ol>
+</Modal>

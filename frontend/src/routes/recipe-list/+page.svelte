@@ -1,10 +1,14 @@
 <script>
+	// @ts-nocheck
+
 	import { onMount } from 'svelte';
+	// @ts-ignore
 	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
 
 	// import { goto } from '$app/navigation';
 	// import Fuse from 'fuse.js';
+	// @ts-ignore
 	export let data;
 	let image;
 	let Recipes = data.items;
@@ -60,6 +64,7 @@
 	// }
 
 	// let defaultRecipes = [];
+	// @ts-ignore
 	async function getRecipeImage(photo_id) {
 		try {
 			const response = await fetch(`${PUBLIC_CLUSTER_IMAGES}/files/${photo_id}`, {

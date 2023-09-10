@@ -12,8 +12,6 @@
 	<button
 		type="button"
 		class="py-2border border-black w-28 h-8 text-center rounded-sm bg-yellow-500 text-gray-200 font-serif"
-	>
-		Get Cooking
-		<!-- This button will lead to the recipes list -->
+		><a href="/recipe-list">Get Cooking</a>
 	</button>
 </div>
