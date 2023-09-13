@@ -5,6 +5,7 @@
 	// @ts-ignore
 	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
+	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 
 	// import { goto } from '$app/navigation';
 	// import Fuse from 'fuse.js';
@@ -85,9 +86,33 @@
 			console.error('Failed to get profile image:', error);
 		}
 	}
+
+	function alphabetsort() {
+		let sortedRecipes = [...Recipes];
+		sortedRecipes.sort((a, b) => {
+			const titleA = a.title.toUpperCase();
+			const titleB = b.title.toUpperCase();
+
+			if (titleA < titleB) {
+				return -1;
+			} else if (titleA > titleB) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+		Recipes = sortedRecipes;
+	}
+
+	function defaultSort() {
+		Recipes = defaultRecipes;
+	}
+
+	let defaultRecipes = [];
+
 	onMount(() => {
 		// searchableRecipes = Recipes;
-		// defaultRecipes = Recipes;
+		defaultRecipes = Recipes;
 		console.log(Recipes);
 		console.log(Recipes[0].images[0].photo_id);
 	});
@@ -100,6 +125,20 @@
 		class="mx-auto grid grid-cols-1 content-start gap-1 place-items-center overflow-y-auto h-full overflow-hidden mb-5 text-gray-300 font-serif"
 	>
 		<div class="text-3xl mb-5">List of Recipes</div>
+		<div class="flex flex-row justify-between w-1/2">
+			<div class="text-gray-200 text-xs mb-2 mt-12">LIST OF RECIPES</div>
+			<button class="text-gray-200 text-xs mb-2 mt-12">SORT</button>
+			<Dropdown class="bg-gray-800 rounded-md text-gray-300">
+				<DropdownItem
+					><button class="text-gray-300 text-xs" on:click={defaultSort}>DEFAULT</button
+					></DropdownItem
+				>
+				<DropdownItem
+					><button class="text-gray-300 text-xs" on:click={alphabetsort}>ALPHABETICAL</button
+					></DropdownItem
+				>
+			</Dropdown>
+		</div>
 		{#each Recipes as recipe}
 			{@const imageId = recipe.images[0].photo_id}
 			<div

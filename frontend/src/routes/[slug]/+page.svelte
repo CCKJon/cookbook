@@ -13,6 +13,9 @@
 	let id = data.id;
 	let updatedTitle = '';
 	let image;
+	let serving_size = '';
+	let difficulty = '';
+	let cooking_time = '';
 
 	async function getRecipe() {
 		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${id}`);
@@ -113,9 +116,7 @@
 			</div>
 		{/await}
 
-		<div
-			class="mb-10 w-96 mx auto text-center mx-auto grid place-items-center rounded-lg text-white"
-		>
+		<div class=" w-96 mx auto text-center mx-auto grid place-items-center rounded-lg text-white">
 			<!-- <form class="mb-3 grid place-items-center text-rose-default" on:submit={updateTodo}>
 			<div class="text- text-center text-md mb-2">New Title:</div>
 			<input
@@ -138,6 +139,36 @@
 				type="submit">Update Recipe</button
 			>
 		</form> -->
+		</div>
+		<div class="flex justify-center">
+			<div class="flex flex-row justify-between w-full max-w-[675px] py-5">
+				<div
+					class="text-gray-300 text-lg font-serif w-full flex items-center justify-between px-2 py-5 border bg-gray-700 bg-opacity-40 border-black rounded-md"
+				>
+					<div class="hover:bg-red-800/60 px-2 rounded-md">
+						{#if recipe.serving_size}
+							Serving size: {recipe.serving_size}
+						{:else}
+							Serving size: N/A
+						{/if}
+					</div>
+
+					<div class="hover:bg-red-800/60 px-2 rounded-md">
+						{#if recipe.cooking_time}
+							Cook time: {recipe.cooking_time}
+						{:else}
+							Cook time: N/A
+						{/if}
+					</div>
+					<div class="hover:bg-red-800/60 px-2 rounded-md">
+						{#if recipe.difficulty}
+							Difficulty: {recipe.difficulty}
+						{:else}
+							Difficulty: N/A
+						{/if}
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="flex justify-center">
 			<div class="flex flex-row justify-between w-full max-w-[675px]">
