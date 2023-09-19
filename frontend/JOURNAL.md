@@ -16,3 +16,6 @@ fuse search to search for recipes
 Create a sort function for recipe type (dessert, entree, appetizer, etc.)
 
 Create login authentication so that only when logged in can a person update or delete a recipe.
+
+Create a "favorites" list for logged in people
+Create a login user page that displays a list of submitted recipes by user
