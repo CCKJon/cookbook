@@ -19,6 +19,6 @@ Create login authentication so that only when logged in can a person update or d
 
 Create a "favorites" list for logged in people - favorites page should have prompt to login if not already logged in.
 
-login user page that displays a list of submitted recipes by user
+login user page that displays a list of submitted recipes by user, allowing only the author to update or delete recipes submitted by said author
 
 by default, if there is no one logged in, then the UID used for the recipe creation is by default my own
