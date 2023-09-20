@@ -8,9 +8,11 @@
 	import { browser } from '$app/environment';
 
 	onMount(() => {
+		console.log(auth);
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			// console.log(user);
 			authStore.update((curr) => {
+				console.log(curr.currentUser);
 				return { ...curr, isLoading: false, currentUser: user };
 			});
 

@@ -17,5 +17,8 @@ Create a sort function for recipe type (dessert, entree, appetizer, etc.)
 
 Create login authentication so that only when logged in can a person update or delete a recipe.
 
-Create a "favorites" list for logged in people
-Create a login user page that displays a list of submitted recipes by user
+Create a "favorites" list for logged in people - favorites page should have prompt to login if not already logged in.
+
+login user page that displays a list of submitted recipes by user
+
+by default, if there is no one logged in, then the UID used for the recipe creation is by default my own

@@ -46,6 +46,7 @@ class Recipe(BaseModel):
     serving_size: Optional[str]
     cooking_time: Optional[str]
     difficulty: Optional[str]
+    author: str
 
 
     class Config:
@@ -60,7 +61,8 @@ class Recipe(BaseModel):
                 "create_date": "2008-09-15",
                 "ingredients": [{"name":"carrots","amount":"200g"},{"name":"celery", "amount":"200g"},{"name":"onions", "amount":"200g"}],
                 "steps": [{"step_number":1, "description":"prep stuff"},{"step_number":2, "description":"cook stuff"},{"step_number":3, "description":"eat stuff"}],
-                "images":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}]
+                "images":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
+                "author":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2"
             }
         }
 
