@@ -1,4 +1,7 @@
 <script>
+	import Auth from '$lib/components/Auth.svelte';
 </script>
 
-<div>This is my login page</div>
+<div>
+	<Auth />
+</div>
