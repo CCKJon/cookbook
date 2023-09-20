@@ -2,7 +2,9 @@
 	//@ts-nocheck
 	import { goto } from '$app/navigation';
 	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
+	import { onMount } from 'svelte';
 	import Modal from './Modal.svelte';
+	import { authStore } from '$lib/stores/authStore';
 
 	let title;
 	let description;
@@ -13,8 +15,13 @@
 	let ingredients = [];
 	let steps = [];
 	let images = [];
+	let author;
 	let fileInput;
 	let showModal = false;
+
+	authStore.subscribe((curr) => {
+		author = curr?.currentUser?.uid;
+	});
 
 	function showAndHideModal() {
 		showModal = true; // Show the modal
@@ -37,7 +44,8 @@
 			images,
 			serving_size,
 			cooking_time,
-			difficulty
+			difficulty,
+			author: author != null ? author : 'EZonoo2pWjhfhkgDaHsfUdZvwsJ2'
 		};
 
 		fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe`, {
@@ -101,6 +109,10 @@
 		steps.pop(); // Add an empty steps to the array
 		steps = steps;
 	}
+
+	onMount(() => {
+		console.log(author);
+	});
 </script>
 
 <div
