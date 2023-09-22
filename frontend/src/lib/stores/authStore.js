@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 import { auth } from '$lib/firebase/firebase.client';
 import {
 	signInWithEmailAndPassword,
@@ -55,3 +55,11 @@ export const authHandlers = {
 		await updatePassword(auth.currentUser, password);
 	}
 };
+
+export const isLoggedIn = derived(authStore, ($authStore) => {
+	if ($authStore.currentUser != null) {
+		return true;
+	} else {
+		return false;
+	}
+});

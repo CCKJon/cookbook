@@ -4,8 +4,16 @@
 	import NavMenu from '$lib/components/NavMenu.svelte';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/firebase.client';
-	import { authStore } from '$lib/stores/authStore';
+	import { authStore, isLoggedIn } from '$lib/stores/authStore';
 	import { browser } from '$app/environment';
+
+	$: {
+		if ($isLoggedIn) {
+			console.log(true);
+		} else {
+			console.log(false);
+		}
+	}
 
 	onMount(() => {
 		console.log(auth);

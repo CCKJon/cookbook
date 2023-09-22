@@ -1,10 +1,19 @@
 <script>
 	import logo from '$lib/icons/logo.png';
 	import SearchComponent from './SearchComponent.svelte';
+	import { isLoggedIn } from '$lib/stores/authStore';
 	let displaySearch = false;
 
 	function displaySearchComponent() {
 		displaySearch = !displaySearch;
+	}
+
+	$: {
+		if ($isLoggedIn) {
+			console.log(true);
+		} else {
+			console.log(false);
+		}
 	}
 </script>
 
