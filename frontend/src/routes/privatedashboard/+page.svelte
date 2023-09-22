@@ -10,6 +10,10 @@
 	});
 </script>
 
+<div>This is where my submitted recipes will go</div>
+
+<a href="/favoriterecipes">This is where the link to a favorites page will go</a>
+
 {#if $authStore.currentUser}
 	<div>
 		<h1>Current User: {email}</h1>
