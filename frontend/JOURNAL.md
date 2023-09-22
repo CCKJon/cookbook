@@ -24,3 +24,7 @@ Create a "favorites" list for logged in people - favorites page should have prom
 login user page that displays a list of submitted recipes by user, allowing only the author to update or delete recipes submitted by said author
 
 by default, if there is no one logged in, then the UID used for the recipe creation is by default my own
+
+Be able to view other peoples' profiles, their submitted recipes, maybe their favorites? Be able to set profiles to private
+
+create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.
