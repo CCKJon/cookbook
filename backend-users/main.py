@@ -1,13 +1,3 @@
-from fastapi import FastAPI, HTTPException, Body
-from fastapi.encoders import jsonable_encoder
-from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
-
-#App object
-app = FastAPI()
-
-from models import User, UpdateUser
-
 from database import(
     fetch_one_user,
     fetch_all_users,
@@ -15,6 +5,15 @@ from database import(
     update_user,
     remove_user
 )
+
+from fastapi import (FastAPI, HTTPException, Body)
+from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+from models import User, UpdateUser
+
+#App object
+app = FastAPI()
 
 origins = ["*"]
 
@@ -35,6 +34,14 @@ async def read_root():
     response = {"hello": "world"}
     return response
 
+@app.post("/api/user", response_description="Add a new user", response_model=User, tags=["Users"])
+async def post_user(user: User = Body(...)):
+    user = jsonable_encoder(user)
+    response = await create_user(user)
+    if response:
+        return response
+    raise HTTPException(400, "Something went wrong / Bad Request")
+
 @app.get("/api/user", tags=["Users"])
 async def get_users():
     response = await fetch_all_users()
@@ -46,14 +53,6 @@ async def get_user_by_id(id: str):
     if response:
         return response
     raise HTTPException(404, f"ID {id} not found")
-
-@app.post("/api/user", response_description="Add a new user", response_model=User, tags=["Users"])
-async def post_user(user: User = Body(...)):
-    user = jsonable_encoder(user)
-    response = await create_user(user)
-    if response:
-        return response
-    raise HTTPException(400, "Something went wrong / Bad Request")
 
 @app.put("/api/user/{id}", response_description="Update a user", response_model=User, tags=["Users"])
 async def put_user(id: str, user: UpdateUser = Body(...)):

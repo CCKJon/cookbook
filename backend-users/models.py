@@ -20,32 +20,15 @@ class PyObjectId(ObjectId):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
 
-# Recipe Models Start
-
-class RecipeStep(BaseModel):
-    step_number: int
-    description: str
-
-class RecipeIngredient(BaseModel):
-    name: str
-    amount: str
-
-class RecipeImage(BaseModel):
-    photo_id: str
-
-class ProfilePhoto(BaseModel):
-    photo_id: str
 
 class User(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    user_name: str
+    username: str
     firebase_reference_id: str
     authored_recipes: Optional[List[str]]
     favorites: Optional[List[str]]
-    profile_photo: Optional[ProfilePhoto]
+    profile_photo: Optional[str]
     profile_description: Optional[str]
-
-
 
     class Config:
         allow_population_by_field_name = True
@@ -53,21 +36,22 @@ class User(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "User": {
-                "user_name":"user_name",
+                "username":"username",
                 "firebase_reference_id":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
-                "authored_recipes": "Bolognese",
-                "favorites":"TEST Food",
-                "profile_photo":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
+                "authored_recipes": ["Bolognese"],
+                "favorites": ["TEST Food"],
+                "profile_photo":"HTML link to where photo is stored",
                 "profile_description":"I am a good cook"
             }
         }
 
 
 class UpdateUser(BaseModel):
-    firebase_reference_id: str
+    username: Optional[str]
+    firebase_reference_id: Optional[str]
     authored_recipes: Optional[List[str]]
     favorites: Optional[List[str]]
-    profile_photo: Optional[ProfilePhoto]
+    profile_photo: Optional[str]
     profile_description: Optional[str]
 
     class Config:
@@ -75,10 +59,11 @@ class UpdateUser(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "User": {
+                "username":"user_name",
                 "firebase_reference_id":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
-                "authored_recipes": "Bolognese",
-                "favorites":"TEST Food",
-                "profile_photo":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
+                "authored_recipes": ["Bolognese"],
+                "favorites":["TEST Food"],
+                "profile_photo":"HTML link to the hosted location of the profile photo",
                 "profile_description":"I am a good cook"
             }
         }
