@@ -36,7 +36,7 @@ class RecipeImage(BaseModel):
 class ProfilePhoto(BaseModel):
     photo_id: str
 
-class Recipe(BaseModel):
+class User(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     firebase_reference_id: str
     authored_recipes: Optional[List[str]]
@@ -61,7 +61,7 @@ class Recipe(BaseModel):
         }
 
 
-class UpdateRecipeModel(BaseModel):
+class UpdateUser(BaseModel):
     firebase_reference_id: str
     authored_recipes: Optional[List[str]]
     favorites: Optional[List[str]]
