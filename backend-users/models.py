@@ -38,6 +38,7 @@ class ProfilePhoto(BaseModel):
 
 class User(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    user_name: str
     firebase_reference_id: str
     authored_recipes: Optional[List[str]]
     favorites: Optional[List[str]]
@@ -52,6 +53,7 @@ class User(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "User": {
+                "user_name":"user_name",
                 "firebase_reference_id":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
                 "authored_recipes": "Bolognese",
                 "favorites":"TEST Food",

@@ -1,4 +1,4 @@
-from models import Recipe, UpdateRecipeModel
+from models import User, UpdateUser
 import motor.motor_asyncio  # MongoDB Driver
 from bson.objectid import ObjectId
 import os
@@ -15,33 +15,33 @@ database = client.Users
 collection = database.user
 
 
-async def fetch_one_recipe(id):
-    recipe = await collection.find_one({"_id": id})
-    if recipe is not None:
-        return recipe
+async def fetch_one_user(id):
+    user = await collection.find_one({"_id": id})
+    if user is not None:
+        return user
 
-async def fetch_all_recipes():
-    recipes = []
+async def fetch_all_users():
+    users = []
     cursor = collection.find({})
     async for document in cursor:
-        recipes.append(Recipe(**document))
-    return recipes
+        users.append(User(**document))
+    return users
 
-async def create_recipe(recipe):
-    document = recipe
+async def create_user(user):
+    document = user
     result = await collection.insert_one(document)
     return document
 
-async def update_recipe(id, recipe):
-    update_result = await collection.update_one({"_id": id}, {"$set": recipe})
+async def update_user(id, user):
+    update_result = await collection.update_one({"_id": id}, {"$set": user})
     if update_result.modified_count == 1:
-        updated_recipe = await collection.find_one({"_id": id})
-        if updated_recipe is not None:
-            return updated_recipe
-    existing_recipe = await collection.find_one({"_id": id})
-    if existing_recipe is not None:
-        return existing_recipe
+        updated_user = await collection.find_one({"_id": id})
+        if updated_user is not None:
+            return updated_user
+    existing_user = await collection.find_one({"_id": id})
+    if existing_user is not None:
+        return existing_user
 
-async def remove_recipe(id):
+async def remove_user(id):
     await collection.delete_one({"_id": id})
     return True

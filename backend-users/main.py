@@ -6,14 +6,14 @@ from datetime import datetime
 #App object
 app = FastAPI()
 
-from models import Recipe, UpdateRecipeModel
+from models import User, UpdateUser
 
 from database import(
-    fetch_one_recipe,
-    fetch_all_recipes,
-    create_recipe,
-    update_recipe,
-    remove_recipe
+    fetch_one_user,
+    fetch_all_users,
+    create_user,
+    update_user,
+    remove_user
 )
 
 origins = ["*"]
@@ -35,38 +35,38 @@ async def read_root():
     response = {"hello": "world"}
     return response
 
-@app.get("/api/recipe", tags=["Recipes"])
-async def get_recipes():
-    response = await fetch_all_recipes()
+@app.get("/api/user", tags=["Users"])
+async def get_users():
+    response = await fetch_all_users()
     return response
 
-@app.get("/api/recipe/{id}", response_description="Get a single recipe", response_model=Recipe, tags=["Recipes"])
-async def get_recipe_by_id(id: str):
-    response = await fetch_one_recipe(id)
+@app.get("/api/user/{id}", response_description="Get a single user", response_model=User, tags=["Users"])
+async def get_user_by_id(id: str):
+    response = await fetch_one_user(id)
     if response:
         return response
     raise HTTPException(404, f"ID {id} not found")
 
-@app.post("/api/recipe", response_description="Add a new recipe", response_model=Recipe, tags=["Recipes"])
-async def post_recipe(recipe: Recipe = Body(...)):
-    recipe = jsonable_encoder(recipe)
-    response = await create_recipe(recipe)
+@app.post("/api/user", response_description="Add a new user", response_model=User, tags=["Users"])
+async def post_user(user: User = Body(...)):
+    user = jsonable_encoder(user)
+    response = await create_user(user)
     if response:
         return response
     raise HTTPException(400, "Something went wrong / Bad Request")
 
-@app.put("/api/recipe/{id}", response_description="Update a recipe", response_model=Recipe, tags=["Recipes"])
-async def put_recipe(id: str, recipe: UpdateRecipeModel = Body(...)):
-    recipe = {k: v for k, v in recipe.dict().items() if v is not None}
-    if len(recipe) >= 1:
-        response = await update_recipe(id, recipe)
+@app.put("/api/user/{id}", response_description="Update a user", response_model=User, tags=["Users"])
+async def put_user(id: str, user: UpdateUser = Body(...)):
+    user = {k: v for k, v in user.dict().items() if v is not None}
+    if len(user) >= 1:
+        response = await update_user(id, user)
     if response:
         return response
-    raise HTTPException(404, f"There is no recipe with this id {id}")
+    raise HTTPException(404, f"There is no user with this id {id}")
 
-@app.delete("/api/recipe/{id}", response_description="Delete a recipe", tags=["Recipes"])
-async def delete_recipe(id: str):
-    response = await remove_recipe(id)
+@app.delete("/api/user/{id}", response_description="Delete a user", tags=["Users"])
+async def delete_user(id: str):
+    response = await remove_user(id)
     if response:
-        return "Successfully deleted recipe item"
-    raise HTTPException(404, f"There is no recipe item with this id:{id}")
+        return "Successfully deleted user item"
+    raise HTTPException(404, f"There is no user item with this id:{id}")
