@@ -35,7 +35,7 @@ class User(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         schema_extra = {
-            "User": {
+            "example": {
                 "username":"username",
                 "firebase_reference_id":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
                 "authored_recipes": ["Bolognese"],
@@ -58,7 +58,7 @@ class UpdateUser(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         schema_extra = {
-            "User": {
+            "example": {
                 "username":"user_name",
                 "firebase_reference_id":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
                 "authored_recipes": ["Bolognese"],
