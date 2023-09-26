@@ -24,6 +24,30 @@ export const authHandlers = {
 	},
 	signup: async (email, password) => {
 		const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
+		console.log('this is the new user credential', newUserCredential);
+
+		const newUser = {
+			username: email,
+			firebase_reference_id: newUserCredential.user.uid,
+			authored_recipes: [],
+			favorites: [],
+			profile_photo: '',
+			profile_description: ''
+		};
+
+		fetch('http://127.0.0.1:8001/api/user', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newUser)
+		}).catch(() => {
+			return {
+				status: 301,
+				error: new Error('Could not create a new todo')
+			};
+		});
+
 		await sendEmailVerification(newUserCredential.user);
 	},
 	logout: async () => {

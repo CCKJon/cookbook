@@ -4,9 +4,12 @@
 	import AuthReset from '$lib/components/AuthReset.svelte';
 
 	let email;
+	let userid;
+
 	authStore.subscribe((curr) => {
-		// console.log('CURR', curr);
 		email = curr?.currentUser?.email;
+		console.log(curr.currentUser);
+		userid = curr?.currentUser?.uid;
 	});
 </script>
 
@@ -17,6 +20,16 @@
 {#if $authStore.currentUser}
 	<div>
 		<h1>Current User: {email}</h1>
+
+		<!-- {#each }
+			<div></div>
+
+
+
+
+
+		{/} -->
+
 		<AuthReset />
 		<button on:click={authHandlers.logout}>Logout</button>
 	</div>
