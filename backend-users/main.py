@@ -58,6 +58,7 @@ async def get_user_by_id(id: str):
 async def put_user(id: str, user: UpdateUser = Body(...)):
     user = {k: v for k, v in user.dict().items() if v is not None}
     if len(user) >= 1:
+        print("this is user", user)
         response = await update_user(id, user)
     if response:
         return response

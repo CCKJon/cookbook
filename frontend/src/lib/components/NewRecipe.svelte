@@ -55,8 +55,36 @@
 			},
 			body: JSON.stringify(newRecipe)
 		})
-			.then(() => {
-				goto('/');
+			.then(async (res) => {
+				res = await res.json();
+				console.log('this is the recipe id', res._id);
+				const recipe_id = res._id;
+
+
+				const response = await fetch(`http://127.0.0.1:8001/api/user/${author}`);
+				const author_data = await response.json();
+				// console.log('this is my author data', author_data);
+				let authored_recipes = author_data.authored_recipes;
+				// console.log('this is authored recipes', authored_recipes);
+				authored_recipes.push(recipe_id); // Push the new recipe_id to the array
+
+				await fetch(`http://127.0.0.1:8001/api/user/${author}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						authored_recipes: authored_recipes // Assign the updated array back to authored_recipes
+					})
+				});
+
+				.then((_res) => {
+					goto('/');
+				})
+				.catch((_err) => {
+					_err = !_err;
+				});
+
 			})
 			.catch(() => {
 				return {
