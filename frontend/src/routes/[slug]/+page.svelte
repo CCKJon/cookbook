@@ -23,43 +23,6 @@
 		return data;
 	}
 
-	// async function deleteRecipe() {
-	// 	const response = await fetch(`https://todo-test-api-jelz.onrender.com/api/todo/${id}`, {
-	// 		method: 'DELETE',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		}
-	// 	})
-	// 		.then((response) => {
-	// 			// @ts-ignore
-	// 			window.location = '/';
-	// 		})
-	// 		.catch((error) => {
-	// 			// Handle error
-	// 		});
-	// }
-
-	// function updateRecipe() {
-	// 	fetch(`https://todo-test-api-jelz.onrender.com/api/todo/${id}`, {
-	// 		method: 'PUT',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		body: JSON.stringify({
-	// 			category,
-	// 			title,
-	// 			description,
-	// 			due_date: due_date ? new Date(due_date).toISOString().split('T')[0].toString() : 'null'
-	// 		})
-	// 	})
-	// 		.then((_res) => {
-	// 			goto('/');
-	// 		})
-	// 		.catch((_err) => {
-	// 			_err = !_err;
-	// 		});
-	// }
-
 	async function getRecipeImage(photo_id) {
 		try {
 			const response = await fetch(`${PUBLIC_CLUSTER_IMAGES}/files/${photo_id}`, {

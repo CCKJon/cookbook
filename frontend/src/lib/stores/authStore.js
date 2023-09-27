@@ -1,5 +1,9 @@
 //@ts-nocheck
-
+import {
+	PUBLIC_CLUSTER_PASSWORD,
+	PUBLIC_CLUSTER_IMAGES,
+	PUBLIC_CLUSTER_USERS
+} from '$env/static/public';
 import { writable, derived } from 'svelte/store';
 import { auth } from '$lib/firebase/firebase.client';
 import {
@@ -35,7 +39,7 @@ export const authHandlers = {
 			profile_description: ''
 		};
 
-		fetch('http://127.0.0.1:8001/api/user', {
+		fetch(`${PUBLIC_CLUSTER_USERS}/api/user`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

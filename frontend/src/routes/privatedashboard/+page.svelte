@@ -2,8 +2,15 @@
 	//@ts-nocheck
 	import { authHandlers, authStore } from '$lib/stores/authStore';
 	import AuthReset from '$lib/components/AuthReset.svelte';
+	import {
+		PUBLIC_CLUSTER_PASSWORD,
+		PUBLIC_CLUSTER_IMAGES,
+		PUBLIC_CLUSTER_USERS
+	} from '$env/static/public';
+	import { Dropdown } from 'flowbite-svelte';
 
 	let email;
+	let image;
 	let userid;
 
 	authStore.subscribe((curr) => {
@@ -13,14 +20,31 @@
 	});
 
 	async function getUser() {
-		const response = await fetch(`http://127.0.0.1:8002/api/user/${userid}`);
+		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
 		const data = await response.json();
 		return data;
 	}
 	async function getRecipe(recipeid) {
-		const response = await fetch(`http://127.0.0.1:8000/api/user/${recipeid}`);
+		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipeid}`);
 		const data = await response.json();
 		return data;
+	}
+
+	async function deleteRecipe(recipeid) {
+		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipeid}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+	}
+	async function deleteAuthoredRecipe(recipeid) {
+		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${authored_recipes}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
 	}
 
 	async function getRecipeImage(photo_id) {
