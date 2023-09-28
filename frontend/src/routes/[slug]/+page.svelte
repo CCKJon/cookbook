@@ -6,6 +6,9 @@
 	export let data;
 	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
+	import { authStore } from '$lib/stores/authStore';
+	import Modal from '$lib/components/Modal.svelte';
+	import UpdateRecipe from '$lib/components/UpdateRecipe.svelte';
 
 	let recipe;
 	let title = '';
@@ -16,6 +19,13 @@
 	let serving_size = '';
 	let difficulty = '';
 	let cooking_time = '';
+	let currentUserID;
+	let showUpdateModal = false;
+
+	authStore.subscribe((curr) => {
+		currentUserID = curr?.currentUser?.uid;
+		console.log(currentUserID, 'this is my currentuserid');
+	});
 
 	async function getRecipe() {
 		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${id}`);
@@ -60,6 +70,18 @@
 		<h1 class="mx-auto grid place-items-center text-3xl text-gray-300 capitalize font-serif my-3">
 			{recipe.title}
 		</h1>
+		{#if recipe.author == currentUserID}
+			<button
+				on:click={() => {
+					showUpdateModal = !showUpdateModal;
+				}}
+				class="text-gray-300"
+				type="button">UPDATE</button
+			>
+			<Modal bind:showModal={showUpdateModal}>
+				<UpdateRecipe {recipe} />
+			</Modal>
+		{/if}
 		<hr class="w-60 grid place-items-center mx-auto mb-3" />
 		<div class="my-5">
 			<div class="grid place-items-center text-center mx-auto text-xl text-cyan-400">

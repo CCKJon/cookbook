@@ -104,7 +104,7 @@
 						>
 							<div class="flex flex-row gap-3">
 								<div class="flex flex-row justify-between">
-									<div>Update</div>
+									<a href={`/${recipedata._id}`}>Update</a>
 									<button
 										type="button"
 										on:click={() => {
