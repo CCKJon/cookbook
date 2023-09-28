@@ -23,9 +23,9 @@
 				console.log(err);
 			}
 		}
-		// if ($authStore.currentUser) {
-		// 	window.location.href = '/privatedashboard';
-		// }
+		if ($authStore.currentUser) {
+			window.location.href = '/privatedashboard';
+		}
 	}
 </script>
 

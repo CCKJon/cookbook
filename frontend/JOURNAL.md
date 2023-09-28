@@ -6,29 +6,24 @@ List of ideas to add to the project:
 - nutritional facts
 - how long it takes to cook
 
-9/7/2023 todo:
-add recipe list that gets all recipes in database
+Things to work on:
 
-Create buttons to remove steps or make it so that if an ingredient or step is empty, remove it/disregard it
-add modal for submitted recipe to state that a recipe was successfully added
-fuse search to search for recipes
-
-Create a sort function for recipe type (dessert, entree, appetizer, etc.)
-
-Create login authentication so that only when logged in can a person update or delete a recipe.
-
-Create a "favorites" list for logged in people - favorites page should have prompt to login if not already logged in.
--create functionality so that you can only favorite a recipe if you're logged in.
--logged in users should only be able to see recipes that they've favorited
-
-login user page that displays a list of submitted recipes by user, allowing only the author to update or delete recipes submitted by said author
-
-by default, if there is no one logged in, then the UID used for the recipe creation is by default my own
-
-Be able to view other peoples' profiles, their submitted recipes, maybe their favorites? Be able to set profiles to private
-
-create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.
+- ~~add recipe list that gets all recipes in database~~
+- Create buttons to remove steps or make it so that if an ingredient or step is empty, remove it/disregard it
+- add modal for submitted recipe to state that a recipe was successfully added
+- ~~fuse search to search for recipes~~
+- Create a sort function for recipe type (dessert, entree, appetizer, etc.)
+- ~~Create login authentication so that only when logged in can a person update or delete a recipe.~~
+- Create a "favorites" list for logged in people - favorites page should have prompt to login if not already logged in.
+- create functionality so that you can only favorite a recipe if you're logged in.
+- logged in users should only be able to see recipes that they've favorited
+- ~~login user page that displays a list of submitted recipes by user, allowing only the author to update or delete recipes submitted by said author~~
+- ~~by default, if there is no one logged in, then the UID used for the recipe creation is by default my own~~
+- Be able to view other peoples' profiles, their submitted recipes, maybe their favorites? Be able to set profiles to private
+- Need to do styling for private dashboard, update recipe, favorites page.
+- create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.
 
 FIXING NEEDED:
 
 - DELETE recipe function in private dashboard executes the function before clicking on the "Are you sure?" button
+- currently when searching, the results of the search only take you to the recipe if you click on the recipe name, shoud be updated to be able to click the whole box

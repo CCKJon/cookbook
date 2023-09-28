@@ -80,9 +80,9 @@
 </script>
 
 <div
-	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/dashboard.jpg')] overflow-hidden bg-no-repeat bg-cover text-gray-300"
+	class="mx-auto w-11/12 h-full py-7 px-7 bg-[url('$lib/icons/dashboard.jpg')] bg-no-repeat bg-cover text-gray-300 flex flex-col gap-10 items-center justify-center"
 >
-	<div>This is where my submitted recipes will go</div>
+	<div class="h-1">This is where my submitted recipes will go</div>
 
 	<a href="/favoriterecipes">This is where the link to a favorites page will go</a>
 
@@ -150,16 +150,3 @@
 		<div>Loading....</div>
 	{/if}
 </div>
-
-<style>
-	div {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-	h1 {
-		text-align: center;
-	}
-</style>

@@ -39,62 +39,37 @@
 		const options = { timeZone: 'America/Chicago', dateStyle: 'short' };
 		const currentTime = new Date();
 		const create_date = currentTime.toLocaleString('en-US', options).split('T')[0];
-		const newRecipe = {
-			category,
-			title,
-			description,
-			create_date: create_date,
-			ingredients,
-			steps,
-			images,
-			serving_size,
-			cooking_time,
-			difficulty,
-			author: author != null ? author : 'EZonoo2pWjhfhkgDaHsfUdZvwsJ2'
-		};
+		// const newRecipe = {
+		// 	category,
+		// 	title,
+		// 	description,
+		// 	create_date: create_date,
+		// 	ingredients,
+		// 	steps,
+		// 	images,
+		// 	serving_size,
+		// 	cooking_time,
+		// 	difficulty,
+		// 	author: author != null ? author : 'EZonoo2pWjhfhkgDaHsfUdZvwsJ2'
+		// };
 
-		fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe`, {
-			method: 'POST',
+		fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipe._id}`, {
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(newRecipe)
+			body: JSON.stringify(recipe)
 		})
 			.then(async (res) => {
-				res = await res.json();
-				console.log('this is the recipe id', res._id);
-				const recipe_id = res._id;
-
-				const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${author}`);
-				const author_data = await response.json();
-				// console.log('this is my author data', author_data);
-				let authored_recipes = author_data.authored_recipes;
-				// console.log('this is authored recipes', authored_recipes);
-				authored_recipes.push(recipe_id); // Push the new recipe_id to the array
-
-				await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${author}`, {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						authored_recipes: authored_recipes // Assign the updated array back to authored_recipes
-					})
-				})
-					.then((_res) => {
-						goto('/');
-					})
-					.catch((_err) => {
-						_err = !_err;
-					});
+				window.location.href = `/${recipe._id}`;
 			})
+
 			.catch(() => {
 				return {
 					status: 301,
 					error: new Error('Could not create a new recipe')
 				};
 			});
-		console.log(newRecipe);
 	}
 
 	const handleFileUpload = async () => {
@@ -124,20 +99,20 @@
 	};
 
 	function addIngredient() {
-		ingredients.push({}); // Add an empty ingredient to the array
-		ingredients = ingredients;
+		recipe.ingredients.push({}); // Add an empty ingredient to the array
+		recipe.ingredients = recipe.ingredients;
 	}
 	function removeIngredient() {
-		ingredients.pop(); // Add an empty ingredient to the array
-		ingredients = ingredients;
+		recipe.ingredients.pop(); // Add an empty ingredient to the array
+		recipe.ingredients = recipe.ingredients;
 	}
 	function addSteps() {
-		steps.push({}); // Add an empty steps to the array
-		steps = steps;
+		recipe.steps.push({}); // Add an empty steps to the array
+		recipe.steps = recipe.steps;
 	}
 	function subtractStep() {
-		steps.pop(); // Add an empty steps to the array
-		steps = steps;
+		recipe.steps.pop(); // Add an empty steps to the array
+		recipe.steps = recipe.steps;
 	}
 
 	onMount(() => {
@@ -216,7 +191,7 @@
 			class="border-2 bg-yellow-500 hover:opacity-80 mb-3 font-serif text-md border-gray-800 rounded-sm w-40 text-gray-300 text-center py-1 px-1 font-bold"
 			on:click={addIngredient}>+ingredient</button
 		>
-		{#each ingredients as ingredient, index}
+		{#each recipe.ingredients as ingredient, index}
 			<div class="flex justify-between gap-5 py-2">
 				<input
 					class="border-2 bg-gray-300 font-serif border-gray-800 text-gray-900 rounded-sm w-52"
@@ -246,7 +221,7 @@
 			on:click={addSteps}>+steps</button
 		>
 
-		{#each steps as step, index}
+		{#each recipe.steps as step, index}
 			<div class="flex items-start justify-between gap-5 py-2">
 				<input
 					class="font-serif border-2 bg-gray-300 border-gray-800 rounded-sm w-20"
@@ -272,16 +247,12 @@
 			</div>
 		{/each}
 
-		<div class="text-gray-300 w-full my-10">
-			<input class=" ml-40" type="file" on:change={handleFileUpload} bind:this={recipe.image} />
-		</div>
-
 		<button
 			class="text-gray-300 bg-red-800 font-serif text-lg border-red-900 border-2 my-5 rounded-sm py-1 px-1 font-bold hover:opacity-80 mx-auto text-center"
 			on:click={() => {
 				showAndHideModal();
 			}}
-			type="submit">Submit Recipe</button
+			type="submit">Update Recipe</button
 		>
 	</form>
 </div>
