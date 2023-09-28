@@ -7,11 +7,13 @@
 		PUBLIC_CLUSTER_IMAGES,
 		PUBLIC_CLUSTER_USERS
 	} from '$env/static/public';
-	import { Dropdown } from 'flowbite-svelte';
+	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 
 	let email;
 	let image;
 	let userid;
+	let authored_recipes;
+	let showDelete = false;
 
 	authStore.subscribe((curr) => {
 		email = curr?.currentUser?.email;
@@ -22,6 +24,7 @@
 	async function getUser() {
 		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
 		const data = await response.json();
+		authored_recipes = data.authored_recipes;
 		return data;
 	}
 	async function getRecipe(recipeid) {
@@ -39,12 +42,19 @@
 		});
 	}
 	async function deleteAuthoredRecipe(recipeid) {
-		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${authored_recipes}`, {
-			method: 'DELETE',
+		console.log(authored_recipes, 'before');
+		authored_recipes = authored_recipes.filter((item) => item !== recipeid);
+		console.log(authored_recipes, 'after');
+		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`, {
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			body: JSON.stringify({
+				authored_recipes
+			})
 		});
+		await getUser().then((window.location.href = '/privatedashboard'));
 	}
 
 	async function getRecipeImage(photo_id) {
@@ -69,52 +79,77 @@
 	}
 </script>
 
-<div>This is where my submitted recipes will go</div>
+<div
+	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/dashboard.jpg')] overflow-hidden bg-no-repeat bg-cover text-gray-300"
+>
+	<div>This is where my submitted recipes will go</div>
 
-<a href="/favoriterecipes">This is where the link to a favorites page will go</a>
+	<a href="/favoriterecipes">This is where the link to a favorites page will go</a>
 
-{#if $authStore.currentUser}
-	<h1>Current User: {email}</h1>
-	<div>
-		{#await getUser()}
-			Loading...
-		{:then user}
-			<!-- {console.log(user, 'this is user')} -->
-			{#each user.authored_recipes as recipe}
-				<div>{recipe}</div>
-				{#await getRecipe(recipe)}
-					Loading...
-				{:then recipedata}
-					{@const imageId = recipedata.images[0].photo_id}
-					<div
-						class="rounded-md bg-gray-800 w-1/2 mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-60"
-					>
-						<div class="flex flex-row gap-3">
-							<a class="mt-1 text-gray-300 flex justify-between w-full" href={`/${recipedata._id}`}>
-								<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
-									{recipedata.title}
+	{#if $authStore.currentUser}
+		<h1>Current User: {email}</h1>
+		<div>
+			{#await getUser()}
+				Loading...
+			{:then user}
+				<!-- {console.log(user, 'this is user')} -->
+				{#each user.authored_recipes as recipe}
+					<div>{recipe}</div>
+					{#await getRecipe(recipe)}
+						Loading...
+					{:then recipedata}
+						{@const imageId = recipedata.images[0].photo_id}
+						<div
+							class="rounded-md bg-gray-800 w-1/2 mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-60"
+						>
+							<div class="flex flex-row gap-3">
+								<div class="flex flex-row justify-between">
+									<div>Update</div>
+									<button
+										type="button"
+										on:click={() => {
+											showDelete = true;
+										}}
+										class="text-gray-200 text-xs">DELETE</button
+									>
+									{#if showDelete}
+										<button
+											type="button"
+											class="text-gray-300 text-xs"
+											on:click={deleteAuthoredRecipe(recipedata._id)}
+											on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</button
+										>
+									{/if}
 								</div>
-								{#await getRecipeImage(imageId)}
-									loading ...
-								{:then imageUrl}
-									<img
-										class="w-auto max-h-[200px] object-cover"
-										src={URL.createObjectURL(imageUrl)}
-										alt=""
-									/>
-								{/await}
-							</a>
+								<a
+									class="mt-1 text-gray-300 flex justify-between w-full"
+									href={`/${recipedata._id}`}
+								>
+									<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
+										{recipedata.title}
+									</div>
+									{#await getRecipeImage(imageId)}
+										loading ...
+									{:then imageUrl}
+										<img
+											class="w-auto max-h-[200px] object-cover"
+											src={URL.createObjectURL(imageUrl)}
+											alt=""
+										/>
+									{/await}
+								</a>
+							</div>
 						</div>
-					</div>
-				{/await}
-			{/each}
-		{/await}
-		<AuthReset />
-		<button on:click={authHandlers.logout}>Logout</button>
-	</div>
-{:else}
-	<div>Loading....</div>
-{/if}
+					{/await}
+				{/each}
+			{/await}
+			<AuthReset />
+			<button on:click={authHandlers.logout}>Logout</button>
+		</div>
+	{:else}
+		<div>Loading....</div>
+	{/if}
+</div>
 
 <style>
 	div {
