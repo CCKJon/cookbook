@@ -23,6 +23,11 @@ Things to work on:
 - Need to do styling for private dashboard, update recipe, favorites page.
 - create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.
 
+Possible features to add:
+
+- private messaging
+- ratings on recipes
+
 FIXING NEEDED:
 
 - DELETE recipe function in private dashboard executes the function before clicking on the "Are you sure?" button
