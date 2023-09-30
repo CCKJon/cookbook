@@ -1,8 +1,9 @@
 # from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from bson.objectid import ObjectId
 from typing import Optional, List
 from bson import ObjectId
+
 
 
 class PyObjectId(ObjectId):
@@ -19,6 +20,11 @@ class PyObjectId(ObjectId):
     @classmethod
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
+
+    def validate_rating(cls, rating):
+        if rating is not None and (rating < 0 or rating > 5):
+            raise ValueError("Rating must be between 0 and 5")
+        return rating
 
 # Recipe Models Start
 
@@ -47,6 +53,7 @@ class Recipe(BaseModel):
     cooking_time: Optional[str]
     difficulty: Optional[str]
     author: str
+    rating: Optional[int]
 
 
     class Config:
@@ -79,6 +86,7 @@ class UpdateRecipeModel(BaseModel):
     cooking_time: Optional[str]
     difficulty: Optional[str]
     author: str
+    rating: Optional[int]
 
     class Config:
         arbitrary_types_allowed = True
