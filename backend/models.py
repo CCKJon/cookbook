@@ -61,7 +61,7 @@ class Recipe(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         schema_extra = {
-            "recipe": {
+            "example": {
                 "category": "Entree",
                 "title": "Bolognese",
                 "description": "Classic Italian Sunday Ragu",
@@ -93,7 +93,7 @@ class UpdateRecipeModel(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         schema_extra = {
-            "recipe": {
+            "example": {
                 "category": "Entree",
                 "title": "Bolognese",
                 "description": "Classic Italian Sunday Ragu",
