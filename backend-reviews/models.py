@@ -21,19 +21,22 @@ class PyObjectId(ObjectId):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
 
+def validate_rating(cls, value):
+    if value is not None and (value < 0 or value > 5):
+        raise ValueError("Rating must be between 0 and 5")
+    return value
+
 
 # Review Models Start
-
-class ReviewImage(BaseModel):
-    photo_id: str
 
 
 class Review(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     title: str
     review: str
+    rating: Optional[int]
     create_date: str
-    images: Optional[List[ReviewImage]]
+    images: Optional[str]
     author: str
 
 
@@ -45,8 +48,9 @@ class Review(BaseModel):
             "example": {
                 "title": "Bolognese",
                 "review": "best food ever",
+                "rating": "5",
                 "create_date": "2008-09-15",
-                "images":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
+                "images":"HTML link to photo",
                 "author":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
             }
         }
@@ -56,8 +60,9 @@ class UpdateReviewModel(BaseModel):
     category: Optional[str]
     title: Optional[str]
     review: str
+    rating: Optional[int]
     create_date: str
-    images: Optional[List[ReviewImage]]
+    images: Optional[str]
     author: str
 
     class Config:
@@ -67,8 +72,9 @@ class UpdateReviewModel(BaseModel):
             "example": {
                 "title": "Bolognese",
                 "review": "best food ever",
+                "rating":"5",
                 "create_date": "2008-09-15",
-                "images":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
+                "images":"HTML link to photo",
                 "author":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
             }
         }
