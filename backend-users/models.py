@@ -29,6 +29,7 @@ class User(BaseModel):
     favorites: Optional[List[str]]
     profile_photo: Optional[str]
     profile_description: Optional[str]
+    personal_reviews: Optional[List[str]]
 
     class Config:
         allow_population_by_field_name = True
@@ -41,7 +42,8 @@ class User(BaseModel):
                 "authored_recipes": ["Bolognese"],
                 "favorites": ["TEST Food"],
                 "profile_photo":"HTML link to where photo is stored",
-                "profile_description":"I am a good cook"
+                "profile_description":"I am a good cook",
+                "personal_reviews":"5/5, best recipe ever"
             }
         }
 
@@ -53,6 +55,7 @@ class UpdateUser(BaseModel):
     favorites: Optional[List[str]]
     profile_photo: Optional[str]
     profile_description: Optional[str]
+    personal_reviews: Optional[List[str]]
 
     class Config:
         arbitrary_types_allowed = True
@@ -64,6 +67,7 @@ class UpdateUser(BaseModel):
                 "authored_recipes": ["Bolognese"],
                 "favorites":["TEST Food"],
                 "profile_photo":"HTML link to the hosted location of the profile photo",
-                "profile_description":"I am a good cook"
+                "profile_description":"I am a good cook",
+                "personal_reviews":"5/5, best recipe ever"
             }
         }

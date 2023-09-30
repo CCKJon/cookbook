@@ -53,7 +53,7 @@ class Recipe(BaseModel):
     cooking_time: Optional[str]
     difficulty: Optional[str]
     author: str
-    rating: Optional[int]
+    favorited_count: Optional[int]
 
 
     class Config:
@@ -86,7 +86,7 @@ class UpdateRecipeModel(BaseModel):
     cooking_time: Optional[str]
     difficulty: Optional[str]
     author: str
-    rating: Optional[int]
+    favorited_count: Optional[int]
 
     class Config:
         arbitrary_types_allowed = True
