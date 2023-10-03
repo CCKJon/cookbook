@@ -297,9 +297,11 @@
 				</form>
 			</div>
 		</div>
-		<div class="flex justify-between py-5 mt-10 px-40 text-gray-300">
-			<div class=" w-full max-w-[675px] font-bold text-lg">REVIEWS</div>
-			<div>SORT</div>
+		<div class="">
+			<div class="flex justify-between py-5 mt-10 px-40 text-gray-300 max-w-[675px] w-full">
+				<div class=" w-full max-w-[675px] font-bold text-lg">REVIEWS</div>
+				<div>SORT</div>
+			</div>
 		</div>
 
 		<div class="flex justify-center">
@@ -311,7 +313,7 @@
 						{#await getReview(reviewid)}
 							<Spinner color="red" />
 						{:then review}
-							<div class="flex justify-center">
+							<div class="flex justify-center py-2">
 								<div
 									class="w-full max-w-[675px] py-2 px-2 border border-red-900 rounded-md text-gray-300 bg-gray-700 bg-opacity-20"
 								>
