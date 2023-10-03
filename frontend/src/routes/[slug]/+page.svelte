@@ -59,9 +59,9 @@
 		}
 	}
 
-	async function getReview(recipeId) {
+	async function getReview(reviewId) {
 		try {
-			const response = await fetch(`${PUBLIC_ClUSER_REVIEWS}/api/review/${recipeId}`, {
+			const response = await fetch(`${PUBLIC_ClUSER_REVIEWS}/api/review/${reviewId}`, {
 				method: 'GET'
 			});
 			if (!response.ok) {
@@ -207,27 +207,36 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="text-gray-300">This is where reviews will go</div>
-
-		<div>
+		<div class="text-gray-300">
+			This is where you can post a review
 			<form action="post" />
-		</div>
-
-		{#each recipe.review_ids as reviewid}
-			<div>
-				{reviewid}
+			<div class="flex justify-between py-5 mt-20 px-40">
+				<div class="text-gray-300 w-full max-w-[675px] font-bold text-lg">REVIEWS</div>
+				<div>SORT</div>
 			</div>
-		{/each}
-
-		<!-- {#await getReview(recipe.id)}
-			<Spinner color="red" />
-		{:then reviews}
-			{#each reviewsData as review (review._id)}
-				<div>Title: {review.title}</div>
-				<div>Rating: {review.rating}</div>
-				<div>Review: {review.review}</div>
-			{/each}
-		{/await} -->
+		</div>
+		<div class="flex justify-center">
+			<div
+				class="border-2 border-black px-5 py-5 w-full max-w-[675px] rounded-md bg-gray-900 bg-opacity-90"
+			>
+				{#each recipe.review_ids as reviewid}
+					<div>
+						{#await getReview(reviewid)}
+							<Spinner color="red" />
+						{:then review}
+							<div class="flex justify-center">
+								<div
+									class="w-full max-w-[675px] py-2 px-2 border border-red-900 rounded-md text-gray-300 bg-gray-700 bg-opacity-20"
+								>
+									<div>Title: {review.title}</div>
+									<div>Rating: {review.rating} / 5</div>
+									<div>Review: {review.review}</div>
+								</div>
+							</div>
+						{/await}
+					</div>
+				{/each}
+			</div>
+		</div>
 	{/if}
 </div>
