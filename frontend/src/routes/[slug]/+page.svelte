@@ -7,7 +7,7 @@
 	import {
 		PUBLIC_CLUSTER_PASSWORD,
 		PUBLIC_CLUSTER_IMAGES,
-		PUBLIC_ClUSER_REVIEWS
+		PUBLIC_CLUSTER_REVIEWS
 	} from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
 	import { authStore } from '$lib/stores/authStore';
@@ -26,10 +26,11 @@
 	let cooking_time = '';
 	let currentUserID;
 	let showUpdateModal = false;
+	let review = {};
 
 	authStore.subscribe((curr) => {
 		currentUserID = curr?.currentUser?.uid;
-		console.log(currentUserID, 'this is my currentuserid');
+		// console.log(currentUserID, 'this is my currentuserid');
 	});
 
 	async function getRecipe() {
@@ -52,7 +53,7 @@
 			}
 			const dat = await response.blob();
 			image = dat;
-			console.log('data', dat);
+			// console.log('data', dat);
 			return image;
 		} catch (error) {
 			console.error('Failed to get profile image:', error);
@@ -61,7 +62,7 @@
 
 	async function getReview(reviewId) {
 		try {
-			const response = await fetch(`${PUBLIC_ClUSER_REVIEWS}/api/review/${reviewId}`, {
+			const response = await fetch(`${PUBLIC_CLUSTER_REVIEWS}/api/review/${reviewId}`, {
 				method: 'GET'
 			});
 			if (!response.ok) {
@@ -74,9 +75,53 @@
 		}
 	}
 
+	let recipe_id;
+
+	async function submitReview() {
+		review.author = currentUserID;
+		review.create_date = new Date();
+		review.recipe_id = recipe._id;
+		try {
+			let response = await fetch(`${PUBLIC_CLUSTER_REVIEWS}/api/review/`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+
+				body: JSON.stringify(review)
+			});
+			if (!response.ok) {
+				throw new Error('Failed to post review');
+			} else {
+				response = await response.json();
+				// console.log(response._id, 'this is my response');
+				recipe_id = response._id;
+				addRecipeReview();
+			}
+		} catch (error) {
+			console.error('Failed to post review:', error);
+		}
+	}
+
+	async function addRecipeReview() {
+		recipe.review_ids.push(recipe_id);
+		console.log(recipe, 'this is addrecipereview recipe ');
+		try {
+			fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipe._id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(recipe)
+			});
+		} catch (error) {
+			console.error('Failed to add review to recipe', error);
+		}
+	}
+
 	onMount(async () => {
 		recipe = await getRecipe();
-		console.log(recipe, 'this is my recipe');
+		// console.log(recipe, 'this is my recipe');
 		// title = recipe.title;
 		// description = recipe.description;
 		// due_date = recipe.due_date;
@@ -207,14 +252,56 @@
 				</div>
 			</div>
 		</div>
-		<div class="text-gray-300">
-			This is where you can post a review
-			<form action="post" />
-			<div class="flex justify-between py-5 mt-20 px-40">
-				<div class="text-gray-300 w-full max-w-[675px] font-bold text-lg">REVIEWS</div>
-				<div>SORT</div>
+		<div class="flex justify-center">
+			<div class="text-gray-300 w-full max-w-[675px]">
+				<p class="font-bold text-lg">Submit a review</p>
+
+				<form action="submit" on:submit={submitReview}>
+					<label for="title" class="block text-gray-300 mt-4">Title:</label>
+					<input
+						type="text"
+						id="title"
+						name="title"
+						class="w-full py-2 px-3 rounded-md border border-gray-400 focus:outline-none focus:border-indigo-500"
+						required
+						bind:value={review.title}
+					/>
+
+					<label for="rating" class="block text-gray-300 mt-4">Rating:</label>
+					<input
+						type="number"
+						id="rating"
+						name="rating"
+						class="w-full py-2 px-3 rounded-md border border-gray-400 focus:outline-none focus:border-indigo-500"
+						min="1"
+						max="5"
+						required
+						bind:value={review.rating}
+					/>
+
+					<label for="review" class="block text-gray-300 mt-4">Review:</label>
+					<textarea
+						id="review"
+						name="review"
+						class="w-full py-2 px-3 rounded-md border border-gray-400 focus:outline-none focus:border-indigo-500"
+						rows="4"
+						required
+						bind:value={review.review}
+					/>
+
+					<button
+						type="submit"
+						class="mt-4 bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none"
+						>Submit Review</button
+					>
+				</form>
 			</div>
 		</div>
+		<div class="flex justify-between py-5 mt-10 px-40 text-gray-300">
+			<div class=" w-full max-w-[675px] font-bold text-lg">REVIEWS</div>
+			<div>SORT</div>
+		</div>
+
 		<div class="flex justify-center">
 			<div
 				class="border-2 border-black px-5 py-5 w-full max-w-[675px] rounded-md bg-gray-900 bg-opacity-90"
