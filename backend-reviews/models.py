@@ -32,6 +32,7 @@ def validate_rating(cls, value):
 
 class Review(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    recipe_id: str
     title: str
     review: str
     rating: Optional[int]
@@ -46,6 +47,7 @@ class Review(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
+                "recipe_id":"123456",
                 "title": "Bolognese",
                 "review": "best food ever",
                 "rating": "5",
@@ -57,6 +59,7 @@ class Review(BaseModel):
 
 
 class UpdateReviewModel(BaseModel):
+    recipe_id: str
     category: Optional[str]
     title: Optional[str]
     review: str
@@ -70,6 +73,7 @@ class UpdateReviewModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
+                "recipe_id":"123456",
                 "title": "Bolognese",
                 "review": "best food ever",
                 "rating":"5",

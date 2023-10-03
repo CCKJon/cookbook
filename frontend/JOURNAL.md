@@ -32,4 +32,8 @@ FIXING NEEDED:
 
 - DELETE recipe function in private dashboard executes the function before clicking on the "Are you sure?" button
 - currently when searching, the results of the search only take you to the recipe if you click on the recipe name, shoud be updated to be able to click the whole box
--
+
+REVIEWS
+
+- reviews should appear on the recipe page itself along with a rating
+- reviews authored by a user should show up in their private dashboard

@@ -4,7 +4,11 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	export let data;
-	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
+	import {
+		PUBLIC_CLUSTER_PASSWORD,
+		PUBLIC_CLUSTER_IMAGES,
+		PUBLIC_ClUSER_REVIEWS
+	} from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
 	import { authStore } from '$lib/stores/authStore';
 	import Modal from '$lib/components/Modal.svelte';
@@ -16,6 +20,7 @@
 	let id = data.id;
 	let updatedTitle = '';
 	let image;
+	let reviews;
 	let serving_size = '';
 	let difficulty = '';
 	let cooking_time = '';
@@ -54,9 +59,24 @@
 		}
 	}
 
+	async function getReview(recipeId) {
+		try {
+			const response = await fetch(`${PUBLIC_ClUSER_REVIEWS}/api/review/${recipeId}`, {
+				method: 'GET'
+			});
+			if (!response.ok) {
+				throw new Error('Failed to fetch reviews');
+			}
+			const review = await response.json();
+			return review;
+		} catch (error) {
+			console.error('Failed to get review:', error);
+		}
+	}
+
 	onMount(async () => {
 		recipe = await getRecipe();
-		console.log(recipe);
+		console.log(recipe, 'this is my recipe');
 		// title = recipe.title;
 		// description = recipe.description;
 		// due_date = recipe.due_date;
@@ -187,5 +207,27 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="text-gray-300">This is where reviews will go</div>
+
+		<div>
+			<form action="post" />
+		</div>
+
+		{#each recipe.review_ids as reviewid}
+			<div>
+				{reviewid}
+			</div>
+		{/each}
+
+		<!-- {#await getReview(recipe.id)}
+			<Spinner color="red" />
+		{:then reviews}
+			{#each reviewsData as review (review._id)}
+				<div>Title: {review.title}</div>
+				<div>Rating: {review.rating}</div>
+				<div>Review: {review.review}</div>
+			{/each}
+		{/await} -->
 	{/if}
 </div>

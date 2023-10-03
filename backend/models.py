@@ -54,6 +54,7 @@ class Recipe(BaseModel):
     difficulty: Optional[str]
     author: str
     favorited_count: Optional[int]
+    review_ids: Optional[List[str]]
 
 
     class Config:
@@ -70,7 +71,8 @@ class Recipe(BaseModel):
                 "steps": [{"step_number":1, "description":"prep stuff"},{"step_number":2, "description":"cook stuff"},{"step_number":3, "description":"eat stuff"}],
                 "images":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
                 "author":"EZonoo2pWjhfhkgDaHsfUdZvwsJ2",
-                "favorited_count":"1337"
+                "favorited_count":"1337",
+                "review_ids":["42069","420"],
             }
         }
 
@@ -88,6 +90,7 @@ class UpdateRecipeModel(BaseModel):
     difficulty: Optional[str]
     author: str
     favorited_count: Optional[int]
+    review_ids: Optional[List[str]]
 
     class Config:
         arbitrary_types_allowed = True
@@ -101,6 +104,7 @@ class UpdateRecipeModel(BaseModel):
                 "ingredients": [{"name":"carrots","amount":"200g"},{"name":"celery", "amount":"200g"},{"name":"onions", "amount":"200g"}],
                 "steps": [{"step_number":1, "description":"prep stuff"},{"step_number":2, "description":"cook stuff"},{"step_number":3, "description":"eat stuff"}],
                 "images":[{"url":"https://shorturl.at/nDIR5","alt_text":"bolognese"},{"url":"https://shorturl.at/gzU37","alt_text":"mirepoix"}],
-                "favorited_count":"1337"
+                "favorited_count":"1337",
+                "review_ids":["42069","420"],
             }
         }
