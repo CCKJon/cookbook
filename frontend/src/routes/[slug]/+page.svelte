@@ -136,13 +136,17 @@
 			{recipe.title}
 		</h1>
 		{#if recipe.author == currentUserID}
-			<button
-				on:click={() => {
-					showUpdateModal = !showUpdateModal;
-				}}
-				class="text-gray-300"
-				type="button">UPDATE</button
-			>
+			<div class="py-2">
+				<div class="flex flex-row justify-center">
+					<button
+						on:click={() => {
+							showUpdateModal = !showUpdateModal;
+						}}
+						class="text-gray-300 flex flex-row justify-center w-full py-2 px-2 border-2 border-black rounded-md max-w-[100px] bg-blue-900 bg-opacity-90"
+						type="button">UPDATE</button
+					>
+				</div>
+			</div>
 			<Modal bind:showModal={showUpdateModal}>
 				<UpdateRecipe {recipe} />
 			</Modal>
@@ -308,23 +312,25 @@
 			<div
 				class="border-2 border-black px-5 py-5 w-full max-w-[675px] rounded-md bg-gray-900 bg-opacity-90"
 			>
-				{#each recipe.review_ids as reviewid}
-					<div>
-						{#await getReview(reviewid)}
-							<Spinner color="red" />
-						{:then review}
-							<div class="flex justify-center py-2">
-								<div
-									class="w-full max-w-[675px] py-2 px-2 border border-red-900 rounded-md text-gray-300 bg-gray-700 bg-opacity-20"
-								>
-									<div>Title: {review.title}</div>
-									<div>Rating: {review.rating} / 5</div>
-									<div>Review: {review.review}</div>
+				{#if recipe.review_ids}
+					{#each recipe.review_ids as reviewid}
+						<div>
+							{#await getReview(reviewid)}
+								<Spinner color="red" />
+							{:then review}
+								<div class="flex justify-center py-2">
+									<div
+										class="w-full max-w-[675px] py-2 px-2 border border-red-900 rounded-md text-gray-300 bg-gray-700 bg-opacity-20"
+									>
+										<div>Title: {review.title}</div>
+										<div>Rating: {review.rating} / 5</div>
+										<div>Review: {review.review}</div>
+									</div>
 								</div>
-							</div>
-						{/await}
-					</div>
-				{/each}
+							{/await}
+						</div>
+					{/each}
+				{/if}
 			</div>
 		</div>
 	{/if}

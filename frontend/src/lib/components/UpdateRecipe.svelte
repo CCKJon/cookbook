@@ -120,11 +120,9 @@
 	});
 </script>
 
-<div
-	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/recipe.jpg')] bg-no-repeat bg-cover overflow-auto"
->
+<div class="mx-auto w-11/12 py-7 px-7 h-full overflow-auto">
 	<form
-		class="mx-auto text-center grid place-items-center py-36 text-black font-serif text-xl"
+		class="mx-auto text-center grid place-items-center py-36 text-black font-serif text-xl bg-white/20 p-5 rounded-3xl"
 		on:submit={handleSubmit}
 	>
 		<div class="text-lg font-bold text-center font-serif text-gray-300 mb-2 mt-2">Title:</div>

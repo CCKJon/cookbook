@@ -80,38 +80,82 @@
 </script>
 
 <div
-	class="mx-auto w-11/12 h-full py-7 px-7 bg-[url('$lib/icons/dashboard.jpg')] bg-no-repeat bg-cover text-gray-300 flex flex-col gap-10 items-center justify-center"
+	class="mx-auto w-11/12 h-full px-7 bg-[url('$lib/icons/dashboard.jpg')] bg-no-repeat bg-cover text-gray-300 flex flex-col gap-10 items-center py-5"
 >
-	<div class="h-1">This is where my submitted recipes will go</div>
-
-	<a href="/favoriterecipes">This is where the link to a favorites page will go</a>
+	<div
+		class="mx-auto font-serif font-bold text-3xl border-2 border-black bg-gray-900 rounded-md py-3 px-5 bg-opacity-80 w-full max-w-[550px] flex flex-row justify-center"
+	>
+		Welcome to your dashboard!
+	</div>
 
 	{#if $authStore.currentUser}
-		<h1>Current User: {email}</h1>
+		<div class="flex flex-row justify-between w-full max-w-[675px] px-20">
+			<h1 class="border-2 border-black bg-gray-900 bg-opacity-90 py-2 px-2 rounded-md">
+				Current User: {email}
+			</h1>
+			<a
+				class="border-2 border-black bg-pink-700 bg-opacity-80 font-serif py-2 px-2 rounded-md"
+				href="/favoriterecipes"
+			>
+				<button type="button">Favorites</button>
+			</a>
+		</div>
+
 		<div>
 			{#await getUser()}
 				Loading...
 			{:then user}
 				<!-- {console.log(user, 'this is user')} -->
+
 				{#each user.authored_recipes as recipe}
-					<div>{recipe}</div>
 					{#await getRecipe(recipe)}
 						Loading...
 					{:then recipedata}
+						<div class="flex flex-row justify-between px-1 py-2">
+							<div class="text-sm font-bold font-serif">AUTHORED RECIPES</div>
+							<div class="font-serif text-sm font-bold">SORT</div>
+						</div>
 						{@const imageId = recipedata.images[0].photo_id}
 						<div
-							class="rounded-md bg-gray-800 w-1/2 mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-60"
+							class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
 						>
-							<div class="flex flex-row gap-3">
-								<div class="flex flex-row justify-between">
-									<a href={`/${recipedata._id}`}>Update</a>
-									<button
-										type="button"
-										on:click={() => {
-											showDelete = true;
-										}}
-										class="text-gray-200 text-xs">DELETE</button
+							<div class="flex flex-row w-full">
+								<div class="flex flex-col justify-between w-full">
+									<a
+										class="mt-1 text-gray-300 flex justify-between w-full min-w-[500px]"
+										href={`/${recipedata._id}`}
 									>
+										<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
+											{recipedata.title}
+										</div>
+										{#await getRecipeImage(imageId)}
+											loading ...
+										{:then imageUrl}
+											<img
+												class="w-auto max-h-[200px] object-cover py-3 rounded-md"
+												src={URL.createObjectURL(imageUrl)}
+												alt=""
+											/>
+										{/await}
+									</a>
+									<div class="flex flex-row justify-between">
+										<div>
+											<a
+												class="text-blue-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
+												href={`/${recipedata._id}`}>UPDATE</a
+											>
+										</div>
+										<div>
+											<button
+												type="button"
+												on:click={() => {
+													showDelete = true;
+												}}
+												class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
+												>DELETE</button
+											>
+										</div>
+									</div>
 									{#if showDelete}
 										<button
 											type="button"
@@ -121,30 +165,21 @@
 										>
 									{/if}
 								</div>
-								<a
-									class="mt-1 text-gray-300 flex justify-between w-full"
-									href={`/${recipedata._id}`}
-								>
-									<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
-										{recipedata.title}
-									</div>
-									{#await getRecipeImage(imageId)}
-										loading ...
-									{:then imageUrl}
-										<img
-											class="w-auto max-h-[200px] object-cover"
-											src={URL.createObjectURL(imageUrl)}
-											alt=""
-										/>
-									{/await}
-								</a>
 							</div>
 						</div>
 					{/await}
 				{/each}
 			{/await}
-			<AuthReset />
-			<button on:click={authHandlers.logout}>Logout</button>
+
+			<div class="flex flex-row py-10">
+				<AuthReset />
+			</div>
+			<div class="flex justify-center w-full max-w-[675px] py-5">
+				<button
+					class="border-2 border-black bg-red-900 py-2 px-4 rounded-md bg-opacity-90"
+					on:click={authHandlers.logout}>Logout</button
+				>
+			</div>
 		</div>
 	{:else}
 		<div>Loading....</div>

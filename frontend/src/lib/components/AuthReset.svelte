@@ -21,13 +21,15 @@
 	}
 </script>
 
-<div class="container">
-	<div>
+<div class="flex flex-row justify-between w-full max-w-[675px] px-5">
+	<div class="rounded-md border-2 bg-blue-900 bg-opacity-90 border-black py-2 px-2">
 		<button
 			on:click={() => {
 				action = 'updateEmail';
 			}}>Update Email</button
 		>
+	</div>
+	<div class="rounded-md border-2 bg-blue-900 bg-opacity-90 border-black py-2 px-2">
 		<button
 			on:click={() => {
 				action = 'updatePass';
@@ -61,21 +63,3 @@
 		</form>
 	{/if}
 </div>
-
-<style>
-	.container {
-		display: grid;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		flex: 1;
-	}
-	.container form {
-		display: flex;
-		flex-direction: column;
-	}
-	.container div {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-</style>
