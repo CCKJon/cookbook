@@ -38,3 +38,5 @@ REVIEWS
 
 - reviews should appear on the recipe page itself along with a rating
 - reviews authored by a user should show up in their private dashboard
+
+- [x] sfd
