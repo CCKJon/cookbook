@@ -15,6 +15,7 @@
 	on:click|self={() => dialog.close()}
 >
 	<div class="flex justify-end pt-10 pr-10">
+		<!-- svelte-ignore a11y-autofocus -->
 		<button
 			class="border border-black bg-blue-900 bg-opacity-90 py-1 px-1 rounded-md font-serif text-gray-300"
 			autofocus
