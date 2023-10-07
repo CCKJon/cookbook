@@ -22,7 +22,7 @@ Things to work on:
 - ~~by default, if there is no one logged in, then the UID used for the recipe creation is by default my own~~
 - Be able to view other peoples' profiles, their submitted recipes, maybe their favorites? Be able to set profiles to private - to note, this would require a new page that shows a list of users and a search function to find them
 - Need to do styling for private dashboard, update recipe, favorites page.
-- create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.
+- ~~create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.~~
 
 Possible features to add:
 
