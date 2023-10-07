@@ -4,7 +4,7 @@ List of ideas to add to the project:
 - unit of measurement conversion button
 - serving size data
 - nutritional facts
-- how long it takes to cook
+- ~~how long it takes to cook~~
 
 Things to work on:
 
