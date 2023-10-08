@@ -102,6 +102,10 @@
 		</div>
 
 		<div>
+			<div class="flex flex-row justify-between px-1 py-2">
+				<div class="text-sm font-bold font-serif">AUTHORED RECIPES</div>
+				<div class="font-serif text-sm font-bold">SORT</div>
+			</div>
 			{#await getUser()}
 				Loading...
 			{:then user}
@@ -111,10 +115,6 @@
 					{#await getRecipe(recipe)}
 						Loading...
 					{:then recipedata}
-						<div class="flex flex-row justify-between px-1 py-2">
-							<div class="text-sm font-bold font-serif">AUTHORED RECIPES</div>
-							<div class="font-serif text-sm font-bold">SORT</div>
-						</div>
 						{@const imageId = recipedata.images[0].photo_id}
 						<div
 							class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
