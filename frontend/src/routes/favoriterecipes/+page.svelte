@@ -27,20 +27,12 @@
 		authored_recipes = data.authored_recipes;
 		return data;
 	}
-	async function getRecipe(recipeid) {
+	async function getFavoritedRecipes(recipeid) {
 		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipeid}`);
 		const data = await response.json();
 		return data;
 	}
 
-	async function deleteRecipe(recipeid) {
-		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipeid}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-	}
 	async function deleteAuthoredRecipe(recipeid) {
 		console.log(authored_recipes, 'before');
 		authored_recipes = authored_recipes.filter((item) => item !== recipeid);
@@ -101,7 +93,7 @@
 				<!-- {console.log(user, 'this is user')} -->
 
 				{#each user.authored_recipes as recipe}
-					{#await getRecipe(recipe)}
+					{#await getFavoritedRecipes(recipe)}
 						Loading...
 					{:then recipedata}
 						{@const imageId = recipedata.images[0].photo_id}

@@ -29,6 +29,7 @@ Possible features to add:
 
 - private messaging
 - ratings on recipes
+- user menu drop down - https://flowbite-svelte.com/docs/components/navbar
 
 FIXING NEEDED:
 

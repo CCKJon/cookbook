@@ -85,7 +85,7 @@
 	<div
 		class="mx-auto font-serif font-bold text-3xl border-2 border-black bg-gray-900 rounded-md py-3 px-5 bg-opacity-80 w-full max-w-[550px] flex flex-row justify-center"
 	>
-		Welcome to your dashboard!
+		Welcome to your favroites page!
 	</div>
 
 	{#if $authStore.currentUser}
