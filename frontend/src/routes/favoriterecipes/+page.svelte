@@ -84,7 +84,7 @@
 
 		<div>
 			<div class="flex flex-row justify-between px-1 py-2">
-				<div class="text-sm font-bold font-serif">AUTHORED RECIPES</div>
+				<div class="text-sm font-bold font-serif">FAVORITE RECIPES</div>
 				<div class="font-serif text-sm font-bold">SORT</div>
 			</div>
 			{#await getUser()}
