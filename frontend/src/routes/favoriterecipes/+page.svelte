@@ -46,7 +46,7 @@
 				authored_recipes
 			})
 		});
-		await getUser().then((window.location.href = '/privatedashboard'));
+		await getUser().then((window.location.href = '/favoriterecipes'));
 	}
 
 	async function getRecipeImage(photo_id) {
