@@ -92,7 +92,7 @@
 			{:then user}
 				<!-- {console.log(user, 'this is user')} -->
 
-				{#each user.authored_recipes as recipe}
+				{#each user.favorited_recipes as recipe}
 					{#await getFavoritedRecipes(recipe)}
 						Loading...
 					{:then recipedata}
