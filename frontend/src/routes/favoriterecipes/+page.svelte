@@ -135,7 +135,7 @@
 										<button
 											type="button"
 											class="text-gray-300 text-xs"
-											on:click={deleteAuthoredRecipe(recipedata._id)}
+											on:click={deleteFavoritedRecipe(recipedata._id)}
 											on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</button
 										>
 									{/if}
