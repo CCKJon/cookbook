@@ -12,7 +12,7 @@
 	let email;
 	let image;
 	let userid;
-	let authored_recipes;
+	let favorited_recipes;
 	let showDelete = false;
 
 	authStore.subscribe((curr) => {
@@ -33,17 +33,17 @@
 		return data;
 	}
 
-	async function deleteAuthoredRecipe(recipeid) {
-		console.log(authored_recipes, 'before');
+	async function deleteFavoritedRecipe(recipeid) {
+		console.log(favorited_recipes, 'before');
 		authored_recipes = authored_recipes.filter((item) => item !== recipeid);
-		console.log(authored_recipes, 'after');
+		console.log(favorited_recipes, 'after');
 		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				authored_recipes
+				favorited_recipes
 			})
 		});
 		await getUser().then((window.location.href = '/favoriterecipes'));
