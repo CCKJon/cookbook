@@ -27,7 +27,7 @@ Things to work on:
 
 Possible features to add:
 
-- private messaging
+- private messaging - nah
 - ratings on recipes
 - user menu drop down - https://flowbite-svelte.com/docs/components/navbar
 
