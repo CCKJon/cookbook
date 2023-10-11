@@ -24,6 +24,7 @@ Things to work on:
 - Need to do styling for private dashboard, update recipe, favorites page.
 - ~~create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.~~
 - create a sorting function for comments
+- to create a favorites list, a button to add a recipe to a favorites list needs to be created.
 
 Possible features to add:
 
