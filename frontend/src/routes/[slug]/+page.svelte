@@ -119,9 +119,25 @@
 		}
 	}
 
+	async function addFavoriteRecipe() {
+		recipe.favorites.push(recipe_id);
+		console.log(recipe, 'this is favoriting a recipe id');
+		try {
+			fetch(`${PUBLIC_CLUSTER_USERS}/api/favorites/${recipe._id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(recipe)
+			});
+		} catch (error) {
+			console.error('Failed to add recipe to favorites list', error);
+		}
+	}
+
 	onMount(async () => {
 		recipe = await getRecipe();
-		// console.log(recipe, 'this is my recipe');
+		console.log(recipe, 'this is my favorites recipe');
 		// title = recipe.title;
 		// description = recipe.description;
 		// due_date = recipe.due_date;
@@ -135,6 +151,9 @@
 		<h1 class="mx-auto grid place-items-center text-3xl text-gray-300 capitalize font-serif my-3">
 			{recipe.title}
 		</h1>
+		{#if $authStore.currentUser}
+			<button class="">Favorite</button>
+		{/if}
 		{#if recipe.author == currentUserID}
 			<div class="py-2">
 				<div class="flex flex-row justify-center">
@@ -334,4 +353,4 @@
 			</div>
 		</div>
 	{/if}
-</div>
+</button>

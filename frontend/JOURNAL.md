@@ -25,6 +25,7 @@ Things to work on:
 - ~~create a reviews/comments posted for a recipe, allow comment sorting based off recency, stars, dates, etc.~~
 - create a sorting function for comments
 - to create a favorites list, a button to add a recipe to a favorites list needs to be created.
+- ask chatgpt how to hide the scrollbar
 
 Possible features to add:
 
