@@ -7,7 +7,8 @@
 	import {
 		PUBLIC_CLUSTER_PASSWORD,
 		PUBLIC_CLUSTER_IMAGES,
-		PUBLIC_CLUSTER_REVIEWS
+		PUBLIC_CLUSTER_REVIEWS,
+		PUBLIC_CLUSTER_USERS
 	} from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
 	import { authStore } from '$lib/stores/authStore';
@@ -15,6 +16,7 @@
 	import UpdateRecipe from '$lib/components/UpdateRecipe.svelte';
 
 	let recipe;
+	let favorite;
 	let title = '';
 	let description = '';
 	let id = data.id;
@@ -120,19 +122,23 @@
 	}
 
 	async function addFavoriteRecipe() {
-		recipe.favorites.push(recipe_id);
-		console.log(recipe, 'this is favoriting a recipe id');
-		try {
-			fetch(`${PUBLIC_CLUSTER_USERS}/api/favorites/${recipe._id}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(recipe)
-			});
-		} catch (error) {
-			console.error('Failed to add recipe to favorites list', error);
-		}
+		const res = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${currentUserID}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		const response_data = await res.json();
+		let newuserdata = response_data;
+		newuserdata.favorites.push(recipe._id);
+
+		await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${currentUserID}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newuserdata)
+		});
 	}
 
 	onMount(async () => {
@@ -151,9 +157,17 @@
 		<h1 class="mx-auto grid place-items-center text-3xl text-gray-300 capitalize font-serif my-3">
 			{recipe.title}
 		</h1>
+
 		{#if $authStore.currentUser}
-			<button class="">Favorite</button>
+			<div class="flex flex-row justify-center w-full">
+				<button
+					class="border-2 bg-pink-700 text-gray-300 rounded-md border-black py-2 px-2 hover:bg-pink-500"
+					type="button"
+					on:click={addFavoriteRecipe}>Add to Favorites</button
+				>
+			</div>
 		{/if}
+
 		{#if recipe.author == currentUserID}
 			<div class="py-2">
 				<div class="flex flex-row justify-center">
@@ -161,7 +175,7 @@
 						on:click={() => {
 							showUpdateModal = !showUpdateModal;
 						}}
-						class="text-gray-300 flex flex-row justify-center w-full py-2 px-2 border-2 border-black rounded-md max-w-[100px] bg-blue-900 bg-opacity-90"
+						class="text-gray-300 flex flex-row justify-center w-full py-2 px-2 border-2 border-black rounded-md max-w-[100px] bg-blue-900 hover:bg-blue-700 bg-opacity-90"
 						type="button">UPDATE</button
 					>
 				</div>
@@ -353,4 +367,4 @@
 			</div>
 		</div>
 	{/if}
-</button>
+</div>
