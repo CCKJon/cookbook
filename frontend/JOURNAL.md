@@ -28,7 +28,8 @@ Things to work on:
 - ask chatgpt how to hide the scrollbar
 - create function to remove items from favorites list
 - modify styling
-- 
+- add cards, use the reference image to style website.
+- WORK ON FUNCTIONALITY FIRST! THEN STYLING
 
 Possible features to add:
 
