@@ -26,6 +26,8 @@ Things to work on:
 - create a sorting function for comments
 - to create a favorites list, a button to add a recipe to a favorites list needs to be created.
 - ask chatgpt how to hide the scrollbar
+- create function to remove items from favorites list
+- 
 
 Possible features to add:
 
