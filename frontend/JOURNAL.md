@@ -27,6 +27,7 @@ Things to work on:
 - to create a favorites list, a button to add a recipe to a favorites list needs to be created.
 - ask chatgpt how to hide the scrollbar
 - create function to remove items from favorites list
+- modify styling
 - 
 
 Possible features to add:
