@@ -49,3 +49,4 @@ REVIEWS
 
 - [x] AI recipe generator
 - [ ] Work on integrating the AI recipe to the cookbook app
+- [ ] possibly add functionality to AI cookbook to format recipes it provides to be added to the app
