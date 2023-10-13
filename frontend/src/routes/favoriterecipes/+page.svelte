@@ -28,7 +28,7 @@
 		return data;
 	}
 	async function getFavoritedRecipes(recipeid) {
-		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipeid}`);
+		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/recipe/${recipeid}`);
 		const data = await response.json();
 		return data;
 	}
