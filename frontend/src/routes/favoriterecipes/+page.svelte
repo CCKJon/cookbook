@@ -28,7 +28,7 @@
 		return data;
 	}
 	async function getFavoritedRecipes(recipeid) {
-		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/recipe/${recipeid}`);
+		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${recipeid}`);
 		const data = await response.json();
 		return data;
 	}
@@ -136,7 +136,7 @@
 											type="button"
 											class="text-gray-300 text-xs"
 											on:click={deleteFavoritedRecipe(recipedata._id)}
-											on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</button
+											on:click={deleteFavoritedRecipe(recipedata._id)}>ARE YOU SURE?</button
 										>
 									{/if}
 								</div>
