@@ -74,7 +74,7 @@
 <div
 	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/kitchen.jpg')] overflow-hidden bg-no-repeat bg-cover text-gray-300"
 >
-	This is my favorite recipes page
+	Favorites Page
 	{#if $authStore.currentUser}
 		<div class="flex flex-row justify-between w-full max-w-[675px] px-20">
 			<h1 class="border-2 border-black bg-gray-900 bg-opacity-90 py-2 px-2 rounded-md">
