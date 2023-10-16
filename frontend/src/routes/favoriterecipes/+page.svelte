@@ -86,6 +86,16 @@
 			<div class="flex flex-row justify-between px-1 py-2">
 				<div class="text-sm font-bold font-serif">FAVORITE RECIPES</div>
 				<div class="font-serif text-sm font-bold">SORT</div>
+				<Dropdown class="bg-gray-800 rounded-md text-gray-300">
+					<DropdownItem
+						><button class="text-gray-300 text-xs" on:click={defaultSort}>DEFAULT</button
+						></DropdownItem
+					>
+					<DropdownItem
+						><button class="text-gray-300 text-xs" on:click={alphabetsort}>ALPHABETICAL</button
+						></DropdownItem
+					>
+				</Dropdown>
 			</div>
 			{#await getUser()}
 				Loading...
