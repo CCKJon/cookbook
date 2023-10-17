@@ -24,11 +24,11 @@
 	async function getUser() {
 		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
 		const data = await response.json();
-		authored_recipes = data.authored_recipes;
+		favorited_recipes = data.favorites;
 		return data;
 	}
 	async function getFavoritedRecipes(recipeid) {
-		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
+		const response = await fetch(`${PUBLIC_CLUSTER_PASSWORD}/api/recipe/${recipeid}`);
 		const data = await response.json();
 		return data;
 	}
@@ -99,10 +99,8 @@
 			</div>
 			{#await getUser()}
 				Loading...
-			{:then user}
-				<!-- {console.log(user, 'this is user')} -->
-				{console.log(user.favorited_recipes)}
-				{#each user.favorited_recipes as recipe}
+			{:then}
+				{#each favorited_recipes as recipe}
 					{#await getFavoritedRecipes(recipe)}
 						Loading...
 					{:then recipedata}

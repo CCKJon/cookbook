@@ -71,7 +71,7 @@
 			}
 			const data = await response.blob();
 			image = data;
-			console.log('data', data);
+			// console.log('data', data);
 			return image;
 		} catch (error) {
 			console.error('Failed to get profile image:', error);
