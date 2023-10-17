@@ -101,7 +101,7 @@
 				Loading...
 			{:then user}
 				<!-- {console.log(user, 'this is user')} -->
-
+				{console.log(user.favorited_recipes)}
 				{#each user.favorited_recipes as recipe}
 					{#await getFavoritedRecipes(recipe)}
 						Loading...
