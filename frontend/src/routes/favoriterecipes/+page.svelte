@@ -38,18 +38,13 @@
 
 		let user = await getUser();
 		user.favorites = favorites;
-		console.log('before', user);
 		await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({
-				user
-			})
-		});
-		console.log('after', user);
-		// .then((window.location.href = '/favoriterecipes'));
+			body: JSON.stringify(user)
+		}).then((window.location.href = '/favoriterecipes'));
 	}
 
 	async function getRecipeImage(photo_id) {
@@ -130,25 +125,23 @@
 											/>
 										{/await}
 									</a>
-									<div class="flex flex-row justify-start">
-										<div>
-											<button
-												type="button"
-												on:click={() => {
-													showDelete = true;
-												}}
-												class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
-												>DELETE</button
-											>
-										</div>
-									</div>
-									{#if showDelete}
+									<div class="flex flex-row justify-between">
 										<button
 											type="button"
-											class="text-gray-300 text-xs"
-											on:click={deleteFavoritedRecipe(recipedata._id)}>ARE YOU SURE?</button
+											on:click={() => {
+												showDelete = true;
+											}}
+											class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
+											>DELETE</button
 										>
-									{/if}
+										{#if showDelete}
+											<button
+												type="button"
+												class="text-gray-300 text-xs border-2 border-black"
+												on:click={() => deleteFavoritedRecipe(recipedata._id)}>ARE YOU SURE?</button
+											>
+										{/if}
+									</div>
 								</div>
 							</div>
 						</div>
