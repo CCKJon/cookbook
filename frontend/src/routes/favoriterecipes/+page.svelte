@@ -34,19 +34,22 @@
 	}
 
 	async function deleteFavoritedRecipe(recipeid) {
-		console.log(favorited_recipes, 'before');
-		authored_recipes = authored_recipes.filter((item) => item !== recipeid);
-		console.log(favorited_recipes, 'after');
-		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`, {
+		let favorites = favorited_recipes.filter((item) => item !== recipeid);
+
+		let user = await getUser();
+		user.favorites = favorites;
+		console.log('before', user);
+		await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				favorited_recipes
+				user
 			})
 		});
-		await getUser().then((window.location.href = '/favoriterecipes'));
+		console.log('after', user);
+		// .then((window.location.href = '/favoriterecipes'));
 	}
 
 	async function getRecipeImage(photo_id) {
@@ -99,8 +102,8 @@
 			</div>
 			{#await getUser()}
 				Loading...
-			{:then}
-				{#each favorited_recipes as recipe}
+			{:then user}
+				{#each user.favorites as recipe}
 					{#await getFavoritedRecipes(recipe)}
 						Loading...
 					{:then recipedata}
@@ -143,7 +146,6 @@
 										<button
 											type="button"
 											class="text-gray-300 text-xs"
-											on:click={deleteFavoritedRecipe(recipedata._id)}
 											on:click={deleteFavoritedRecipe(recipedata._id)}>ARE YOU SURE?</button
 										>
 									{/if}
