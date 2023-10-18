@@ -8,6 +8,7 @@
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 	import { Card, Button, Toggle } from 'flowbite-svelte';
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { DarkMode } from 'flowbite-svelte';
 
 	// import { goto } from '$app/navigation';
 	// import Fuse from 'fuse.js';
@@ -142,53 +143,29 @@
 				>
 			</Dropdown>
 		</div>
-		{#each Recipes as recipe}
-			{@const imageId = recipe.images[0].photo_id}
-			<div
-				class="rounded-md bg-gray-800 w-1/2 mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-60"
-			>
-				<div class="flex flex-row gap-3">
-					<a class="mt-1 text-gray-300 flex justify-between w-full" href={`/${recipe._id}`}>
-						<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
-							{recipe.title}
-						</div>
-						{#await getRecipeImage(imageId)}
-							<Spinner color="red" />
-						{:then imageUrl}
-							<img
-								class="w-auto max-h-[200px] object-cover"
-								src={URL.createObjectURL(imageUrl)}
-								alt=""
-							/>
-						{/await}
-					</a>
-				</div>
-			</div>
-			<div>
+		<div class="flex flex-wrap gap-10">
+			{#each Recipes as recipe}
+				{@const imageId = recipe.images[0].photo_id}
 				{#await getRecipeImage(imageId)}
 					<Spinner color="red" />
 				{:then imageUrl}
-					<img
-						class="w-auto max-h-[200px] object-cover"
-						src={URL.createObjectURL(imageUrl)}
-						alt=""
-					/>
-
-					<Card img="" class="mb-4">
-						<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-							{recipe.title}
-						</h5>
-						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 leading-tight">
-							{recipe.description}
-						</p>
-						<a href={`/${recipe._id}`}>
-							<Button type="button">
-								Read more <ArrowRightOutline class="w-3.5 h-3.5 ml-2 text-white" />
-							</Button>
-						</a>
-					</Card>
+					<div class="dark">
+						<Card img={URL.createObjectURL(imageUrl)} class="mb-4">
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+								{recipe.title}
+							</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 leading-tight">
+								{recipe.description}
+							</p>
+							<a href={`/${recipe._id}`}>
+								<Button type="button">
+									Read more <ArrowRightOutline class="w-3.5 h-3.5 ml-2 text-white" />
+								</Button>
+							</a>
+						</Card>
+					</div>
 				{/await}
-			</div>
-		{/each}
+			{/each}
+		</div>
 	</div>
 </div>

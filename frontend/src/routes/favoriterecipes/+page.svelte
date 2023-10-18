@@ -8,12 +8,14 @@
 		PUBLIC_CLUSTER_USERS
 	} from '$env/static/public';
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
+	import Notification from '$lib/components/Notification.svelte';
 
 	let email;
 	let image;
 	let userid;
 	let favorited_recipes;
 	let showDelete = false;
+	let isNotificationVisible = false;
 
 	authStore.subscribe((curr) => {
 		email = curr?.currentUser?.email;
@@ -45,6 +47,12 @@
 			},
 			body: JSON.stringify(user)
 		}).then((window.location.href = '/favoriterecipes'));
+		isNotificationVisible = true;
+
+		// Automatically hide the notification after a few seconds
+		setTimeout(() => {
+			isNotificationVisible = false;
+		}, 3000); // Adjust the duration (in milliseconds) as needed
 	}
 
 	async function getRecipeImage(photo_id) {
@@ -68,6 +76,10 @@
 		}
 	}
 </script>
+
+{#if isNotificationVisible}
+	<Notification message="Favorite deleted!" />
+{/if}
 
 <div
 	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/kitchen.jpg')] overflow-hidden bg-no-repeat bg-cover text-gray-300"

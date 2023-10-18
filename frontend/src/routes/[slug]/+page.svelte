@@ -14,6 +14,7 @@
 	import { authStore } from '$lib/stores/authStore';
 	import Modal from '$lib/components/Modal.svelte';
 	import UpdateRecipe from '$lib/components/UpdateRecipe.svelte';
+	import Notification from '$lib/components/Notification.svelte';
 
 	let recipe;
 	let favorite;
@@ -29,6 +30,7 @@
 	let currentUserID;
 	let showUpdateModal = false;
 	let review = {};
+	let isNotificationVisible = false;
 
 	authStore.subscribe((curr) => {
 		currentUserID = curr?.currentUser?.uid;
@@ -139,6 +141,12 @@
 			},
 			body: JSON.stringify(newuserdata)
 		});
+		isNotificationVisible = true;
+
+		// Automatically hide the notification after a few seconds
+		setTimeout(() => {
+			isNotificationVisible = false;
+		}, 3000); // Adjust the duration (in milliseconds) as needed
 	}
 
 	onMount(async () => {
@@ -153,6 +161,9 @@
 <div
 	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/recipe.jpg')] bg-no-repeat bg-cover overflow-auto font-serif"
 >
+	{#if isNotificationVisible}
+		<Notification message="Favorite added!" />
+	{/if}
 	{#if recipe}
 		<h1 class="mx-auto grid place-items-center text-3xl text-gray-300 capitalize font-serif my-3">
 			{recipe.title}
