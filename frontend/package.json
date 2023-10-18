@@ -39,6 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"firebase": "^10.4.0",
+		"flowbite-svelte-icons": "^0.4.4",
 		"fuse.js": "^6.6.2",
 		"svelte-uploader": "^0.0.0"
 	}
