@@ -6,7 +6,7 @@ async function getRecipes() {
 	return data;
 }
 
-let recipes = getRecipes();
+let recipes = await getRecipes();
 
 export function load() {
 	return {

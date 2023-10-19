@@ -10,12 +10,15 @@
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 	import Notification from '$lib/components/Notification.svelte';
 
+	export let data;
+
 	let email;
 	let image;
 	let userid;
 	let favorited_recipes;
 	let showDelete = false;
 	let isNotificationVisible = false;
+	let Recipes = [];
 
 	authStore.subscribe((curr) => {
 		email = curr?.currentUser?.email;
@@ -27,6 +30,7 @@
 		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
 		const data = await response.json();
 		favorited_recipes = data.favorites;
+		Recipes = await Promise.all(favorited_recipes.map((recipeId) => getFavoritedRecipes(recipeId)));
 		return data;
 	}
 	async function getFavoritedRecipes(recipeid) {
@@ -55,7 +59,8 @@
 		}, 3000); // Adjust the duration (in milliseconds) as needed
 	}
 
-	function alphabetsort() {
+	async function alphabetsort() {
+		console.log(Recipes);
 		let sortedRecipes = [...Recipes];
 		sortedRecipes.sort((a, b) => {
 			const titleA = a.title.toUpperCase();
