@@ -60,7 +60,7 @@
 	}
 
 	async function alphabetsort() {
-		console.log(Recipes);
+		console.log('before sorting', Recipes);
 		let sortedRecipes = [...Recipes];
 		sortedRecipes.sort((a, b) => {
 			const titleA = a.title.toUpperCase();
@@ -75,10 +75,12 @@
 			}
 		});
 		Recipes = sortedRecipes;
+		console.log('after sorting', Recipes);
 	}
 
 	function defaultSort() {
 		Recipes = defaultRecipes;
+		console.log(Recipes);
 	}
 
 	let defaultRecipes = [];
@@ -126,11 +128,13 @@
 				<div class="font-serif text-sm font-bold">SORT</div>
 				<Dropdown class="bg-gray-800 rounded-md text-gray-300">
 					<DropdownItem
-						><button class="text-gray-300 text-xs" on:click={defaultSort}>DEFAULT</button
+						><button type="button" class="text-gray-300 text-xs" on:click={defaultSort}
+							>DEFAULT</button
 						></DropdownItem
 					>
 					<DropdownItem
-						><button class="text-gray-300 text-xs" on:click={alphabetsort}>ALPHABETICAL</button
+						><button type="button" class="text-gray-300 text-xs" on:click={alphabetsort}
+							>ALPHABETICAL</button
 						></DropdownItem
 					>
 				</Dropdown>
