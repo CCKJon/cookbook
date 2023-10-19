@@ -57,6 +57,29 @@
 		await getUser().then((window.location.href = '/privatedashboard'));
 	}
 
+	function alphabetsort() {
+		let sortedRecipes = [...Recipes];
+		sortedRecipes.sort((a, b) => {
+			const titleA = a.title.toUpperCase();
+			const titleB = b.title.toUpperCase();
+
+			if (titleA < titleB) {
+				return -1;
+			} else if (titleA > titleB) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+		Recipes = sortedRecipes;
+	}
+
+	function defaultSort() {
+		Recipes = defaultRecipes;
+	}
+
+	let defaultRecipes = [];
+
 	async function getRecipeImage(photo_id) {
 		try {
 			const response = await fetch(`${PUBLIC_CLUSTER_IMAGES}/files/${photo_id}`, {
