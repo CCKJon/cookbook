@@ -9,12 +9,15 @@
 	} from '$env/static/public';
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 	import { list } from 'postcss';
+	import { onMount } from 'svelte';
 
 	let email;
 	let image;
 	let userid;
 	let authored_recipes;
 	let showDelete = false;
+	let Recipes = [];
+	let defaultRecipes = [];
 
 	authStore.subscribe((curr) => {
 		email = curr?.currentUser?.email;
@@ -26,6 +29,8 @@
 		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
 		const data = await response.json();
 		authored_recipes = data.authored_recipes;
+		defaultRecipes = await Promise.all(authored_recipes.map((recipeId) => getRecipe(recipeId)));
+		Recipes = [...defaultRecipes]; // Initialize Recipes with a copy of defaultRecipes
 		return data;
 	}
 	async function getRecipe(recipeid) {
@@ -59,6 +64,7 @@
 	}
 
 	function alphabetsort() {
+		console.log('this is before', Recipes);
 		let sortedRecipes = [...Recipes];
 		sortedRecipes.sort((a, b) => {
 			const titleA = a.title.toUpperCase();
@@ -73,14 +79,12 @@
 			}
 		});
 		Recipes = sortedRecipes;
+		console.log('this is after', Recipes);
 	}
 
 	function defaultSort() {
-		console.log(authored_recipes);
-		Recipes = defaultRecipes;
+		Recipes = [...defaultRecipes];
 	}
-
-	let defaultRecipes = [];
 
 	async function getRecipeImage(photo_id) {
 		try {
@@ -102,6 +106,9 @@
 			console.error('Failed to get profile image:', error);
 		}
 	}
+	onMount(async () => {
+		getUser();
+	});
 </script>
 
 <div
@@ -141,70 +148,69 @@
 					>
 				</Dropdown>
 			</div>
-			{#await getUser()}
+			<!-- {#await getUser()}
 				Loading...
-			{:then user}
-				<!-- {console.log(user, 'this is user')} -->
+			{:then user} -->
 
-				{#each user.authored_recipes as recipe}
-					{#await getRecipe(recipe)}
-						Loading...
-					{:then recipedata}
-						{@const imageId = recipedata.images[0].photo_id}
-						<div
-							class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
-						>
-							<div class="flex flex-row w-full">
-								<div class="flex flex-col justify-between w-full">
-									<a
-										class="mt-1 text-gray-300 flex justify-between w-full min-w-[500px]"
-										href={`/${recipedata._id}`}
-									>
-										<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
-											{recipedata.title}
-										</div>
-										{#await getRecipeImage(imageId)}
-											loading ...
-										{:then imageUrl}
-											<img
-												class="w-auto max-h-[200px] object-cover py-3 rounded-md"
-												src={URL.createObjectURL(imageUrl)}
-												alt=""
-											/>
-										{/await}
-									</a>
-									<div class="flex flex-row justify-between">
-										<div>
-											<a
-												class="text-blue-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
-												href={`/${recipedata._id}`}>UPDATE</a
-											>
-										</div>
-										<div>
-											<button
-												type="button"
-												on:click={() => {
-													showDelete = true;
-												}}
-												class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
-												>DELETE</button
-											>
-										</div>
+			{#each Recipes as recipe}
+				{#await getRecipe(recipe._id)}
+					Loading...
+				{:then recipedata}
+					{@const imageId = recipedata.images[0].photo_id}
+					<div
+						class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
+					>
+						<div class="flex flex-row w-full">
+							<div class="flex flex-col justify-between w-full">
+								<a
+									class="mt-1 text-gray-300 flex justify-between w-full min-w-[500px]"
+									href={`/${recipedata._id}`}
+								>
+									<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
+										{recipedata.title}
 									</div>
-									{#if showDelete}
+									{#await getRecipeImage(imageId)}
+										loading ...
+									{:then imageUrl}
+										<img
+											class="w-auto max-h-[200px] object-cover py-3 rounded-md"
+											src={URL.createObjectURL(imageUrl)}
+											alt=""
+										/>
+									{/await}
+								</a>
+								<div class="flex flex-row justify-between">
+									<div>
+										<a
+											class="text-blue-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
+											href={`/${recipedata._id}`}>UPDATE</a
+										>
+									</div>
+									<div>
 										<button
 											type="button"
-											class="text-gray-300 text-xs"
-											on:click={deleteAuthoredRecipe(recipedata._id)}
-											on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</button
+											on:click={() => {
+												showDelete = true;
+											}}
+											class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
+											>DELETE</button
 										>
-									{/if}
+									</div>
 								</div>
+								{#if showDelete}
+									<button
+										type="button"
+										class="text-gray-300 text-xs"
+										on:click={deleteAuthoredRecipe(recipedata._id)}
+										on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</button
+									>
+								{/if}
 							</div>
 						</div>
-					{/await}
-				{/each}
-			{/await}
+					</div>
+				{/await}
+			{/each}
+			<!-- {/await} -->
 
 			<div class="flex flex-row py-10">
 				<AuthReset />
