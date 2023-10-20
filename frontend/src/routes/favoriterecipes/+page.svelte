@@ -9,6 +9,7 @@
 	} from '$env/static/public';
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 	import Notification from '$lib/components/Notification.svelte';
+	import { onMount } from 'svelte';
 
 	export let data;
 
@@ -80,7 +81,6 @@
 
 	function defaultSort() {
 		Recipes = defaultRecipes;
-		console.log(Recipes);
 	}
 
 	let defaultRecipes = [];
@@ -105,6 +105,9 @@
 			console.error('Failed to get profile image:', error);
 		}
 	}
+	onMount(async () => {
+		getUser();
+	});
 </script>
 
 {#if isNotificationVisible}
@@ -139,11 +142,13 @@
 					>
 				</Dropdown>
 			</div>
-			{#await getUser()}
+			<!-- {#await getUser()}
 				Loading...
-			{:then user}
-				{#each user.favorites as recipe}
-					{#await getFavoritedRecipes(recipe)}
+			{:then user} -->
+			{#if Recipes}
+				{#each Recipes as recipe}
+					<!-- {console.log('this is recipe', recipe)} -->
+					{#await getFavoritedRecipes(recipe._id)}
 						Loading...
 					{:then recipedata}
 						{@const imageId = recipedata.images[0].photo_id}
@@ -191,7 +196,8 @@
 						</div>
 					{/await}
 				{/each}
-			{/await}
+			{/if}
+			<!-- {/await} -->
 
 			<div class="flex justify-center w-full max-w-[675px] py-5">
 				<button
