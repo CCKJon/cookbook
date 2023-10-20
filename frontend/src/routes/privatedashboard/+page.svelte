@@ -10,6 +10,8 @@
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
 	import { list } from 'postcss';
 	import { onMount } from 'svelte';
+	import { Card, Button, Toggle } from 'flowbite-svelte';
+	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 
 	let email;
 	let image;
@@ -18,6 +20,7 @@
 	let showDelete = false;
 	let Recipes = [];
 	let defaultRecipes = [];
+	let hCard = false;
 
 	authStore.subscribe((curr) => {
 		email = curr?.currentUser?.email;
@@ -148,16 +151,54 @@
 					>
 				</Dropdown>
 			</div>
-			<!-- {#await getUser()}
-				Loading...
-			{:then user} -->
-
-			{#each Recipes as recipe}
-				{#await getRecipe(recipe._id)}
-					Loading...
-				{:then recipedata}
-					{@const imageId = recipedata.images[0].photo_id}
-					<div
+			<div class="w-full flex flex-wrap gap-10">
+				{#each Recipes as recipe}
+					{#await getRecipe(recipe._id)}
+						Loading...
+					{:then recipedata}
+						{@const imageId = recipedata.images[0].photo_id}
+						{#await getRecipeImage(imageId)}
+							loading ...
+						{:then imageUrl}
+							<div class="dark">
+								<Card img={URL.createObjectURL(imageUrl)} class="mb-4">
+									<a href={`/${recipe._id}`}>
+										<h5
+											class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+										>
+											{recipedata.title}
+										</h5>
+									</a>
+									<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 leading-tight">
+										{recipedata.description}
+									</p>
+									<div class="flex flex-row justify-between">
+										<a href={`/${recipe._id}`}>
+											<Button type="button">
+												Update <ArrowRightOutline class="w-3.5 h-3.5 ml-2 text-white" />
+											</Button>
+										</a>
+										<Button
+											on:click={() => {
+												showDelete = true;
+											}}
+										>
+											Delete
+										</Button>
+									</div>
+									{#if showDelete}
+										<div class="flex flex-row justify-end py-2">
+											<Button
+												type="button"
+												on:click={deleteAuthoredRecipe(recipedata._id)}
+												on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</Button
+											>
+										</div>
+									{/if}
+								</Card>
+							</div>
+						{/await}
+						<!-- <div
 						class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
 					>
 						<div class="flex flex-row w-full">
@@ -197,6 +238,7 @@
 										>
 									</div>
 								</div>
+
 								{#if showDelete}
 									<button
 										type="button"
@@ -207,10 +249,10 @@
 								{/if}
 							</div>
 						</div>
-					</div>
-				{/await}
-			{/each}
-			<!-- {/await} -->
+					</div> -->
+					{/await}
+				{/each}
+			</div>
 
 			<div class="flex flex-row py-10">
 				<AuthReset />

@@ -144,12 +144,8 @@
 					>
 				</Dropdown>
 			</div>
-			<!-- {#await getUser()}
-				Loading...
-			{:then user} -->
 			{#if Recipes}
 				{#each Recipes as recipe}
-					<!-- {console.log('this is recipe', recipe)} -->
 					{#await getFavoritedRecipes(recipe._id)}
 						Loading...
 					{:then recipedata}
@@ -199,7 +195,6 @@
 					{/await}
 				{/each}
 			{/if}
-			<!-- {/await} -->
 
 			<div class="flex justify-center w-full max-w-[675px] py-5">
 				<button

@@ -9,67 +9,11 @@
 	import { Card, Button, Toggle } from 'flowbite-svelte';
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { DarkMode } from 'flowbite-svelte';
-
-	// import { goto } from '$app/navigation';
-	// import Fuse from 'fuse.js';
-	// @ts-ignore
 	export let data;
 	let image;
 	let Recipes = data.items;
 	let vCard = false;
-	// let showSearchbar = false;
-	// let dueRecipes: any[] = [];
-	// let searchPattern: any;
-	// let fuse: string | Fuse<unknown>;
-	// let searchresults: any[] = [];
-	// let searchableRecipes: never[] = [];
-	// const searchOptions = {
-	// 	includeScore: true,
-	// 	threshold: 0.5,
-	// 	keys: ['title', 'description']
-	// };
 
-	// function search(Recipes: any[] | readonly unknown[]) {
-	// 	fuse = new Fuse(Recipes, searchOptions);
-	// }
-
-	// $: searchPattern && searchRecipes();
-
-	// const searchRecipes = () => {
-	// 	search(searchableRecipes);
-	// 	if (fuse) {
-	// 		if (searchPattern) {
-	// 			const searchResult = fuse.search(searchPattern);
-	// 			const filteredRecipes = searchResult.map((obj: { item: any }) => obj.item);
-	// 			searchresults = filteredRecipes;
-	// 		} else {
-	// 			searchresults = [];
-	// 		}
-	// 	}
-	// };
-
-	// function alphabetsort() {
-	// 	let sortedRecipes = [...Recipes];
-	// 	sortedRecipes.sort((a, b) => {
-	// 		const titleA = a.title.toUpperCase();
-	// 		const titleB = b.title.toUpperCase();
-
-	// 		if (titleA < titleB) {
-	// 			return -1;
-	// 		} else if (titleA > titleB) {
-	// 			return 1;
-	// 		} else {
-	// 			return 0;
-	// 		}
-	// 	});
-	// 	Recipes = sortedRecipes;
-	// }
-	// function defaultSort() {
-	// 	Recipes = defaultRecipes;
-	// }
-
-	// let defaultRecipes = [];
-	// @ts-ignore
 	async function getRecipeImage(photo_id) {
 		try {
 			const response = await fetch(`${PUBLIC_CLUSTER_IMAGES}/files/${photo_id}`, {
