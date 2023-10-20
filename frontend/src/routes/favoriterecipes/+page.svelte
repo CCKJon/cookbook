@@ -20,6 +20,7 @@
 	let showDelete = false;
 	let isNotificationVisible = false;
 	let Recipes = [];
+	let defaultRecipes = [];
 
 	authStore.subscribe((curr) => {
 		email = curr?.currentUser?.email;
@@ -31,7 +32,10 @@
 		const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${userid}`);
 		const data = await response.json();
 		favorited_recipes = data.favorites;
-		Recipes = await Promise.all(favorited_recipes.map((recipeId) => getFavoritedRecipes(recipeId)));
+		defaultRecipes = await Promise.all(
+			favorited_recipes.map((recipeId) => getFavoritedRecipes(recipeId))
+		);
+		Recipes = [...defaultRecipes]; // Initialize Recipes with a copy of defaultRecipes
 		return data;
 	}
 	async function getFavoritedRecipes(recipeid) {
@@ -80,10 +84,8 @@
 	}
 
 	function defaultSort() {
-		Recipes = defaultRecipes;
+		Recipes = [...defaultRecipes];
 	}
-
-	let defaultRecipes = [];
 
 	async function getRecipeImage(photo_id) {
 		try {
