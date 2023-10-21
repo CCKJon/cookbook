@@ -2,7 +2,11 @@
 	import logo from '$lib/icons/logo.png';
 	import SearchComponent from './SearchComponent.svelte';
 	import { isLoggedIn } from '$lib/stores/authStore';
+	import LoginModal from './LoginModal.svelte';
+
+	import Modal from './Modal.svelte';
 	let displaySearch = false;
+	let modal = false;
 
 	function displaySearchComponent() {
 		displaySearch = !displaySearch;
@@ -23,7 +27,11 @@
 		{#if $isLoggedIn}
 			<a class="text-gray-300 font-serif" href="/privatedashboard">Account</a>
 		{:else}
-			<a class="text-gray-300 font-serif" href="/login">Login</a>
+			<button on:click={() => (modal = !modal)} class="text-gray-300 font-serif">Login</button>
+			<!-- <a class="text-gray-300 font-serif" href="/login">Login</a> -->
+		{/if}
+		{#if modal}
+			<LoginModal />
 		{/if}
 		<a class="text-gray-300 font-serif" href="/recipe-list">Recipes</a>
 		<a class="text-gray-300 font-serif" href="/new-recipe">Submit</a>
