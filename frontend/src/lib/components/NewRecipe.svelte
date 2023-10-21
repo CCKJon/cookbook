@@ -7,7 +7,7 @@
 		PUBLIC_CLUSTER_USERS
 	} from '$env/static/public';
 	import { onMount } from 'svelte';
-	import Modal from './Modal.svelte';
+	import Modal from './Modals.svelte';
 	import { authStore } from '$lib/stores/authStore';
 
 	let title;

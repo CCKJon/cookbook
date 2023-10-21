@@ -3,7 +3,7 @@
 	let formModal = false;
 </script>
 
-<Button on:click={() => (formModal = true)}>Form modal</Button>
+<Button on:click={() => (formModal = true)}>Login</Button>
 
 <Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
 	<form class="flex flex-col space-y-6" action="#">

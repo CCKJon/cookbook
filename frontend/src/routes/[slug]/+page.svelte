@@ -12,7 +12,7 @@
 	} from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
 	import { authStore } from '$lib/stores/authStore';
-	import Modal from '$lib/components/Modal.svelte';
+	import Modal from '$lib/components/Modals.svelte';
 	import UpdateRecipe from '$lib/components/UpdateRecipe.svelte';
 	import Notification from '$lib/components/Notification.svelte';
 
