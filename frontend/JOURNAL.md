@@ -9,6 +9,7 @@ List of ideas to add to the project:
 Things to work on:
 
 - work on implementing cards - https://flowbite-svelte.com/docs/components/card#mainContent
+- In order for Auth to work on the login modal, the Auth.svelte file may need to be modified and the modal should be placed insiade of it and then the Auth can be imported to the navmenu as the login buton
 - add delete confirmation modal https://flowbite-svelte.com/docs/components/modal
 - ~~add recipe list that gets all recipes in database~~
 - ~~Create buttons to remove steps or make it so that if an ingredient or step is empty, remove it/disregard it~~
