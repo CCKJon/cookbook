@@ -5,6 +5,9 @@
 	import LoginModal from './LoginModal.svelte';
 	import { Button, Modal, Label, Input, Checkbox } from 'flowbite-svelte';
 	let formModal = false;
+	import { auth } from '$lib/firebase/firebase.client';
+	import Auth from './Auth.svelte';
+	import { authHandlers, authStore } from '$lib/stores/authStore';
 
 	import Modals from './Modals.svelte';
 	let displaySearch = false;
