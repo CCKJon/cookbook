@@ -19,7 +19,7 @@ Things to work on:
 - ~~Create login authentication so that only when logged in can a person update or delete a recipe.~~
 - ~~Create a "favorites" list for logged in people - favorites page should have prompt to login if not already logged in.~~
 - create functionality so that you can only favorite a recipe if you're logged in.
-- logged in users should only be able to see recipes that they've favorited
+- ~~logged in users should only be able to see recipes that they've favorited~~
 - ~~login user page that displays a list of submitted recipes by user, allowing only the author to update or delete recipes submitted by said author~~
 - ~~by default, if there is no one logged in, then the UID used for the recipe creation is by default my own~~
 - Be able to view other peoples' profiles, their submitted recipes, maybe their favorites? Be able to set profiles to private - to note, this would require a new page that shows a list of users and a search function to find them
