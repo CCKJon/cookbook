@@ -49,6 +49,7 @@ REVIEWS
 
 - reviews should appear on the recipe page itself along with a rating
 - reviews authored by a user should show up in their private dashboard
+- reviews should show an average of the aggregate score
 
 - [x] AI recipe generator
 - [ ] Work on integrating the AI recipe to the cookbook app
