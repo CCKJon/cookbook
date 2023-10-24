@@ -29,6 +29,8 @@
 	}
 </script>
 
+<!-- The modal for login should be placed into here -->
+
 <div class="container">
 	<h1>{register ? 'Register' : 'Log in'}</h1>
 	<form>
