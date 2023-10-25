@@ -6,10 +6,10 @@ async function getRecipes() {
 	return data;
 }
 
-let recipes = await getRecipes();
+// let recipes = await getRecipes();
 
-export function load() {
+export async function load() {
 	return {
-		items: recipes
+		items: await getRecipes()
 	};
 }

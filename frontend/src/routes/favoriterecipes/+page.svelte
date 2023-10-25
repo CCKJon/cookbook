@@ -11,7 +11,7 @@
 	import Notification from '$lib/components/Notification.svelte';
 	import { onMount } from 'svelte';
 
-	export let data;
+	// export let data;
 
 	let email;
 	let image;
