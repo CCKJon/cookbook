@@ -1,10 +1,12 @@
 <script>
 	import { authHandlers, authStore } from '$lib/stores/authStore';
+	import { Button, Modal, Label, Input, Checkbox } from 'flowbite-svelte';
 
 	let register = false;
 	let email = '';
 	let password = '';
 	let confirmPassword = '';
+	export let formModal = true;
 
 	async function handleSubmit() {
 		if (!email || !password || (register && !confirmPassword)) {
@@ -30,66 +32,61 @@
 </script>
 
 <!-- The modal for login should be placed into here -->
-
-<div class="container">
-	<h1>{register ? 'Register' : 'Log in'}</h1>
-	<form>
-		<label>
-			<input bind:value={email} type="email" placeholder="Email" />
-		</label>
-		<label>
-			<input bind:value={password} type="password" placeholder="Password" />
-		</label>
-		{#if register}
-			<label>
-				<input bind:value={confirmPassword} type="password" placeholder="Confirm Password" />
-			</label>
-		{/if}
-		<button on:click={handleSubmit}>Submit</button>
-	</form>
+<h1>{register ? 'Register' : 'Log in'}</h1>
+<form class="flex flex-col space-y-6" action="#">
+	<h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+	<Label class="space-y-2">
+		<span>Email</span>
+		<Input bind:value={email} type="email" name="email" placeholder="name@company.com" required />
+	</Label>
+	<Label class="space-y-2">
+		<span>Your password</span>
+		<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
+	</Label>
+	{#if register}
+		<Label>
+			<Input bind:value={confirmPassword} type="password" placeholder="Confirm Password" />
+		</Label>
+	{/if}
+	<div class="flex items-start">
+		<Checkbox>Remember me</Checkbox>
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<a
+			on:click={() => {
+				formModal = false;
+			}}
+			href="/forgotPassword"
+			class="ml-auto text-sm text-primary-700 hover:underline dark:text-primary-500"
+		>
+			<p>Forgot Password?</p>
+		</a>
+	</div>
+	<Button on:click={handleSubmit} type="submit" class="w-full1">Login to your account</Button>
 	{#if register}
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
+			class="text-sm font-medium text-gray-500 dark:text-gray-300"
 			on:click={() => {
 				register = false;
 			}}
 			on:keydown={() => {}}
 		>
-			Already have an account? <p>Log in</p>
+			Already have an account? <p class="text-primary-700 hover:underline dark:text-primary-500">
+				Log in
+			</p>
 		</div>
 	{:else}
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
+			class="text-sm font-medium text-gray-500 dark:text-gray-300"
 			on:click={() => {
 				register = true;
 			}}
 			on:keydown={() => {}}
 		>
-			Don't have an account?
-			<p>Sign Up</p>
+			Not registered?
+			<p class="text-primary-700 hover:underline dark:text-primary-500">Create account</p>
 		</div>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div
-			on:click={() => {
-				authHandlers.resetPassword(email);
-			}}
-			on:keydown={() => {}}
-		>
-			<p>Forgot Password?</p>
-		</div>
 	{/if}
-</div>
-
-<style>
-	.container {
-		display: grid;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		flex: 1;
-	}
-	.container form {
-		display: flex;
-		flex-direction: column;
-	}
-</style>
+</form>
