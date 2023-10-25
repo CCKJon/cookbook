@@ -75,7 +75,7 @@
 		>
 			{#each searchResults as result}
 				<div class="border rounded-md py-1 px-1 border-gray-500 mt-1 mb-1 hover:bg-red-800/60">
-					<a href={`/recipes/${result._id}`}>{result.title}</a>
+					<a href={`/${result._id}`}>{result.title}</a>
 				</div>
 			{/each}
 		</dialog>
