@@ -75,7 +75,7 @@
 		>
 			{#each searchResults as result}
 				<div class="border rounded-md py-1 px-1 border-gray-500 mt-1 mb-1 hover:bg-red-800/60">
-					<button type="button" on:click={() => gotoSlug(result._id)}>{result.title}</button>
+					<a href={`/recipes/${result._id}`}>{result.title}</a>
 				</div>
 			{/each}
 		</dialog>
