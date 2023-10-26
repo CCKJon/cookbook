@@ -9,6 +9,7 @@
 	import { Card, Button, Toggle } from 'flowbite-svelte';
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { DarkMode } from 'flowbite-svelte';
+	import { lazyLoad } from '$lib/services/lazyLoad.js';
 	export let data;
 	let image;
 	let Recipes = data.items;
@@ -94,7 +95,8 @@
 					<Spinner color="red" />
 				{:then imageUrl}
 					<div class="dark">
-						<Card img={URL.createObjectURL(imageUrl)} class="mb-4">
+						<Card img={URL.createObjectURL(imageUrl)} class="mb-4" imgClass="max-h-[120px]">
+							<!-- <img use:lazyLoad={URL.createObjectURL(imageUrl)} alt="" /> -->
 							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 								{recipe.title}
 							</h5>
