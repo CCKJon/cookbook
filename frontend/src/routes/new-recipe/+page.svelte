@@ -3,7 +3,7 @@
 </script>
 
 <div class="mx-auto text-center font-bold font-serif text-gray-300 w-11/12 bg-gray-900">
-	Submit a recipe
+	Submit a recipe!
 </div>
 
 <NewRecipe />
