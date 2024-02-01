@@ -2,6 +2,8 @@
 	import kitchen from '$lib/icons/kitchen.jpg';
 </script>
 
+<div>Just putting this here because life is hard</div>
+
 <div
 	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/kitchen.jpg')] overflow-hidden bg-no-repeat bg-cover"
 >
