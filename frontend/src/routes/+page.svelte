@@ -10,7 +10,7 @@
 	<div class="text-xs font-bold text-red-700 font-serif">WELCOME TO</div>
 	<div class="text-6xl text-gray-300 font-serif">Jonny's</div>
 	<div class="pb-1 text-6xl text-gray-300 font-serif">Cookbook</div>
-	<div class="pb-3 text-red-700 font-serif">A collection of my favorite personal recipes</div>
+	<div class="pb-3 text-red-700 font-serif">A collection of my personal favorite recipes</div>
 	<button
 		type="button"
 		class="py-2border border-black w-28 h-8 text-center rounded-sm bg-yellow-500 text-gray-200 font-serif"
