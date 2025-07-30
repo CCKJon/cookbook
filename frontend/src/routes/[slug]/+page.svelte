@@ -158,224 +158,257 @@
 	});
 </script>
 
-<div
-	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/recipe.jpg')] bg-no-repeat bg-cover overflow-auto font-serif"
->
+<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
 	{#if isNotificationVisible}
-		<Notification message="Favorite added!" />
+		<Notification message="Recipe added to favorites!" />
 	{/if}
+
 	{#if recipe}
-		<h1 class="mx-auto grid place-items-center text-3xl text-gray-300 capitalize font-serif my-3">
-			{recipe.title}
-		</h1>
+		<!-- Hero Section -->
+		<section class="relative bg-white border-b border-neutral-200">
+			<div class="container-max px-4 sm:px-6 lg:px-8 py-12">
+				<div class="grid lg:grid-cols-2 gap-12 items-center">
+					<!-- Recipe Image -->
+					<div class="relative">
+						{#await getRecipeImage(recipe.images[0].photo_id)}
+							<div class="aspect-[4/3] bg-neutral-100 rounded-2xl flex items-center justify-center">
+								<Spinner color="primary" size="8" />
+							</div>
+						{:then imageUrl}
+							<div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+								<img
+									class="w-full h-full object-cover"
+									src={URL.createObjectURL(imageUrl)}
+									alt={recipe.title}
+								/>
+							</div>
+						{/await}
+					</div>
 
-		{#if $authStore.currentUser}
-			<div class="flex flex-row justify-center w-full">
-				<button
-					class="border-2 bg-pink-700 text-gray-300 rounded-md border-black py-2 px-2 hover:bg-pink-500"
-					type="button"
-					on:click={addFavoriteRecipe}>Add to Favorites</button
-				>
-			</div>
-		{/if}
+					<!-- Recipe Header -->
+					<div class="space-y-6">
+						<h1 class="text-4xl md:text-5xl font-serif font-bold text-neutral-800 leading-tight">
+							{recipe.title}
+						</h1>
+						
+						<p class="text-xl text-neutral-600 leading-relaxed">
+							{recipe.description}
+						</p>
 
-		{#if recipe.author == currentUserID}
-			<div class="py-2">
-				<div class="flex flex-row justify-center">
-					<button
-						on:click={() => {
-							showUpdateModal = !showUpdateModal;
-						}}
-						class="text-gray-300 flex flex-row justify-center w-full py-2 px-2 border-2 border-black rounded-md max-w-[100px] bg-blue-900 hover:bg-blue-700 bg-opacity-90"
-						type="button">UPDATE</button
-					>
+						<!-- Recipe Meta -->
+						<div class="grid grid-cols-3 gap-4 py-6">
+							<div class="text-center p-4 bg-neutral-50 rounded-xl">
+								<div class="text-2xl font-bold text-primary-600 mb-1">
+									{recipe.serving_size || 'N/A'}
+								</div>
+								<div class="text-sm text-neutral-600">Servings</div>
+							</div>
+							<div class="text-center p-4 bg-neutral-50 rounded-xl">
+								<div class="text-2xl font-bold text-primary-600 mb-1">
+									{recipe.cooking_time || 'N/A'}
+								</div>
+								<div class="text-sm text-neutral-600">Cook Time</div>
+							</div>
+							<div class="text-center p-4 bg-neutral-50 rounded-xl">
+								<div class="text-2xl font-bold text-primary-600 mb-1">
+									{recipe.difficulty || 'N/A'}
+								</div>
+								<div class="text-sm text-neutral-600">Difficulty</div>
+							</div>
+						</div>
+
+						<!-- Action Buttons -->
+						<div class="flex flex-col sm:flex-row gap-4">
+							{#if $authStore.currentUser}
+								<button
+									class="btn-primary flex items-center justify-center gap-2"
+									type="button"
+									on:click={addFavoriteRecipe}
+								>
+									<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+									</svg>
+									Add to Favorites
+								</button>
+							{/if}
+
+							{#if recipe.author == currentUserID}
+								<button
+									on:click={() => { showUpdateModal = !showUpdateModal; }}
+									class="btn-secondary flex items-center justify-center gap-2"
+									type="button"
+								>
+									<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+									</svg>
+									Edit Recipe
+								</button>
+							{/if}
+						</div>
+					</div>
 				</div>
 			</div>
+		</section>
+
+		<!-- Recipe Content -->
+		<section class="section-padding">
+			<div class="container-max">
+				<div class="grid lg:grid-cols-2 gap-12">
+					<!-- Ingredients -->
+					<div class="card p-8">
+						<h2 class="text-3xl font-serif font-bold text-neutral-800 mb-8 flex items-center gap-3">
+							<svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+							</svg>
+							Ingredients
+						</h2>
+						<div class="space-y-4">
+							{#each recipe.ingredients as ingredient}
+								<div class="flex items-center justify-between p-4 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors duration-200">
+									<span class="font-medium text-neutral-800">{ingredient.name}</span>
+									<span class="text-neutral-600">{ingredient.amount}</span>
+								</div>
+							{/each}
+						</div>
+					</div>
+
+					<!-- Instructions -->
+					<div class="card p-8">
+						<h2 class="text-3xl font-serif font-bold text-neutral-800 mb-8 flex items-center gap-3">
+							<svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+							</svg>
+							Instructions
+						</h2>
+						<div class="space-y-6">
+							{#each recipe.steps as step}
+								<div class="flex gap-4">
+									<div class="flex-shrink-0 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+										{step.step_number}
+									</div>
+									<div class="flex-1 pt-1">
+										<p class="text-neutral-700 leading-relaxed">{step.description}</p>
+									</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Reviews Section -->
+		<section class="section-padding bg-white border-t border-neutral-200">
+			<div class="container-max">
+				<h2 class="text-3xl font-serif font-bold text-neutral-800 mb-8 text-center">
+					Reviews & Ratings
+				</h2>
+
+				<!-- Review Form -->
+				{#if $authStore.currentUser}
+					<div class="card p-8 mb-12 max-w-2xl mx-auto">
+						<h3 class="text-2xl font-serif font-semibold text-neutral-800 mb-6">Share Your Experience</h3>
+						
+						<form on:submit={submitReview} class="space-y-6">
+							<div>
+								<label for="title" class="block text-sm font-medium text-neutral-700 mb-2">Review Title</label>
+								<input
+									type="text"
+									id="title"
+									bind:value={review.title}
+									class="input-field"
+									required
+									placeholder="Give your review a title"
+								/>
+							</div>
+
+							<div>
+								<label for="rating" class="block text-sm font-medium text-neutral-700 mb-2">Rating</label>
+								<input
+									type="number"
+									id="rating"
+									bind:value={review.rating}
+									class="input-field"
+									min="1"
+									max="5"
+									required
+									placeholder="Rate from 1-5"
+								/>
+							</div>
+
+							<div>
+								<label for="review" class="block text-sm font-medium text-neutral-700 mb-2">Your Review</label>
+								<textarea
+									id="review"
+									bind:value={review.review}
+									class="input-field"
+									rows="4"
+									required
+									placeholder="Share your thoughts about this recipe..."
+								></textarea>
+							</div>
+
+							<button type="submit" class="btn-primary w-full">
+								Submit Review
+							</button>
+						</form>
+					</div>
+				{/if}
+
+				<!-- Reviews List -->
+				<div class="space-y-6">
+					{#if recipe.review_ids && recipe.review_ids.length > 0}
+						{#each recipe.review_ids as reviewid}
+							<div>
+								{#await getReview(reviewid)}
+									<div class="card p-6 flex items-center justify-center">
+										<Spinner color="primary" size="6" />
+									</div>
+								{:then review}
+									<div class="card p-6">
+										<div class="flex items-start justify-between mb-4">
+											<div>
+												<h4 class="text-lg font-semibold text-neutral-800 mb-1">{review.title}</h4>
+												<div class="flex items-center gap-2">
+													<div class="flex items-center">
+														{#each Array(5) as _, i}
+															<svg class="w-4 h-4 {i < review.rating ? 'text-yellow-400' : 'text-neutral-300'}" fill="currentColor" viewBox="0 0 20 20">
+																<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+															</svg>
+														{/each}
+													</div>
+													<span class="text-sm text-neutral-600">{review.rating}/5</span>
+												</div>
+											</div>
+											<span class="text-sm text-neutral-500">
+												{new Date(review.create_date).toLocaleDateString()}
+											</span>
+										</div>
+										<p class="text-neutral-700 leading-relaxed">{review.review}</p>
+									</div>
+								{/await}
+							</div>
+						{/each}
+					{:else}
+						<div class="text-center py-12">
+							<div class="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
+								<svg class="w-8 h-8 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+								</svg>
+							</div>
+							<h3 class="text-xl font-semibold text-neutral-800 mb-2">No reviews yet</h3>
+							<p class="text-neutral-600">Be the first to share your experience with this recipe!</p>
+						</div>
+					{/if}
+				</div>
+			</div>
+		</section>
+
+		<!-- Update Modal -->
+		{#if showUpdateModal}
 			<Modal bind:showModal={showUpdateModal}>
 				<UpdateRecipe {recipe} />
 			</Modal>
 		{/if}
-		<hr class="w-60 grid place-items-center mx-auto mb-3" />
-		<div class="my-5">
-			<div class="grid place-items-center text-center mx-auto text-xl text-cyan-400">
-				{recipe.description}
-			</div>
-		</div>
-		{@const imageId = recipe.images[0].photo_id}
-		{#await getRecipeImage(imageId)}
-			<Spinner color="red" />
-		{:then imageUrl}
-			<div class="w-full flex items-center justify-center my-5">
-				<img
-					class="w-auto max-h-[450px] object-cover rounded-md border-2 border-gray-800"
-					src={URL.createObjectURL(imageUrl)}
-					alt=""
-				/>
-			</div>
-		{/await}
-
-		<div class=" w-96 mx auto text-center mx-auto grid place-items-center rounded-lg text-white">
-			<!-- <form class="mb-3 grid place-items-center text-rose-default" on:submit={updateTodo}>
-			<div class="text- text-center text-md mb-2">New Title:</div>
-			<input
-				required
-				class="mb-1 rounded-xl text-black border-4 border-pink-400 placeholder:text-slate-300 w-52"
-				type="text"
-				placeholder={title}
-				bind:value={title}
-			/>
-
-			<div class="text- text-center text-md mb-2">New description:</div>
-			<input
-				class="mb-1 rounded-xl text-black border-4 border-pink-400 placeholder:text-slate-300 w-52"
-				type="text"
-				placeholder={description}
-				bind:value={description}
-			/>
-			<button
-				class="py-1 px-1 mt-3 mb-20 text-center grid place-items-center w-44 mx-auto rounded-md text-white border-indigo-800 border-2 hover:bg-slate-600 font-bold"
-				type="submit">Update Recipe</button
-			>
-		</form> -->
-		</div>
-		<div class="flex justify-center">
-			<div class="flex flex-row justify-between w-full max-w-[675px] py-5">
-				<div
-					class="text-gray-300 text-lg font-serif w-full flex items-center justify-between px-2 py-5 border bg-gray-700 bg-opacity-40 border-black rounded-md"
-				>
-					<div class="hover:bg-red-800/60 px-2 rounded-md">
-						{#if recipe.serving_size}
-							Serving size: {recipe.serving_size}
-						{:else}
-							Serving size: N/A
-						{/if}
-					</div>
-
-					<div class="hover:bg-red-800/60 px-2 rounded-md">
-						{#if recipe.cooking_time}
-							Cook time: {recipe.cooking_time}
-						{:else}
-							Cook time: N/A
-						{/if}
-					</div>
-					<div class="hover:bg-red-800/60 px-2 rounded-md">
-						{#if recipe.difficulty}
-							Difficulty: {recipe.difficulty}
-						{:else}
-							Difficulty: N/A
-						{/if}
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="flex justify-center">
-			<div class="flex flex-row justify-between w-full max-w-[675px]">
-				<div class="border bg-gray-700 bg-opacity-40 rounded-md max-h-full p-5 border-black">
-					<div class="my-2 text-center text-xl text-gray-300">Ingredients</div>
-					<hr class="w-60 grid place-items-center mx-auto my-5" />
-					{#each recipe.ingredients as ingredient}
-						<div
-							class="text-gray-300 text-lg font-serif w-full flex items-center justify-between hover:bg-red-800/60 px-2"
-						>
-							<div>
-								{ingredient.name}
-							</div>
-							<div>
-								{ingredient.amount}
-							</div>
-						</div>
-					{/each}
-				</div>
-				<div class="border bg-gray-700 bg-opacity-40 rounded-md max-h-full p-5 border-black">
-					<div class="my-2 text-center text-xl text-gray-300">Instructions</div>
-					<hr class="w-60 grid place-items-center mx-auto my-5" />
-					{#each recipe.steps as step}
-						<div
-							class="text-gray-300 text-lg font-serif w-full flex items-center justify-between my-1 hover:bg-red-800/60 px-2"
-						>
-							<div>{step.step_number}.</div>
-							<div>{step.description}</div>
-						</div>
-					{/each}
-				</div>
-			</div>
-		</div>
-		<div class="flex justify-center">
-			<div class="text-gray-300 w-full max-w-[675px]">
-				<p class="font-bold text-lg">Submit a review</p>
-
-				<form action="submit" on:submit={submitReview}>
-					<label for="title" class="block text-gray-300 mt-4">Title:</label>
-					<input
-						type="text"
-						id="title"
-						name="title"
-						class="w-full py-2 px-3 rounded-md border border-gray-400 focus:outline-none focus:border-indigo-500"
-						required
-						bind:value={review.title}
-					/>
-
-					<label for="rating" class="block text-gray-300 mt-4">Rating:</label>
-					<input
-						type="number"
-						id="rating"
-						name="rating"
-						class="w-full py-2 px-3 rounded-md border border-gray-400 focus:outline-none focus:border-indigo-500"
-						min="1"
-						max="5"
-						required
-						bind:value={review.rating}
-					/>
-
-					<label for="review" class="block text-gray-300 mt-4">Review:</label>
-					<textarea
-						id="review"
-						name="review"
-						class="w-full py-2 px-3 rounded-md border border-gray-400 focus:outline-none focus:border-indigo-500"
-						rows="4"
-						required
-						bind:value={review.review}
-					/>
-
-					<button
-						type="submit"
-						class="mt-4 bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none"
-						>Submit Review</button
-					>
-				</form>
-			</div>
-		</div>
-		<div class="">
-			<div class="flex justify-between py-5 mt-10 px-40 text-gray-300 max-w-[675px] w-full">
-				<div class=" w-full max-w-[675px] font-bold text-lg">REVIEWS</div>
-				<div>SORT</div>
-			</div>
-		</div>
-
-		<div class="flex justify-center">
-			<div
-				class="border-2 border-black px-5 py-5 w-full max-w-[675px] rounded-md bg-gray-900 bg-opacity-90"
-			>
-				{#if recipe.review_ids}
-					{#each recipe.review_ids as reviewid}
-						<div>
-							{#await getReview(reviewid)}
-								<Spinner color="red" />
-							{:then review}
-								<div class="flex justify-center py-2">
-									<div
-										class="w-full max-w-[675px] py-2 px-2 border border-red-900 rounded-md text-gray-300 bg-gray-700 bg-opacity-20"
-									>
-										<div>Title: {review.title}</div>
-										<div>Rating: {review.rating} / 5</div>
-										<div>Review: {review.review}</div>
-									</div>
-								</div>
-							{/await}
-						</div>
-					{/each}
-				{/if}
-			</div>
-		</div>
 	{/if}
 </div>

@@ -112,98 +112,163 @@
 	});
 </script>
 
-{#if isNotificationVisible}
-	<Notification message="Favorite deleted!" />
-{/if}
+<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+	{#if isNotificationVisible}
+		<Notification message="Recipe removed from favorites!" />
+	{/if}
 
-<div
-	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/kitchen.jpg')] overflow-hidden bg-no-repeat bg-cover text-gray-300"
->
-	Favorites Page
 	{#if $authStore.currentUser}
-		<div class="flex flex-row justify-between w-full max-w-[675px] px-20">
-			<h1 class="border-2 border-black bg-gray-900 bg-opacity-90 py-2 px-2 rounded-md">
-				Current User: {email}
-			</h1>
-		</div>
+		<!-- Header Section -->
+		<section class="section-padding bg-white border-b border-neutral-200">
+			<div class="container-max">
+				<div class="text-center mb-8">
+					<h1 class="text-4xl md:text-5xl font-serif font-bold text-neutral-800 mb-6">
+						My Favorite Recipes
+					</h1>
+					<p class="text-xl text-neutral-600">
+						Your personal collection of beloved recipes
+					</p>
+				</div>
 
-		<div>
-			<div class="flex flex-row justify-between px-1 py-2">
-				<div class="text-sm font-bold font-serif">FAVORITE RECIPES</div>
-				<div class="font-serif text-sm font-bold">SORT</div>
-				<Dropdown class="bg-gray-800 rounded-md text-gray-300">
-					<DropdownItem
-						><button type="button" class="text-gray-300 text-xs" on:click={defaultSort}
-							>DEFAULT</button
-						></DropdownItem
-					>
-					<DropdownItem
-						><button type="button" class="text-gray-300 text-xs" on:click={alphabetsort}
-							>ALPHABETICAL</button
-						></DropdownItem
-					>
-				</Dropdown>
+				<!-- User Info -->
+				<div class="flex items-center justify-center mb-8">
+					<div class="bg-primary-50 border border-primary-200 rounded-lg px-6 py-3">
+						<span class="text-primary-800 font-medium">Signed in as: {email}</span>
+					</div>
+				</div>
+
+				<!-- Sort Controls -->
+				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+					<div class="text-sm text-neutral-500">
+						{Recipes.length} favorite recipes
+					</div>
+					<div class="flex items-center gap-4">
+						<span class="text-sm font-medium text-neutral-700">Sort by:</span>
+						<Dropdown class="bg-white border border-neutral-200 rounded-lg shadow-lg">
+							<DropdownItem>
+								<button class="text-neutral-700 text-sm px-4 py-2 hover:bg-neutral-50 w-full text-left" on:click={defaultSort}>
+									Default
+								</button>
+							</DropdownItem>
+							<DropdownItem>
+								<button class="text-neutral-700 text-sm px-4 py-2 hover:bg-neutral-50 w-full text-left" on:click={alphabetsort}>
+									Alphabetical
+								</button>
+							</DropdownItem>
+						</Dropdown>
+					</div>
+				</div>
 			</div>
-			{#if Recipes}
-				{#each Recipes as recipe}
-					{#await getFavoritedRecipes(recipe._id)}
-						Loading...
-					{:then recipedata}
-						{@const imageId = recipedata.images[0].photo_id}
-						<div
-							class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
-						>
-							<div class="flex flex-row w-full">
-								<div class="flex flex-col justify-between w-full">
-									<a
-										class="mt-1 text-gray-300 flex justify-between w-full min-w-[500px]"
-										href={`/${recipedata._id}`}
-									>
-										<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
-											{recipedata.title}
-										</div>
+		</section>
+
+		<!-- Favorites Grid -->
+		<section class="section-padding">
+			<div class="container-max">
+				{#if Recipes && Recipes.length > 0}
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{#each Recipes as recipe}
+							{#await getFavoritedRecipes(recipe._id)}
+								<div class="card p-6 flex items-center justify-center h-80">
+									<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+								</div>
+							{:then recipedata}
+								{@const imageId = recipedata.images[0].photo_id}
+								<div class="card overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+									<!-- Recipe Image -->
+									<div class="relative overflow-hidden h-48">
 										{#await getRecipeImage(imageId)}
-											loading ...
+											<div class="w-full h-full bg-neutral-100 flex items-center justify-center">
+												<div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
+											</div>
 										{:then imageUrl}
 											<img
-												class="w-auto max-h-[200px] object-cover py-3 rounded-md"
+												class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
 												src={URL.createObjectURL(imageUrl)}
-												alt=""
+												alt={recipedata.title}
 											/>
 										{/await}
-									</a>
-									<div class="flex flex-row justify-between">
-										<button
-											type="button"
-											on:click={() => {
-												showDelete = true;
-											}}
-											class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
-											>DELETE</button
-										>
-										{#if showDelete}
+										<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+									</div>
+
+									<!-- Recipe Content -->
+									<div class="p-6">
+										<h3 class="text-xl font-serif font-semibold text-neutral-800 mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors duration-200">
+											{recipedata.title}
+										</h3>
+										
+										<!-- Recipe Meta -->
+										<div class="flex items-center justify-between mb-4 text-xs text-neutral-500">
+											<div class="flex items-center gap-2">
+												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+												</svg>
+												<span>{recipedata.cooking_time || 'N/A'}</span>
+											</div>
+											<div class="flex items-center gap-2">
+												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+												</svg>
+												<span>{recipedata.serving_size || 'N/A'}</span>
+											</div>
+										</div>
+
+										<!-- Action Buttons -->
+										<div class="flex gap-3">
+											<a href={`/${recipedata._id}`} class="flex-1">
+												<button class="w-full btn-primary text-sm py-2.5">
+													View Recipe
+												</button>
+											</a>
 											<button
 												type="button"
-												class="text-gray-300 text-xs border-2 border-black"
-												on:click={() => deleteFavoritedRecipe(recipedata._id)}>ARE YOU SURE?</button
+												class="p-2.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 border border-red-200"
+												on:click={() => deleteFavoritedRecipe(recipedata._id)}
 											>
-										{/if}
+												<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+												</svg>
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
+							{/await}
+						{/each}
+					</div>
+				{:else}
+					<div class="text-center py-16">
+						<div class="w-24 h-24 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-12 h-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+							</svg>
 						</div>
-					{/await}
-				{/each}
-			{/if}
+						<h3 class="text-2xl font-serif font-semibold text-neutral-800 mb-2">No favorites yet</h3>
+						<p class="text-neutral-600 mb-6">Start exploring recipes and add them to your favorites!</p>
+						<a href="/recipe-list" class="btn-primary">
+							Browse Recipes
+						</a>
+					</div>
+				{/if}
 
-			<div class="flex justify-center w-full max-w-[675px] py-5">
-				<button
-					class="border-2 border-black bg-red-900 py-2 px-4 rounded-md bg-opacity-90"
-					on:click={authHandlers.logout}>Logout</button
-				>
+				<!-- Logout Button -->
+				<div class="flex justify-center mt-12">
+					<button
+						class="btn-secondary flex items-center gap-2"
+						on:click={authHandlers.logout}
+					>
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+						</svg>
+						Sign Out
+					</button>
+				</div>
+			</div>
+		</section>
+	{:else}
+		<div class="min-h-screen flex items-center justify-center">
+			<div class="text-center">
+				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+				<p class="text-neutral-600">Loading...</p>
 			</div>
 		</div>
-	{:else}
-		<div>Loading....</div>
 	{/if}
 </div>

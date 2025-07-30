@@ -29,8 +29,6 @@
 
 	function showAndHideModal() {
 		showModal = true; // Show the modal
-
-		// goto('/'); // Redirect to the desired location
 	}
 
 	function handleSubmit(event) {
@@ -66,10 +64,8 @@
 
 				const response = await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${author}`);
 				const author_data = await response.json();
-				// console.log('this is my author data', author_data);
 				let authored_recipes = author_data.authored_recipes;
-				// console.log('this is authored recipes', authored_recipes);
-				authored_recipes.push(recipe_id); // Push the new recipe_id to the array
+				authored_recipes.push(recipe_id);
 
 				await fetch(`${PUBLIC_CLUSTER_USERS}/api/user/${author}`, {
 					method: 'PUT',
@@ -77,7 +73,7 @@
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						authored_recipes: authored_recipes // Assign the updated array back to authored_recipes
+						authored_recipes: authored_recipes
 					})
 				})
 					.then((_res) => {
@@ -123,19 +119,19 @@
 	};
 
 	function addIngredient() {
-		ingredients.push({}); // Add an empty ingredient to the array
+		ingredients.push({});
 		ingredients = ingredients;
 	}
 	function removeIngredient() {
-		ingredients.pop(); // Add an empty ingredient to the array
+		ingredients.pop();
 		ingredients = ingredients;
 	}
 	function addSteps() {
-		steps.push({}); // Add an empty steps to the array
+		steps.push({});
 		steps = steps;
 	}
 	function subtractStep() {
-		steps.pop(); // Add an empty steps to the array
+		steps.pop();
 		steps = steps;
 	}
 
@@ -144,157 +140,273 @@
 	});
 </script>
 
-<div
-	class="mx-auto w-11/12 py-7 px-7 h-full bg-[url('$lib/icons/recipe.jpg')] bg-no-repeat bg-cover overflow-auto"
->
-	<form
-		class="mx-auto text-center grid place-items-center py-36 text-black font-serif text-xl"
-		on:submit={handleSubmit}
-	>
-		<div class="text-lg font-bold text-center font-serif text-gray-300 mb-2 mt-2">Title:</div>
-		<input
-			class="bg-gray-300 border-2 border-red-800 rounded-sm text-black font-serif w-1/6 mb-5"
-			bind:value={title}
-			type="text"
-			required
-		/>
+<div class="max-w-4xl mx-auto">
+	<form on:submit={handleSubmit} class="space-y-8">
+		<!-- Basic Information -->
+		<div class="card p-8">
+			<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-6 flex items-center gap-3">
+				<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+				</svg>
+				Basic Information
+			</h2>
+			
+			<div class="grid md:grid-cols-2 gap-6">
+				<div>
+					<label for="title" class="block text-sm font-medium text-neutral-700 mb-2">Recipe Title *</label>
+					<input
+						id="title"
+						class="input-field"
+						bind:value={title}
+						type="text"
+						required
+						placeholder="Enter recipe title"
+					/>
+				</div>
 
-		<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2">Description:</div>
-		<textarea
-			class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black w-1/3 font-serif mb-5"
-			bind:value={description}
-		/>
-		<div class="flex flex-row justify between">
-			<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2 px-2">
-				Serving Size
+				<div>
+					<label for="category" class="block text-sm font-medium text-neutral-700 mb-2">Category</label>
+					<select id="category" class="input-field" bind:value={category}>
+						<option value="">Select category</option>
+						<option value="breakfast">Breakfast</option>
+						<option value="lunch">Lunch</option>
+						<option value="dinner">Dinner</option>
+						<option value="dessert">Dessert</option>
+						<option value="snack">Snack</option>
+						<option value="beverage">Beverage</option>
+					</select>
+				</div>
 			</div>
-			<select
-				class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black font-serif mb-5"
-				bind:value={serving_size}
-			>
-				<option value="1 person">1 person</option>
-				<option value="2 people">2 people</option>
-				<option value="3 people">3 people</option>
-				<option value="4 people">4 people</option>
-				<option value="5 people">5 people</option>
-				<option value="6 people">6 people</option>
-				<option value="7 people">7 people</option>
-				<option value="8 people">8 people</option>
-				<option value="9 people">9 people</option>
-				<option value="10 people">10 people</option>
-				<option value="11 people">11 people</option>
-				<option value="12 people">12 people</option>
-				<option value="13 people">13 people</option>
-				<option value="14 people">14 people</option>
-				<option value="15 people">15 people</option>
-			</select>
-			<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2 px-2">
-				Cooking time
-			</div>
-			<input
-				class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black font-serif mb-5"
-				placeholder="e.g., 2 hours 30 minutes"
-				bind:value={cooking_time}
-			/>
-			<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-2 px-2">
-				Difficulty
-			</div>
-			<select
-				class="border-2 bg-gray-300 border-gray-800 rounded-sm text-black font-serif mb-5"
-				bind:value={difficulty}
-			>
-				<option value="easy">Easy</option>
-				<option value="medium">Medium</option>
-				<option value="hard">Hard</option>
-			</select>
-		</div>
 
-		<div class="text-lg font-serif font-bold text-center text-gray-300 mb-2 mt-2">Ingredients</div>
-		<button
-			type="button"
-			class="border-2 bg-yellow-500 hover:opacity-80 mb-3 font-serif text-md border-gray-800 rounded-sm w-40 text-gray-300 text-center py-1 px-1 font-bold"
-			on:click={addIngredient}>+ingredient</button
-		>
-		{#each ingredients as ingredient, index}
-			<div class="flex justify-between gap-5 py-2">
-				<input
-					class="border-2 bg-gray-300 font-serif border-gray-800 text-gray-900 rounded-sm w-52"
-					type="text"
-					placeholder="Name"
-					bind:value={ingredients[index].name}
-				/>
-
-				<input
-					class="border-2 bg-gray-300 font-serif border-gray-800 rounded-sm text-gray-900 w-52"
-					type="text"
-					placeholder="Amount"
-					bind:value={ingredients[index].amount}
-				/>
-				<button
-					type="button"
-					class="border-2 bg-yellow-500 hover:opacity-80 mb-3 font-serif text-md border-gray-800 rounded-sm w-40 text-gray-300 text-center py-1 px-1 font-bold"
-					on:click={removeIngredient}>-ingredient</button
-				>
-			</div>
-		{/each}
-
-		<div class="text-lg font-bold font-serif text-center text-gray-300 mb-2 mt-5">Instructions</div>
-		<button
-			type="button"
-			class="border-2 bg-yellow-500 hover:opacity-80 text-md mb-3 border-gray-800 rounded-sm font-serif text-gray-300 w-40 text-center py-1 px-1 font-bold"
-			on:click={addSteps}>+steps</button
-		>
-
-		{#each steps as step, index}
-			<div class="flex items-start justify-between gap-5 py-2">
-				<input
-					class="font-serif border-2 bg-gray-300 border-gray-800 rounded-sm w-20"
-					type="number"
-					min="1"
-					max="100"
-					required
-					placeholder="Step number"
-					bind:value={steps[index].step_number}
-				/>
-
+			<div class="mt-6">
+				<label for="description" class="block text-sm font-medium text-neutral-700 mb-2">Description</label>
 				<textarea
-					class="font-serif border-2 bg-gray-300 border-gray-800 rounded-sm w-96"
-					placeholder="Instructions"
-					required
-					bind:value={steps[index].description}
-				/>
-				<button
-					type="button"
-					class="border-2 bg-yellow-500 hover:opacity-80 text-md mb-3 border-gray-800 rounded-sm font-serif text-gray-300 w-40 text-center py-1 px-1 font-bold"
-					on:click={subtractStep}>-step</button
-				>
+					id="description"
+					class="input-field"
+					bind:value={description}
+					rows="3"
+					placeholder="Describe your recipe..."
+				></textarea>
 			</div>
-		{/each}
-
-		<div class="text-gray-300 w-full my-10">
-			<input class=" ml-40" type="file" on:change={handleFileUpload} bind:this={fileInput} />
 		</div>
 
-		<button
-			class="text-gray-300 bg-red-800 font-serif text-lg border-red-900 border-2 my-5 rounded-sm py-1 px-1 font-bold hover:opacity-80 mx-auto text-center"
-			on:click={() => {
-				showAndHideModal();
-			}}
-			type="submit">Submit Recipe</button
-		>
+		<!-- Recipe Details -->
+		<div class="card p-8">
+			<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-6 flex items-center gap-3">
+				<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+				</svg>
+				Recipe Details
+			</h2>
+			
+			<div class="grid md:grid-cols-3 gap-6">
+				<div>
+					<label for="serving_size" class="block text-sm font-medium text-neutral-700 mb-2">Serving Size</label>
+					<select id="serving_size" class="input-field" bind:value={serving_size}>
+						<option value="">Select serving size</option>
+						{#each Array(15) as _, i}
+							<option value="{i + 1} person{(i + 1) > 1 ? 's' : ''}">{i + 1} person{(i + 1) > 1 ? 's' : ''}</option>
+						{/each}
+					</select>
+				</div>
+
+				<div>
+					<label for="cooking_time" class="block text-sm font-medium text-neutral-700 mb-2">Cooking Time</label>
+					<input
+						id="cooking_time"
+						class="input-field"
+						placeholder="e.g., 2 hours 30 minutes"
+						bind:value={cooking_time}
+					/>
+				</div>
+
+				<div>
+					<label for="difficulty" class="block text-sm font-medium text-neutral-700 mb-2">Difficulty</label>
+					<select id="difficulty" class="input-field" bind:value={difficulty}>
+						<option value="">Select difficulty</option>
+						<option value="easy">Easy</option>
+						<option value="medium">Medium</option>
+						<option value="hard">Hard</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Ingredients -->
+		<div class="card p-8">
+			<div class="flex items-center justify-between mb-6">
+				<h2 class="text-2xl font-serif font-bold text-neutral-800 flex items-center gap-3">
+					<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+					</svg>
+					Ingredients
+				</h2>
+				<button
+					type="button"
+					class="btn-secondary flex items-center gap-2"
+					on:click={addIngredient}
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+					</svg>
+					Add Ingredient
+				</button>
+			</div>
+
+			<div class="space-y-4">
+				{#each ingredients as ingredient, index}
+					<div class="flex gap-4 items-center">
+						<div class="flex-1">
+							<input
+								class="input-field"
+								type="text"
+								placeholder="Ingredient name"
+								bind:value={ingredients[index].name}
+							/>
+						</div>
+						<div class="flex-1">
+							<input
+								class="input-field"
+								type="text"
+								placeholder="Amount"
+								bind:value={ingredients[index].amount}
+							/>
+						</div>
+						<button
+							type="button"
+							class="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+							on:click={removeIngredient}
+						>
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+							</svg>
+						</button>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Instructions -->
+		<div class="card p-8">
+			<div class="flex items-center justify-between mb-6">
+				<h2 class="text-2xl font-serif font-bold text-neutral-800 flex items-center gap-3">
+					<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+					</svg>
+					Instructions
+				</h2>
+				<button
+					type="button"
+					class="btn-secondary flex items-center gap-2"
+					on:click={addSteps}
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+					</svg>
+					Add Step
+				</button>
+			</div>
+
+			<div class="space-y-4">
+				{#each steps as step, index}
+					<div class="flex gap-4 items-start">
+						<div class="flex-shrink-0">
+							<input
+								class="input-field w-20"
+								type="number"
+								min="1"
+								max="100"
+								required
+								placeholder="Step"
+								bind:value={steps[index].step_number}
+							/>
+						</div>
+						<div class="flex-1">
+							<textarea
+								class="input-field"
+								placeholder="Describe this step..."
+								required
+								rows="2"
+								bind:value={steps[index].description}
+							></textarea>
+						</div>
+						<button
+							type="button"
+							class="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+							on:click={subtractStep}
+						>
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+							</svg>
+						</button>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Image Upload -->
+		<div class="card p-8">
+			<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-6 flex items-center gap-3">
+				<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+				</svg>
+				Recipe Image
+			</h2>
+			
+			<div class="border-2 border-dashed border-neutral-300 rounded-lg p-8 text-center">
+				<svg class="w-12 h-12 text-neutral-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+				</svg>
+				<div class="text-neutral-600 mb-4">
+					<label for="file-upload" class="cursor-pointer">
+						<span class="font-medium text-primary-600 hover:text-primary-500">Click to upload</span>
+						<span class="text-neutral-500"> or drag and drop</span>
+					</label>
+				</div>
+				<p class="text-sm text-neutral-500">PNG, JPG, GIF up to 10MB</p>
+				<input
+					id="file-upload"
+					class="hidden"
+					type="file"
+					accept="image/*"
+					on:change={handleFileUpload}
+					bind:this={fileInput}
+				/>
+			</div>
+		</div>
+
+		<!-- Submit Button -->
+		<div class="flex justify-center">
+			<button
+				class="btn-primary text-lg px-12 py-4"
+				type="submit"
+				on:click={() => { showAndHideModal(); }}
+			>
+				<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+				</svg>
+				Submit Recipe
+			</button>
+		</div>
 	</form>
 </div>
 
-<!-- svelte-ignore missing-declaration -->
+<!-- Success Modal -->
 <Modal bind:showModal>
-	<h2 class="font-bold text-3xl text-center grid place-items-center mx-auto" slot="header">
-		New Recipe has successfully been created!
-	</h2>
-
-	<ol class="definition-list text-lg font-bold text-gray-800">
-		<li class="mb-2 mt-2">
-			Your new recipe been created! You will now be redirected back to the home page.
-		</li>
-		<li class="mb-5">Please click on the new to-do to edit or delete your new to-do.</li>
-	</ol>
+	<div class="text-center p-6">
+		<div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
+			<svg class="w-8 h-8 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+			</svg>
+		</div>
+		<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-4">
+			Recipe Created Successfully!
+		</h2>
+		<p class="text-neutral-600 mb-6">
+			Your recipe has been added to our collection. You'll be redirected to the home page shortly.
+		</p>
+		<button class="btn-primary" on:click={() => goto('/')}>
+			Go to Home
+		</button>
+	</div>
 </Modal>

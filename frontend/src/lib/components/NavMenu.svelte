@@ -26,33 +26,79 @@
 	// }
 </script>
 
-<div class="px-5 py-2 flex flex-row items-center justify-between bg-[#0F0F0F] w-11/12 mx-auto">
-	<a href="/"><img class="h-16 w-auto" src={logo} alt="logo" /></a>
-	<div class="flex gap-5">
-		{#if $isLoggedIn}
-			<a class="text-gray-300 font-serif" href="/privatedashboard">Account</a>
-		{:else}
-			<button class="text-gray-300 font-serif" type="button" on:click={() => (formModal = true)}
-				>Login</button
-			>
+<nav class="bg-white/95 backdrop-blur-md border-b border-neutral-200 sticky top-0 z-50 shadow-sm">
+	<div class="container-max px-4 sm:px-6 lg:px-8">
+		<div class="flex items-center justify-between h-16">
+			<!-- Logo -->
+			<a href="/" class="flex items-center space-x-3 group">
+				<img class="h-10 w-auto transition-transform duration-200 group-hover:scale-105" src={logo} alt="Jonny's Cookbook" />
+				<span class="text-xl font-serif font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors duration-200">
+					Jonny's Cookbook
+				</span>
+			</a>
 
-			<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-				<Auth bind:formModal />
-			</Modal>
-			<!-- <a class="text-gray-300 font-serif" href="/login">Login</a> -->
-		{/if}
-		<!-- {#if modal}
-			<LoginModal />
-		{/if} -->
-		<a class="text-gray-300 font-serif" href="/recipe-list">Recipes</a>
-		<a class="text-gray-300 font-serif" href="/new-recipe">Submit</a>
-		<button on:click={() => displaySearchComponent()} type="button" class="text-gray-300 font-serif"
-			>Search</button
-		>
+			<!-- Navigation Links -->
+			<div class="hidden md:flex items-center space-x-8">
+				<a 
+					href="/recipe-list" 
+					class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+				>
+					Recipes
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+				</a>
+				<a 
+					href="/new-recipe" 
+					class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+				>
+					Submit Recipe
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+				</a>
+				<button 
+					on:click={() => displaySearchComponent()} 
+					type="button" 
+					class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+				>
+					Search
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+				</button>
+			</div>
+
+			<!-- Auth Section -->
+			<div class="flex items-center space-x-4">
+				{#if $isLoggedIn}
+					<a 
+						href="/privatedashboard" 
+						class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200"
+					>
+						Account
+					</a>
+					<a 
+						href="/favoriterecipes" 
+						class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200"
+					>
+						Favorites
+					</a>
+				{:else}
+					<button 
+						class="btn-primary" 
+						type="button" 
+						on:click={() => (formModal = true)}
+					>
+						Sign In
+					</button>
+
+					<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
+						<Auth bind:formModal />
+					</Modal>
+				{/if}
+			</div>
+		</div>
+
+		<!-- Search Component -->
 		{#if displaySearch}
-			<div class="text-white">
+			<div class="py-4 border-t border-neutral-200 animate-slide-up">
 				<SearchComponent />
 			</div>
 		{/if}
 	</div>
-</div>
+</nav>

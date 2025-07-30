@@ -37,8 +37,8 @@
 	});
 </script>
 
-<div class="bg-red-800 min-h-screen overflow-hidden">
-	<main class="h-screen">
+<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+	<main class="min-h-screen">
 		<NavMenu />
 		<slot />
 	</main>
