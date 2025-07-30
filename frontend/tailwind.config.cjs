@@ -12,7 +12,7 @@ const config = {
 	theme: {
 		extend: {
 			colors: {
-				// Modern gourmet food website palette
+				// Original light theme palette (orange)
 				primary: {
 					50: '#fef7f0',
 					100: '#fdecd8',
@@ -25,17 +25,30 @@ const config = {
 					800: '#963816',
 					900: '#7a3016'
 				},
+				// Dark theme palette with walnut wood tones
+				walnut: {
+					50: '#faf7f4',
+					100: '#f3ede6',
+					200: '#e6d8cc',
+					300: '#d4bda8',
+					400: '#c19d7f',
+					500: '#b0855f',
+					600: '#9e6f4a',
+					700: '#83593e',
+					800: '#6b4835',
+					900: '#5a3d2e'
+				},
 				accent: {
-					50: '#f0f9ff',
-					100: '#e0f2fe',
-					200: '#bae6fd',
-					300: '#7dd3fc',
-					400: '#38bdf8',
-					500: '#0ea5e9',
-					600: '#0284c7',
-					700: '#0369a1',
-					800: '#075985',
-					900: '#0c4a6e'
+					50: '#f8fafc',
+					100: '#f1f5f9',
+					200: '#e2e8f0',
+					300: '#cbd5e1',
+					400: '#94a3b8',
+					500: '#64748b',
+					600: '#475569',
+					700: '#334155',
+					800: '#1e293b',
+					900: '#0f172a'
 				},
 				neutral: {
 					50: '#fafafa',

@@ -112,46 +112,46 @@
 	});
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
 	{#if isNotificationVisible}
 		<Notification message="Recipe removed from favorites!" />
 	{/if}
 
 	{#if $authStore.currentUser}
 		<!-- Header Section -->
-		<section class="section-padding bg-white border-b border-neutral-200">
+		<section class="section-padding bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
 			<div class="container-max">
 				<div class="text-center mb-8">
-					<h1 class="text-4xl md:text-5xl font-serif font-bold text-neutral-800 mb-6">
+					<h1 class="text-4xl md:text-5xl font-serif font-bold text-neutral-800 dark:text-neutral-100 mb-6">
 						My Favorite Recipes
 					</h1>
-					<p class="text-xl text-neutral-600">
+					<p class="text-xl text-neutral-600 dark:text-neutral-300">
 						Your personal collection of beloved recipes
 					</p>
 				</div>
 
 				<!-- User Info -->
 				<div class="flex items-center justify-center mb-8">
-					<div class="bg-primary-50 border border-primary-200 rounded-lg px-6 py-3">
-						<span class="text-primary-800 font-medium">Signed in as: {email}</span>
+					<div class="bg-primary-50 dark:bg-walnut-50 border border-primary-200 dark:border-walnut-200 rounded-lg px-6 py-3">
+						<span class="text-primary-800 dark:text-walnut-800 font-medium">Signed in as: {email}</span>
 					</div>
 				</div>
 
 				<!-- Sort Controls -->
 				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-					<div class="text-sm text-neutral-500">
+					<div class="text-sm text-neutral-500 dark:text-neutral-400">
 						{Recipes.length} favorite recipes
 					</div>
 					<div class="flex items-center gap-4">
-						<span class="text-sm font-medium text-neutral-700">Sort by:</span>
-						<Dropdown class="bg-white border border-neutral-200 rounded-lg shadow-lg">
+						<span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">Sort by:</span>
+						<Dropdown class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg">
 							<DropdownItem>
-								<button class="text-neutral-700 text-sm px-4 py-2 hover:bg-neutral-50 w-full text-left" on:click={defaultSort}>
+								<button class="text-neutral-700 dark:text-neutral-300 text-sm px-4 py-2 hover:bg-neutral-50 dark:hover:bg-neutral-700 w-full text-left" on:click={defaultSort}>
 									Default
 								</button>
 							</DropdownItem>
 							<DropdownItem>
-								<button class="text-neutral-700 text-sm px-4 py-2 hover:bg-neutral-50 w-full text-left" on:click={alphabetsort}>
+								<button class="text-neutral-700 dark:text-neutral-300 text-sm px-4 py-2 hover:bg-neutral-50 dark:hover:bg-neutral-700 w-full text-left" on:click={alphabetsort}>
 									Alphabetical
 								</button>
 							</DropdownItem>
@@ -192,7 +192,7 @@
 
 									<!-- Recipe Content -->
 									<div class="p-6">
-										<h3 class="text-xl font-serif font-semibold text-neutral-800 mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors duration-200">
+										<h3 class="text-xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-walnut-400 transition-colors duration-200">
 											{recipedata.title}
 										</h3>
 										

@@ -158,20 +158,20 @@
 	});
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+<div class="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
 	{#if isNotificationVisible}
 		<Notification message="Recipe added to favorites!" />
 	{/if}
 
 	{#if recipe}
 		<!-- Hero Section -->
-		<section class="relative bg-white border-b border-neutral-200">
+		<section class="relative bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
 			<div class="container-max px-4 sm:px-6 lg:px-8 py-12">
 				<div class="grid lg:grid-cols-2 gap-12 items-center">
 					<!-- Recipe Image -->
 					<div class="relative">
 						{#await getRecipeImage(recipe.images[0].photo_id)}
-							<div class="aspect-[4/3] bg-neutral-100 rounded-2xl flex items-center justify-center">
+							<div class="aspect-[4/3] bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center">
 								<Spinner color="primary" size="8" />
 							</div>
 						{:then imageUrl}
@@ -187,33 +187,33 @@
 
 					<!-- Recipe Header -->
 					<div class="space-y-6">
-						<h1 class="text-4xl md:text-5xl font-serif font-bold text-neutral-800 leading-tight">
+						<h1 class="text-4xl md:text-5xl font-serif font-bold text-neutral-800 dark:text-neutral-100 leading-tight">
 							{recipe.title}
 						</h1>
 						
-						<p class="text-xl text-neutral-600 leading-relaxed">
+						<p class="text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed">
 							{recipe.description}
 						</p>
 
 						<!-- Recipe Meta -->
 						<div class="grid grid-cols-3 gap-4 py-6">
-							<div class="text-center p-4 bg-neutral-50 rounded-xl">
-								<div class="text-2xl font-bold text-primary-600 mb-1">
+							<div class="text-center p-4 bg-neutral-50 dark:bg-neutral-700 rounded-xl">
+								<div class="text-2xl font-bold text-primary-600 dark:text-walnut-400 mb-1">
 									{recipe.serving_size || 'N/A'}
 								</div>
-								<div class="text-sm text-neutral-600">Servings</div>
+								<div class="text-sm text-neutral-600 dark:text-neutral-300">Servings</div>
 							</div>
-							<div class="text-center p-4 bg-neutral-50 rounded-xl">
-								<div class="text-2xl font-bold text-primary-600 mb-1">
+							<div class="text-center p-4 bg-neutral-50 dark:bg-neutral-700 rounded-xl">
+								<div class="text-2xl font-bold text-primary-600 dark:text-walnut-400 mb-1">
 									{recipe.cooking_time || 'N/A'}
 								</div>
-								<div class="text-sm text-neutral-600">Cook Time</div>
+								<div class="text-sm text-neutral-600 dark:text-neutral-300">Cook Time</div>
 							</div>
-							<div class="text-center p-4 bg-neutral-50 rounded-xl">
-								<div class="text-2xl font-bold text-primary-600 mb-1">
+							<div class="text-center p-4 bg-neutral-50 dark:bg-neutral-700 rounded-xl">
+								<div class="text-2xl font-bold text-primary-600 dark:text-walnut-400 mb-1">
 									{recipe.difficulty || 'N/A'}
 								</div>
-								<div class="text-sm text-neutral-600">Difficulty</div>
+								<div class="text-sm text-neutral-600 dark:text-neutral-300">Difficulty</div>
 							</div>
 						</div>
 

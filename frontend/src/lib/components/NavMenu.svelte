@@ -26,13 +26,13 @@
 	// }
 </script>
 
-<nav class="bg-white/95 backdrop-blur-md border-b border-neutral-200 sticky top-0 z-50 shadow-sm">
+<nav class="bg-white/95 dark:bg-neutral-800/95 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-700 sticky top-0 z-50 shadow-sm">
 	<div class="container-max px-4 sm:px-6 lg:px-8">
 		<div class="flex items-center justify-between h-16">
 			<!-- Logo -->
 			<a href="/" class="flex items-center space-x-3 group">
 				<img class="h-10 w-auto transition-transform duration-200 group-hover:scale-105" src={logo} alt="Jonny's Cookbook" />
-				<span class="text-xl font-serif font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors duration-200">
+				<span class="text-xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-walnut-400 transition-colors duration-200">
 					Jonny's Cookbook
 				</span>
 			</a>
@@ -41,25 +41,25 @@
 			<div class="hidden md:flex items-center space-x-8">
 				<a 
 					href="/recipe-list" 
-					class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 relative group"
 				>
 					Recipes
-					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-walnut-500 transition-all duration-200 group-hover:w-full"></span>
 				</a>
 				<a 
 					href="/new-recipe" 
-					class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 relative group"
 				>
 					Submit Recipe
-					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-walnut-500 transition-all duration-200 group-hover:w-full"></span>
 				</a>
 				<button 
 					on:click={() => displaySearchComponent()} 
 					type="button" 
-					class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 relative group"
 				>
 					Search
-					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-walnut-500 transition-all duration-200 group-hover:w-full"></span>
 				</button>
 			</div>
 
@@ -68,13 +68,13 @@
 				{#if $isLoggedIn}
 					<a 
 						href="/privatedashboard" 
-						class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200"
+						class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200"
 					>
 						Account
 					</a>
 					<a 
 						href="/favoriterecipes" 
-						class="text-neutral-600 hover:text-primary-600 font-medium transition-colors duration-200"
+						class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200"
 					>
 						Favorites
 					</a>
@@ -96,7 +96,7 @@
 
 		<!-- Search Component -->
 		{#if displaySearch}
-			<div class="py-4 border-t border-neutral-200 animate-slide-up">
+			<div class="py-4 border-t border-neutral-200 dark:border-neutral-700 animate-slide-up">
 				<SearchComponent />
 			</div>
 		{/if}
