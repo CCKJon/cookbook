@@ -2,7 +2,6 @@
 	import logo from '$lib/icons/logo.png';
 	import SearchComponent from './SearchComponent.svelte';
 	import { isLoggedIn } from '$lib/stores/authStore';
-	import LoginModal from './LoginModal.svelte';
 	import { Button, Modal, Label, Input, Checkbox } from 'flowbite-svelte';
 	let formModal = false;
 	import { auth } from '$lib/firebase/firebase.client';
@@ -93,10 +92,6 @@
 					>
 						Sign In
 					</button>
-
-					<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-						<Auth bind:formModal />
-					</Modal>
 				{/if}
 			</div>
 		</div>
@@ -109,3 +104,10 @@
 		{/if}
 	</div>
 </nav>
+
+<!-- Modal outside of navigation to ensure proper z-index -->
+{#if !$isLoggedIn}
+	<Modal bind:open={formModal} size="md" autoclose={false} class="w-full max-w-md mx-auto" style="z-index: 99999;">
+		<Auth bind:formModal />
+	</Modal>
+{/if}
