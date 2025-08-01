@@ -37,7 +37,7 @@
 			<!-- CTA Button -->
 			<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 				<a 
-					href="/recipe-list" 
+					href="/recipes" 
 					class="btn-primary text-lg px-8 py-4 bg-primary-600 hover:bg-primary-700 dark:bg-walnut-700 dark:hover:bg-walnut-800 text-white font-semibold rounded-lg transition-all duration-300 shadow-2xl hover:shadow-primary-500/25 dark:hover:shadow-walnut-500/25 transform hover:-translate-y-1"
 				>
 					Explore Recipes

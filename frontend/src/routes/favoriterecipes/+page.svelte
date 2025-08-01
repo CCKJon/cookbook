@@ -168,12 +168,12 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 						{#each Recipes as recipe}
 							{#await getFavoritedRecipes(recipe._id)}
-								<div class="card p-6 flex items-center justify-center h-80">
+								<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg border border-neutral-100 dark:border-[#0d0805] p-6 flex items-center justify-center h-80">
 									<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
 								</div>
 							{:then recipedata}
 								{@const imageId = recipedata.images[0].photo_id}
-								<div class="card overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+								<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-[#0d0805] overflow-hidden group hover:shadow-2xl transform hover:-translate-y-2">
 									<!-- Recipe Image -->
 									<div class="relative overflow-hidden h-48">
 										{#await getRecipeImage(imageId)}
@@ -197,7 +197,7 @@
 										</h3>
 										
 										<!-- Recipe Meta -->
-										<div class="flex items-center justify-between mb-4 text-xs text-neutral-500">
+										<div class="flex items-center justify-between mb-4 text-xs text-neutral-500 dark:text-neutral-400">
 											<div class="flex items-center gap-2">
 												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -221,7 +221,7 @@
 											</a>
 											<button
 												type="button"
-												class="p-2.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 border border-red-200"
+												class="p-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200 border border-red-200 dark:border-red-800"
 												on:click={() => deleteFavoritedRecipe(recipedata._id)}
 											>
 												<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,13 +236,13 @@
 					</div>
 				{:else}
 					<div class="text-center py-16">
-						<div class="w-24 h-24 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+						<div class="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-6">
 							<svg class="w-12 h-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
 							</svg>
 						</div>
-						<h3 class="text-2xl font-serif font-semibold text-neutral-800 mb-2">No favorites yet</h3>
-						<p class="text-neutral-600 mb-6">Start exploring recipes and add them to your favorites!</p>
+						<h3 class="text-2xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-2">No favorites yet</h3>
+						<p class="text-neutral-600 dark:text-neutral-300 mb-6">Start exploring recipes and add them to your favorites!</p>
 						<a href="/recipe-list" class="btn-primary">
 							Browse Recipes
 						</a>

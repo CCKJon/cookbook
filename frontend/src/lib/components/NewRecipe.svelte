@@ -143,9 +143,9 @@
 <div class="max-w-4xl mx-auto">
 	<form on:submit={handleSubmit} class="space-y-8">
 		<!-- Basic Information -->
-		<div class="card p-8">
-			<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-6 flex items-center gap-3">
-				<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg border border-neutral-100 dark:border-[#0d0805] p-8">
+			<h2 class="text-2xl font-serif font-bold text-neutral-800 dark:text-neutral-100 mb-6 flex items-center gap-3">
+				<svg class="w-6 h-6 text-primary-600 dark:text-walnut-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 				</svg>
 				Basic Information
@@ -153,7 +153,7 @@
 			
 			<div class="grid md:grid-cols-2 gap-6">
 				<div>
-					<label for="title" class="block text-sm font-medium text-neutral-700 mb-2">Recipe Title *</label>
+					<label for="title" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Recipe Title *</label>
 					<input
 						id="title"
 						class="input-field"
@@ -165,7 +165,7 @@
 				</div>
 
 				<div>
-					<label for="category" class="block text-sm font-medium text-neutral-700 mb-2">Category</label>
+					<label for="category" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Category</label>
 					<select id="category" class="input-field" bind:value={category}>
 						<option value="">Select category</option>
 						<option value="breakfast">Breakfast</option>
@@ -179,7 +179,7 @@
 			</div>
 
 			<div class="mt-6">
-				<label for="description" class="block text-sm font-medium text-neutral-700 mb-2">Description</label>
+				<label for="description" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Description</label>
 				<textarea
 					id="description"
 					class="input-field"
@@ -191,9 +191,9 @@
 		</div>
 
 		<!-- Recipe Details -->
-		<div class="card p-8">
-			<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-6 flex items-center gap-3">
-				<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<div class="bg-white dark:bg-[#0f0805] rounded-xl shadow-lg border border-neutral-100 dark:border-[#080403] p-8">
+			<h2 class="text-2xl font-serif font-bold text-neutral-800 dark:text-neutral-100 mb-6 flex items-center gap-3">
+				<svg class="w-6 h-6 text-primary-600 dark:text-walnut-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 				</svg>
 				Recipe Details
@@ -201,7 +201,7 @@
 			
 			<div class="grid md:grid-cols-3 gap-6">
 				<div>
-					<label for="serving_size" class="block text-sm font-medium text-neutral-700 mb-2">Serving Size</label>
+					<label for="serving_size" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Serving Size</label>
 					<select id="serving_size" class="input-field" bind:value={serving_size}>
 						<option value="">Select serving size</option>
 						{#each Array(15) as _, i}
@@ -211,7 +211,7 @@
 				</div>
 
 				<div>
-					<label for="cooking_time" class="block text-sm font-medium text-neutral-700 mb-2">Cooking Time</label>
+					<label for="cooking_time" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Cooking Time</label>
 					<input
 						id="cooking_time"
 						class="input-field"
@@ -221,7 +221,7 @@
 				</div>
 
 				<div>
-					<label for="difficulty" class="block text-sm font-medium text-neutral-700 mb-2">Difficulty</label>
+					<label for="difficulty" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Difficulty</label>
 					<select id="difficulty" class="input-field" bind:value={difficulty}>
 						<option value="">Select difficulty</option>
 						<option value="easy">Easy</option>
@@ -233,10 +233,10 @@
 		</div>
 
 		<!-- Ingredients -->
-		<div class="card p-8">
+		<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg border border-neutral-100 dark:border-[#0d0805] p-8">
 			<div class="flex items-center justify-between mb-6">
-				<h2 class="text-2xl font-serif font-bold text-neutral-800 flex items-center gap-3">
-					<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<h2 class="text-2xl font-serif font-bold text-neutral-800 dark:text-neutral-100 flex items-center gap-3">
+					<svg class="w-6 h-6 text-primary-600 dark:text-walnut-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
 					</svg>
 					Ingredients
@@ -274,7 +274,7 @@
 						</div>
 						<button
 							type="button"
-							class="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+							class="p-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200"
 							on:click={removeIngredient}
 						>
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,10 +287,10 @@
 		</div>
 
 		<!-- Instructions -->
-		<div class="card p-8">
+		<div class="bg-white dark:bg-[#0f0805] rounded-xl shadow-lg border border-neutral-100 dark:border-[#080403] p-8">
 			<div class="flex items-center justify-between mb-6">
-				<h2 class="text-2xl font-serif font-bold text-neutral-800 flex items-center gap-3">
-					<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<h2 class="text-2xl font-serif font-bold text-neutral-800 dark:text-neutral-100 flex items-center gap-3">
+					<svg class="w-6 h-6 text-primary-600 dark:text-walnut-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
 					</svg>
 					Instructions
@@ -332,7 +332,7 @@
 						</div>
 						<button
 							type="button"
-							class="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+							class="p-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200"
 							on:click={subtractStep}
 						>
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,25 +345,25 @@
 		</div>
 
 		<!-- Image Upload -->
-		<div class="card p-8">
-			<h2 class="text-2xl font-serif font-bold text-neutral-800 mb-6 flex items-center gap-3">
-				<svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg border border-neutral-100 dark:border-[#0d0805] p-8">
+			<h2 class="text-2xl font-serif font-bold text-neutral-800 dark:text-neutral-100 mb-6 flex items-center gap-3">
+				<svg class="w-6 h-6 text-primary-600 dark:text-walnut-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
 				</svg>
 				Recipe Image
 			</h2>
 			
-			<div class="border-2 border-dashed border-neutral-300 rounded-lg p-8 text-center">
+			<div class="border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg p-8 text-center">
 				<svg class="w-12 h-12 text-neutral-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
 				</svg>
-				<div class="text-neutral-600 mb-4">
+				<div class="text-neutral-600 dark:text-neutral-300 mb-4">
 					<label for="file-upload" class="cursor-pointer">
-						<span class="font-medium text-primary-600 hover:text-primary-500">Click to upload</span>
-						<span class="text-neutral-500"> or drag and drop</span>
+						<span class="font-medium text-primary-600 dark:text-walnut-400 hover:text-primary-500 dark:hover:text-walnut-300">Click to upload</span>
+						<span class="text-neutral-500 dark:text-neutral-400"> or drag and drop</span>
 					</label>
 				</div>
-				<p class="text-sm text-neutral-500">PNG, JPG, GIF up to 10MB</p>
+				<p class="text-sm text-neutral-500 dark:text-neutral-400">PNG, JPG, GIF up to 10MB</p>
 				<input
 					id="file-upload"
 					class="hidden"

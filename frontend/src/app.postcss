@@ -52,8 +52,13 @@
     @apply bg-neutral-800 hover:bg-neutral-700 text-neutral-100 border-neutral-600;
   }
   
-  .dark .card {
-    @apply bg-neutral-800 border-neutral-700;
+  body.dark .card {
+    @apply bg-[#1a0f0a] border-[#0d0805] shadow-lg;
+  }
+  
+  /* Additional specificity for recipe cards */
+  body.dark .card.overflow-hidden {
+    @apply bg-[#1a0f0a] border-[#0d0805] shadow-lg;
   }
   
   .dark .input-field {

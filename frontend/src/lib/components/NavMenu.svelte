@@ -40,7 +40,7 @@
 			<!-- Navigation Links -->
 			<div class="hidden md:flex items-center space-x-8">
 				<a 
-					href="/recipe-list" 
+					href="/recipes" 
 					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 relative group"
 				>
 					Recipes
@@ -51,6 +51,13 @@
 					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 relative group"
 				>
 					Submit Recipe
+					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-walnut-500 transition-all duration-200 group-hover:w-full"></span>
+				</a>
+				<a 
+					href="/ask-ai-chef" 
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 relative group"
+				>
+					AI Chef
 					<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-walnut-500 transition-all duration-200 group-hover:w-full"></span>
 				</a>
 				<button 

@@ -152,106 +152,69 @@
 				</Dropdown>
 			</div>
 			<div class="w-full flex flex-wrap gap-10">
-				{#each Recipes as recipe}
-					{#await getRecipe(recipe._id)}
-						Loading...
-					{:then recipedata}
-						{@const imageId = recipedata.images[0].photo_id}
-						{#await getRecipeImage(imageId)}
-							loading ...
-						{:then imageUrl}
-							<div class="dark">
-								<Card img={URL.createObjectURL(imageUrl)} class="mb-4">
-									<a href={`/${recipe._id}`}>
-										<h5
-											class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-										>
-											{recipedata.title}
-										</h5>
-									</a>
-									<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 leading-tight">
-										{recipedata.description}
-									</p>
-									<div class="flex flex-row justify-between">
+				{#if Recipes && Recipes.length > 0}
+					{#each Recipes as recipe}
+						{#await getRecipe(recipe._id)}
+							Loading...
+						{:then recipedata}
+							{@const imageId = recipedata.images[0].photo_id}
+							{#await getRecipeImage(imageId)}
+								loading ...
+							{:then imageUrl}
+								<div class="dark">
+									<Card img={URL.createObjectURL(imageUrl)} class="mb-4">
 										<a href={`/${recipe._id}`}>
-											<Button type="button">
-												Update <ArrowRightOutline class="w-3.5 h-3.5 ml-2 text-white" />
-											</Button>
-										</a>
-										<Button
-											on:click={() => {
-												showDelete = true;
-											}}
-										>
-											Delete
-										</Button>
-									</div>
-									{#if showDelete}
-										<div class="flex flex-row justify-end py-2">
-											<Button
-												type="button"
-												on:click={deleteAuthoredRecipe(recipedata._id)}
-												on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</Button
+											<h5
+												class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
 											>
+												{recipedata.title}
+											</h5>
+										</a>
+										<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 leading-tight">
+											{recipedata.description}
+										</p>
+										<div class="flex flex-row justify-between">
+											<a href={`/${recipe._id}`}>
+												<Button type="button">
+													Update <ArrowRightOutline class="w-3.5 h-3.5 ml-2 text-white" />
+												</Button>
+											</a>
+											<Button
+												on:click={() => {
+													showDelete = true;
+												}}
+											>
+												Delete
+											</Button>
 										</div>
-									{/if}
-								</Card>
-							</div>
-						{/await}
-						<!-- <div
-						class="rounded-md bg-gray-800 w-full max-w-[675px] mb-2 py-3 px-3 border-slate-900 border-2 shadow-inner bg-opacity-80"
-					>
-						<div class="flex flex-row w-full">
-							<div class="flex flex-col justify-between w-full">
-								<a
-									class="mt-1 text-gray-300 flex justify-between w-full min-w-[500px]"
-									href={`/${recipedata._id}`}
-								>
-									<div class="flex items-center justify-start w-1/2 capitalize text-xl ml-2">
-										{recipedata.title}
-									</div>
-									{#await getRecipeImage(imageId)}
-										loading ...
-									{:then imageUrl}
-										<img
-											class="w-auto max-h-[200px] object-cover py-3 rounded-md"
-											src={URL.createObjectURL(imageUrl)}
-											alt=""
-										/>
-									{/await}
-								</a>
-								<div class="flex flex-row justify-between">
-									<div>
-										<a
-											class="text-blue-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
-											href={`/${recipedata._id}`}>UPDATE</a
-										>
-									</div>
-									<div>
-										<button
-											type="button"
-											on:click={() => {
-												showDelete = true;
-											}}
-											class="text-red-900 text-sm font-bold border rounded-md border-black py-1 px-1 bg-gray-900 w-[65px]"
-											>DELETE</button
-										>
-									</div>
+										{#if showDelete}
+											<div class="flex flex-row justify-end py-2">
+												<Button
+													type="button"
+													on:click={deleteAuthoredRecipe(recipedata._id)}
+													on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</Button
+												>
+											</div>
+										{/if}
+									</Card>
 								</div>
-
-								{#if showDelete}
-									<button
-										type="button"
-										class="text-gray-300 text-xs"
-										on:click={deleteAuthoredRecipe(recipedata._id)}
-										on:click={deleteRecipe(recipedata._id)}>ARE YOU SURE?</button
-									>
-								{/if}
-							</div>
+							{/await}
+						{/await}
+					{/each}
+				{:else}
+					<div class="text-center py-16 w-full">
+						<div class="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-12 h-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+							</svg>
 						</div>
-					</div> -->
-					{/await}
-				{/each}
+						<h3 class="text-2xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-2">No recipes yet</h3>
+						<p class="text-neutral-600 dark:text-neutral-300 mb-6">Start creating your first recipe!</p>
+						<a href="/new-recipe" class="btn-primary">
+							Create Your First Recipe
+						</a>
+					</div>
+				{/if}
 			</div>
 
 			<div class="flex flex-row py-10">

@@ -6,7 +6,7 @@
 	import { PUBLIC_CLUSTER_PASSWORD, PUBLIC_CLUSTER_IMAGES } from '$env/static/public';
 	import { Spinner } from 'flowbite-svelte';
 	import { Dropdown, DropdownItem, DropdownDivider, DropdownHeader } from 'flowbite-svelte';
-	import { Card, Button, Toggle } from 'flowbite-svelte';
+	
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { DarkMode } from 'flowbite-svelte';
 	import { lazyLoad } from '$lib/services/lazyLoad.js';
@@ -111,11 +111,11 @@
 				{#each Recipes as recipe}
 					{@const imageId = recipe.images[0].photo_id}
 					{#await getRecipeImage(imageId)}
-						<div class="card p-6 flex items-center justify-center h-80">
+						<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg border border-neutral-100 dark:border-[#0d0805] p-6 flex items-center justify-center h-80">
 							<Spinner color="primary" size="8" />
 						</div>
 					{:then imageUrl}
-						<div class="card overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+						<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-[#0d0805] overflow-hidden group hover:shadow-2xl transform hover:-translate-y-2">
 							<!-- Recipe Image -->
 							<div class="relative overflow-hidden h-48">
 								<img 
@@ -167,13 +167,13 @@
 			<!-- Empty State -->
 			{#if Recipes.length === 0}
 				<div class="text-center py-16">
-					<div class="w-24 h-24 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+					<div class="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-6">
 						<svg class="w-12 h-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 						</svg>
 					</div>
-					<h3 class="text-2xl font-serif font-semibold text-neutral-800 mb-2">No recipes found</h3>
-					<p class="text-neutral-600 mb-6">Be the first to add a recipe to our collection!</p>
+					<h3 class="text-2xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-2">No recipes found</h3>
+					<p class="text-neutral-600 dark:text-neutral-300 mb-6">Be the first to add a recipe to our collection!</p>
 					<a href="/new-recipe" class="btn-primary">
 						Add Your First Recipe
 					</a>
@@ -182,3 +182,38 @@
 		</div>
 	</section>
 </div>
+
+<style>
+	.card {
+		background: white;
+		border-radius: 1rem;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		transition: all 0.3s ease;
+	}
+	
+	.dark .card {
+		background: #374151;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+	}
+	
+	.btn-primary {
+		background: #dc2626;
+		color: white;
+		font-weight: 600;
+		border-radius: 0.5rem;
+		transition: all 0.3s ease;
+	}
+	
+	.btn-primary:hover {
+		background: #b91c1c;
+		transform: translateY(-1px);
+	}
+	
+	.dark .btn-primary {
+		background: #92400e;
+	}
+	
+	.dark .btn-primary:hover {
+		background: #78350f;
+	}
+</style>
