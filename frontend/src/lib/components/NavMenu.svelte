@@ -1,14 +1,9 @@
 <script>
 	import logo from '$lib/icons/logo.png';
 	import SearchComponent from './SearchComponent.svelte';
-	import { isLoggedIn } from '$lib/stores/authStore';
 	import { Button, Modal, Label, Input, Checkbox } from 'flowbite-svelte';
 	let formModal = false;
-	import { auth } from '$lib/firebase/firebase.client';
 	import Auth from './Auth.svelte';
-	import { authHandlers, authStore } from '$lib/stores/authStore';
-
-	import Modals from './Modals.svelte';
 	let displaySearch = false;
 	let modal = false;
 
@@ -71,28 +66,13 @@
 
 			<!-- Auth Section -->
 			<div class="flex items-center space-x-4">
-				{#if $isLoggedIn}
-					<a 
-						href="/privatedashboard" 
-						class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200"
-					>
-						Account
-					</a>
-					<a 
-						href="/favoriterecipes" 
-						class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200"
-					>
-						Favorites
-					</a>
-				{:else}
-					<button 
-						class="btn-primary" 
-						type="button" 
-						on:click={() => (formModal = true)}
-					>
-						Sign In
-					</button>
-				{/if}
+				<button 
+					class="btn-primary" 
+					type="button" 
+					on:click={() => (formModal = true)}
+				>
+					Sign In (Demo)
+				</button>
 			</div>
 		</div>
 
@@ -106,8 +86,6 @@
 </nav>
 
 <!-- Modal outside of navigation to ensure proper z-index -->
-{#if !$isLoggedIn}
-	<Modal bind:open={formModal} size="md" autoclose={false} class="w-full max-w-md mx-auto" style="z-index: 99999;">
-		<Auth bind:formModal />
-	</Modal>
-{/if}
+<Modal bind:open={formModal} size="md" autoclose={false} class="w-full max-w-md mx-auto" style="z-index: 99999;">
+	<Auth bind:formModal />
+</Modal>

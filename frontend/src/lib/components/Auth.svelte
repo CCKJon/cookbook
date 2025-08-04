@@ -1,5 +1,4 @@
 <script>
-	import { authHandlers, authStore } from '$lib/stores/authStore';
 	import { Button, Modal, Label, Input, Checkbox } from 'flowbite-svelte';
 	import { createEventDispatcher } from 'svelte';
 
@@ -20,8 +19,6 @@
 	$: if (!formModal) {
 		resetForm();
 	}
-
-
 
 	function resetForm() {
 		email = '';
@@ -68,41 +65,26 @@
 		errorMessage = '';
 		successMessage = '';
 
+		// Simulate API call delay
+		await new Promise(resolve => setTimeout(resolve, 1500));
+
 		try {
 			if (register) {
-				await authHandlers.signup(email, password);
-				successMessage = 'Account created successfully! Please check your email for verification.';
+				// Simulate successful registration
+				successMessage = 'Account created successfully! This is a demo - no actual account was created.';
 				// Don't close modal immediately for registration - let user see success message
 			} else {
-				await authHandlers.login(email, password);
-				successMessage = 'Login successful!';
+				// Simulate successful login
+				successMessage = 'Login successful! This is a demo - no actual login occurred.';
 				// Close modal after successful login
 				setTimeout(() => {
 					formModal = false;
 					resetForm();
-				}, 1000);
+				}, 2000);
 			}
 		} catch (err) {
-			console.error('Auth error:', err);
-			
-			// Handle specific Firebase auth errors
-			const errorCode = err && typeof err === 'object' && 'code' in err ? err.code : '';
-			
-			if (errorCode === 'auth/user-not-found') {
-				errorMessage = 'No account found with this email address';
-			} else if (errorCode === 'auth/wrong-password') {
-				errorMessage = 'Incorrect password';
-			} else if (errorCode === 'auth/email-already-in-use') {
-				errorMessage = 'An account with this email already exists';
-			} else if (errorCode === 'auth/weak-password') {
-				errorMessage = 'Password is too weak. Please choose a stronger password';
-			} else if (errorCode === 'auth/invalid-email') {
-				errorMessage = 'Invalid email address';
-			} else if (errorCode === 'auth/too-many-requests') {
-				errorMessage = 'Too many failed attempts. Please try again later';
-			} else {
-				errorMessage = 'An error occurred. Please try again';
-			}
+			console.error('Demo error:', err);
+			errorMessage = 'This is a demo - no actual authentication is happening.';
 		} finally {
 			isLoading = false;
 		}
@@ -122,13 +104,8 @@
 			return;
 		}
 		
-		authHandlers.resetPassword(email)
-			.then(() => {
-				successMessage = 'Password reset email sent! Check your inbox.';
-			})
-			.catch((err) => {
-				errorMessage = 'Failed to send reset email. Please try again.';
-			});
+		// Simulate password reset
+		successMessage = 'Password reset email sent! (This is a demo - no email was actually sent)';
 	}
 </script>
 
@@ -151,6 +128,10 @@
 		<p class="text-gray-600 dark:text-gray-400">
 			{register ? 'Join Jonny\'s Cookbook to save and share your favorite recipes' : 'Sign in to access your recipes and favorites'}
 		</p>
+		<!-- Demo notice -->
+		<div class="mt-2 p-2 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg text-xs">
+			<strong>Demo Mode:</strong> This is a cosmetic interface. No actual authentication will occur.
+		</div>
 	</div>
 
 	<!-- Error/Success Messages -->
