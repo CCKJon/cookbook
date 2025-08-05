@@ -6,9 +6,14 @@
 	import Auth from './Auth.svelte';
 	let displaySearch = false;
 	let modal = false;
+	let mobileMenuOpen = false;
 
 	function displaySearchComponent() {
 		displaySearch = !displaySearch;
+	}
+
+	function toggleMobileMenu() {
+		mobileMenuOpen = !mobileMenuOpen;
 	}
 
 	// $: {
@@ -31,7 +36,7 @@
 				</span>
 			</a>
 
-			<!-- Navigation Links -->
+			<!-- Navigation Links - Hidden on mobile since we have bottom nav -->
 			<div class="hidden md:flex items-center space-x-8">
 				<a 
 					href="/recipes" 
@@ -66,6 +71,22 @@
 
 			<!-- Auth Section -->
 			<div class="flex items-center space-x-4">
+				<!-- Mobile Menu Button -->
+				<button 
+					class="md:hidden p-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors duration-200"
+					on:click={toggleMobileMenu}
+					type="button"
+				>
+					{#if mobileMenuOpen}
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+						</svg>
+					{:else}
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+						</svg>
+					{/if}
+				</button>
 				<button 
 					class="btn-primary" 
 					type="button" 
@@ -75,6 +96,45 @@
 				</button>
 			</div>
 		</div>
+
+		<!-- Mobile Navigation Menu -->
+		{#if mobileMenuOpen}
+		<div class="md:hidden py-4 border-t border-neutral-200 dark:border-neutral-700 animate-slide-down">
+			<div class="flex flex-col space-y-3">
+				<a 
+					href="/recipes" 
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700/50"
+				>
+					📖 Recipes
+				</a>
+				<a 
+					href="/new-recipe" 
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700/50"
+				>
+					➕ Submit Recipe
+				</a>
+				<a 
+					href="/favoriterecipes" 
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700/50"
+				>
+					❤️ Favorites
+				</a>
+				<a 
+					href="/privatedashboard" 
+					class="text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700/50"
+				>
+					📊 Dashboard
+				</a>
+				<button 
+					on:click={() => displaySearchComponent()} 
+					type="button" 
+					class="text-left text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-walnut-400 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700/50"
+				>
+					🔍 Search
+				</button>
+			</div>
+		</div>
+		{/if}
 
 		<!-- Search Component -->
 		{#if displaySearch}

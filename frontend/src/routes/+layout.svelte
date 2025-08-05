@@ -2,6 +2,7 @@
 	//@ts-nocheck
 	import '../app.postcss';
 	import NavMenu from '$lib/components/NavMenu.svelte';
+	import BottomNav from '$lib/components/BottomNav.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/firebase.client';
@@ -52,5 +53,6 @@
 		<NavMenu />
 		<slot />
 	</main>
+	<BottomNav />
 	<ThemeToggle />
 </div>
