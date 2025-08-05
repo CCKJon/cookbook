@@ -111,17 +111,7 @@
 
 <div class="p-6">
 	<!-- Header -->
-	<div class="text-center mb-6 relative">
-		<button 
-			type="button"
-			on:click={() => formModal = false}
-			class="absolute top-0 right-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
-			aria-label="Close modal"
-		>
-			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-			</svg>
-		</button>
+	<div class="text-center mb-6">
 		<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
 			{register ? 'Create Account' : 'Welcome Back'}
 		</h2>
