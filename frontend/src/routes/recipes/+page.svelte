@@ -76,6 +76,7 @@
 	let selectedCategory = 'All';
 	let selectedDifficulty = 'All';
 	let sortBy = 'name';
+	let viewMode = 'cards'; // 'cards' or 'list'
 	let loading = false;
 
 	const categories = ['All', 'Italian', 'Dessert', 'Seafood', 'Mexican', 'Salad', 'Indian'];
@@ -125,6 +126,10 @@
 	function handleSortChange(event) {
 		sortBy = event.target.value;
 		filterRecipes();
+	}
+
+	function toggleViewMode() {
+		viewMode = viewMode === 'cards' ? 'list' : 'cards';
 	}
 
 	onMount(() => {
@@ -199,13 +204,33 @@
 								</button>
 							</DropdownItem>
 						</Dropdown>
+
+						<!-- View Toggle -->
+						<div class="flex items-center bg-neutral-100 dark:bg-neutral-700 rounded-lg p-1">
+							<button 
+								class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 {viewMode === 'cards' ? 'bg-white dark:bg-neutral-600 text-neutral-800 dark:text-neutral-200 shadow-sm' : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200'}"
+								on:click={() => viewMode = 'cards'}
+							>
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+								</svg>
+							</button>
+							<button 
+								class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 {viewMode === 'list' ? 'bg-white dark:bg-neutral-600 text-neutral-800 dark:text-neutral-200 shadow-sm' : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200'}"
+								on:click={() => viewMode = 'list'}
+							>
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+								</svg>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Recipes Grid -->
+	<!-- Recipes Display -->
 	<section class="section-padding">
 		<div class="container-max">
 			{#if loading}
@@ -213,69 +238,143 @@
 					<Spinner color="primary" size="8" />
 				</div>
 			{:else if filteredRecipes.length > 0}
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-					{#each filteredRecipes as recipe}
-						<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-[#0d0805] overflow-hidden group hover:shadow-2xl transform hover:-translate-y-2">
-							<!-- Recipe Image -->
-							<div class="relative overflow-hidden h-48">
-								<img 
-									src={recipe.image} 
-									alt={recipe.title}
-									class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-								/>
-								<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-								
-								<!-- Category Badge -->
-								<div class="absolute top-4 left-4">
-									<span class="px-3 py-1 bg-primary-600 text-white text-xs font-semibold rounded-full">
-										{recipe.category}
-									</span>
-								</div>
-								
-								<!-- Difficulty Badge -->
-								<div class="absolute top-4 right-4">
-									<span class="px-3 py-1 bg-white/90 text-neutral-800 text-xs font-semibold rounded-full">
-										{recipe.difficulty}
-									</span>
-								</div>
-							</div>
-
-							<!-- Recipe Content -->
-							<div class="p-6">
-								<h3 class="text-xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-walnut-400 transition-colors duration-200">
-									{recipe.title}
-								</h3>
-								<p class="text-neutral-600 dark:text-neutral-300 text-sm mb-4 line-clamp-3 leading-relaxed">
-									{recipe.description}
-								</p>
-								
-								<!-- Recipe Meta -->
-								<div class="flex items-center justify-between mb-4 text-xs text-neutral-500 dark:text-neutral-400">
-									<div class="flex items-center gap-2">
-										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-										</svg>
-										<span>{recipe.cookingTime}</span>
+				{#if viewMode === 'cards'}
+					<!-- Card View -->
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{#each filteredRecipes as recipe}
+							<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-[#0d0805] overflow-hidden group hover:shadow-2xl transform hover:-translate-y-2">
+								<!-- Recipe Image -->
+								<div class="relative overflow-hidden h-48">
+									<img 
+										src={recipe.image} 
+										alt={recipe.title}
+										class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+									/>
+									<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+									
+									<!-- Category Badge -->
+									<div class="absolute top-4 left-4">
+										<span class="px-3 py-1 bg-primary-600 text-white text-xs font-semibold rounded-full">
+											{recipe.category}
+										</span>
 									</div>
-									<div class="flex items-center gap-2">
-										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-										</svg>
-										<span>{recipe.servingSize}</span>
+									
+									<!-- Difficulty Badge -->
+									<div class="absolute top-4 right-4">
+										<span class="px-3 py-1 bg-white/90 text-neutral-800 text-xs font-semibold rounded-full">
+											{recipe.difficulty}
+										</span>
 									</div>
 								</div>
 
-								<!-- View Recipe Button -->
-								<a href={`/recipes/${recipe.id}`} class="block w-full">
-									<button class="w-full btn-primary text-sm py-2.5">
-										View Recipe
-										<ArrowRightOutline class="w-4 h-4 ml-2 inline" />
-									</button>
-								</a>
+								<!-- Recipe Content -->
+								<div class="p-6">
+									<h3 class="text-xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-walnut-400 transition-colors duration-200">
+										{recipe.title}
+									</h3>
+									<p class="text-neutral-600 dark:text-neutral-300 text-sm mb-4 line-clamp-3 leading-relaxed">
+										{recipe.description}
+									</p>
+									
+									<!-- Recipe Meta -->
+									<div class="flex items-center justify-between mb-4 text-xs text-neutral-500 dark:text-neutral-400">
+										<div class="flex items-center gap-2">
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+											</svg>
+											<span>{recipe.cookingTime}</span>
+										</div>
+										<div class="flex items-center gap-2">
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+											</svg>
+											<span>{recipe.servingSize}</span>
+										</div>
+									</div>
+
+									<!-- View Recipe Button -->
+									<a href={`/recipes/${recipe.id}`} class="block w-full">
+										<button class="w-full btn-primary text-sm py-2.5">
+											View Recipe
+											<ArrowRightOutline class="w-4 h-4 ml-2 inline" />
+										</button>
+									</a>
+								</div>
 							</div>
-						</div>
-					{/each}
-				</div>
+						{/each}
+					</div>
+				{:else}
+					<!-- List View -->
+					<div class="space-y-4">
+						{#each filteredRecipes as recipe}
+							<div class="bg-white dark:bg-[#1a0f0a] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-[#0d0805] overflow-hidden group">
+								<div class="flex flex-col md:flex-row">
+									<!-- Recipe Image -->
+									<div class="relative overflow-hidden md:w-64 h-48 md:h-auto">
+										<img 
+											src={recipe.image} 
+											alt={recipe.title}
+											class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+										/>
+										<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+										
+										<!-- Category Badge -->
+										<div class="absolute top-4 left-4">
+											<span class="px-3 py-1 bg-primary-600 text-white text-xs font-semibold rounded-full">
+												{recipe.category}
+											</span>
+										</div>
+										
+										<!-- Difficulty Badge -->
+										<div class="absolute top-4 right-4">
+											<span class="px-3 py-1 bg-white/90 text-neutral-800 text-xs font-semibold rounded-full">
+												{recipe.difficulty}
+											</span>
+										</div>
+									</div>
+
+									<!-- Recipe Content -->
+									<div class="flex-1 p-6 flex flex-col justify-between">
+										<div>
+											<h3 class="text-2xl font-serif font-semibold text-neutral-800 dark:text-neutral-100 mb-3 group-hover:text-primary-600 dark:group-hover:text-walnut-400 transition-colors duration-200">
+												{recipe.title}
+											</h3>
+											<p class="text-neutral-600 dark:text-neutral-300 text-base mb-4 leading-relaxed">
+												{recipe.description}
+											</p>
+											
+											<!-- Recipe Meta -->
+											<div class="flex items-center gap-6 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+												<div class="flex items-center gap-2">
+													<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+													</svg>
+													<span>{recipe.cookingTime}</span>
+												</div>
+												<div class="flex items-center gap-2">
+													<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+													</svg>
+													<span>{recipe.servingSize}</span>
+												</div>
+											</div>
+										</div>
+
+										<!-- View Recipe Button -->
+										<div class="flex justify-end">
+											<a href={`/recipes/${recipe.id}`} class="inline-block">
+												<button class="btn-primary text-sm py-2.5 px-6">
+													View Recipe
+													<ArrowRightOutline class="w-4 h-4 ml-2 inline" />
+												</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
 			{:else}
 				<!-- Empty State -->
 				<div class="text-center py-16">
